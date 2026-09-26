@@ -1,0 +1,527 @@
+{
+  "device": "NVIDIA H100 80GB HBM3",
+  "peaks": {
+    "fp16_tc_tflops": 989.4,
+    "hbm_gbs": 3350.0
+  },
+  "floors": {
+    "host_empty_extension_call_us": 0.096,
+    "host_empty_launch_call_us": 2.594,
+    "stream_empty_kernel_us": 3.2159999012947083,
+    "kernel_empty_us": 0.87170000000001
+  },
+  "cases": [
+    {
+      "rank": 8,
+      "tokens": 1,
+      "design": "ref",
+      "kc_tt": null,
+      "stream_us_per_call": 150.491201877594,
+      "kernel_us_per_call": 20.593950000000145,
+      "kernels": {
+        "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1} const&)::{lambda(int)#1})": 11.138350000000038,
+        "nvjet_sm90_hsh_64x32_64x16_2x4_h_bz_NTT": 2.5850000000000244,
+        "nvjet_sm90_hsh_32x64_64x16_4x2_h_bz_NNN": 2.7803000000000226,
+        "nvjet_sm90_hsh_64x8_64x16_1x4_h_bz_NNT": 4.0903000000000596
+      },
+      "fused_kernel_us": 20.593950000000145,
+      "flops": {
+        "stage1": 2949120,
+        "stage2": 29491200,
+        "stage3": 7372800,
+        "total": 39813120
+      },
+      "min_bytes": 98688,
+      "achieved_tflops": 1.9332435011253168,
+      "pct_fp16_tc_peak": 0.19539554286692104,
+      "achieved_gbs": 4.792086996423674,
+      "pct_hbm_peak": 0.14304737302757234
+    },
+    {
+      "rank": 8,
+      "tokens": 1,
+      "design": "dense",
+      "kc_tt": null,
+      "stream_us_per_call": 13.45759928226471,
+      "kernel_us_per_call": 4.9833000000000025,
+      "kernels": {
+        "nvjet_sm90_hsh_64x8_64x16_4x1_v_bz_TNT": 4.9833000000000025
+      },
+      "fused_kernel_us": 4.9833000000000025,
+      "flops": {
+        "total": 11059200
+      },
+      "min_bytes": 98688,
+      "achieved_tflops": 2.219252302690987,
+      "pct_fp16_tc_peak": 0.2243028403770959,
+      "achieved_gbs": 19.80374450665221,
+      "pct_hbm_peak": 0.5911565524373795
+    },
+    {
+      "rank": 8,
+      "tokens": 1,
+      "design": "A",
+      "kc_tt": [
+        2,
+        1,
+        4
+      ],
+      "stream_us_per_call": 20.14079988002777,
+      "kernel_us_per_call": 6.721950000000001,
+      "kernels": {
+        "void at::native::vectorized_elementwise_kernel<4, at::native::FillFunctor<float>, std::array<char*, 1ul>, false>(int, at::native::FillFunctor<float>, std::array<char*, 1ul>)": 1.0459500000000614,
+        "void v3::tr_ring_fused_v3_kernel<false, 0, 8, 2, 4>(__half const*, __half const*, __half const*, __half const*, float*, __half*, unsigned int*)": 4.527749999999956,
+        "tr_ring_convert_kernel(float const*, __half*, unsigned long)": 1.1482499999999844
+      },
+      "fused_kernel_us": 4.527749999999956,
+      "flops": {
+        "stage1": 2949120,
+        "stage2": 29491200,
+        "stage3": 7372800,
+        "total": 39813120
+      },
+      "min_bytes": 98688,
+      "achieved_tflops": 8.793135663409064,
+      "pct_fp16_tc_peak": 0.8887341483130244,
+      "achieved_gbs": 21.79625641875125,
+      "pct_hbm_peak": 0.6506345199627239
+    },
+    {
+      "rank": 8,
+      "tokens": 1,
+      "design": "B",
+      "kc_tt": [
+        2,
+        1,
+        4
+      ],
+      "stream_us_per_call": 9.411200135946274,
+      "kernel_us_per_call": 6.684949999999981,
+      "kernels": {
+        "void v3::tr_ring_fused_v3_kernel<true, 1, 8, 2, 4>(__half const*, __half const*, __half const*, __half const*, float*, __half*, unsigned int*)": 6.684949999999981
+      },
+      "fused_kernel_us": 6.684949999999981,
+      "flops": {
+        "stage1": 2949120,
+        "stage2": 29491200,
+        "stage3": 7372800,
+        "total": 39813120
+      },
+      "min_bytes": 98688,
+      "achieved_tflops": 5.955634671912298,
+      "pct_fp16_tc_peak": 0.6019440743796542,
+      "achieved_gbs": 14.762713258887542,
+      "pct_hbm_peak": 0.4406780077279864
+    },
+    {
+      "rank": 8,
+      "tokens": 8,
+      "design": "ref",
+      "kc_tt": null,
+      "stream_us_per_call": 159.13599729537964,
+      "kernel_us_per_call": 31.03955000000009,
+      "kernels": {
+        "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1} const&)::{lambda(int)#1})": 18.791800000000016,
+        "nvjet_sm90_hsh_128x160_64x5_2x4_h_bz_NNT": 3.7755000000000343,
+        "nvjet_sm90_hsh_96x128_64x6_1x4_h_bz_NNN": 3.9721999999999857,
+        "nvjet_sm90_hsh_64x24_64x16_1x4_h_bz_NNT": 4.500050000000056
+      },
+      "fused_kernel_us": 31.03955000000009,
+      "flops": {
+        "stage1": 23592960,
+        "stage2": 235929600,
+        "stage3": 58982400,
+        "total": 318504960
+      },
+      "min_bytes": 165888,
+      "achieved_tflops": 10.261262163916651,
+      "pct_fp16_tc_peak": 1.0371196850532294,
+      "achieved_gbs": 5.344407377039921,
+      "pct_hbm_peak": 0.15953454856835586
+    },
+    {
+      "rank": 8,
+      "tokens": 8,
+      "design": "dense",
+      "kc_tt": null,
+      "stream_us_per_call": 13.648000359535217,
+      "kernel_us_per_call": 4.817049999999961,
+      "kernels": {
+        "nvjet_sm90_hsh_64x8_64x16_4x1_v_bz_TNT": 4.817049999999961
+      },
+      "fused_kernel_us": 4.817049999999961,
+      "flops": {
+        "total": 88473600
+      },
+      "min_bytes": 165888,
+      "achieved_tflops": 18.36675973884446,
+      "pct_fp16_tc_peak": 1.8563533190665518,
+      "achieved_gbs": 34.437674510333366,
+      "pct_hbm_peak": 1.0279902838905484
+    },
+    {
+      "rank": 8,
+      "tokens": 8,
+      "design": "A",
+      "kc_tt": [
+        5,
+        1,
+        10
+      ],
+      "stream_us_per_call": 25.87839961051941,
+      "kernel_us_per_call": 22.359950000000058,
+      "kernels": {
+        "void at::native::vectorized_elementwise_kernel<4, at::native::FillFunctor<float>, std::array<char*, 1ul>, false>(int, at::native::FillFunctor<float>, std::array<char*, 1ul>)": 1.0779499999999986,
+        "void tr_ring_fused_kernel<false, Shape<8, 12, 12, 10, 24, 8> >(__half const*, __half const*, __half const*, __half const*, float*, __half*, unsigned int*, Dims)": 20.050650000000015,
+        "tr_ring_convert_kernel(float const*, __half*, unsigned long)": 1.2313500000000428
+      },
+      "fused_kernel_us": 20.050650000000015,
+      "flops": {
+        "stage1": 23592960,
+        "stage2": 235929600,
+        "stage3": 58982400,
+        "total": 318504960
+      },
+      "min_bytes": 165888,
+      "achieved_tflops": 15.88501918890409,
+      "pct_fp16_tc_peak": 1.6055204355067811,
+      "achieved_gbs": 8.27344749422088,
+      "pct_hbm_peak": 0.2469685819170412
+    },
+    {
+      "rank": 8,
+      "tokens": 8,
+      "design": "B",
+      "kc_tt": [
+        5,
+        1,
+        10
+      ],
+      "stream_us_per_call": 25.45599937438965,
+      "kernel_us_per_call": 24.08735,
+      "kernels": {
+        "void tr_ring_fused_kernel<true, Shape<8, 12, 12, 10, 24, 8> >(__half const*, __half const*, __half const*, __half const*, float*, __half*, unsigned int*, Dims)": 24.08735
+      },
+      "fused_kernel_us": 24.08735,
+      "flops": {
+        "stage1": 23592960,
+        "stage2": 235929600,
+        "stage3": 58982400,
+        "total": 318504960
+      },
+      "min_bytes": 165888,
+      "achieved_tflops": 13.222914102215478,
+      "pct_fp16_tc_peak": 1.3364578635754476,
+      "achieved_gbs": 6.886934428237228,
+      "pct_hbm_peak": 0.2055801321861859
+    },
+    {
+      "rank": 8,
+      "tokens": 32,
+      "design": "ref",
+      "kc_tt": null,
+      "stream_us_per_call": 161.4527940750122,
+      "kernel_us_per_call": 60.07399999999985,
+      "kernels": {
+        "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1} const&)::{lambda(int)#1})": 41.012799999999956,
+        "nvjet_sm90_hsh_192x128_64x5_2x4_h_bz_coopB_NNT": 6.23049999999992,
+        "nvjet_sm90_hsh_96x256_64x4_1x4_h_bz_coopA_NNN": 7.598300000000012,
+        "nvjet_sm90_hsh_32x64_64x16_1x4_h_bz_NNN": 5.232399999999963
+      },
+      "fused_kernel_us": 60.07399999999985,
+      "flops": {
+        "stage1": 94371840,
+        "stage2": 943718400,
+        "stage3": 235929600,
+        "total": 1274019840
+      },
+      "min_bytes": 396288,
+      "achieved_tflops": 21.20750807337622,
+      "pct_fp16_tc_peak": 2.1434716063650923,
+      "achieved_gbs": 6.596664114259097,
+      "pct_hbm_peak": 0.1969153466943014
+    },
+    {
+      "rank": 8,
+      "tokens": 32,
+      "design": "dense",
+      "kc_tt": null,
+      "stream_us_per_call": 13.236799836158752,
+      "kernel_us_per_call": 5.2409000000000106,
+      "kernels": {
+        "nvjet_sm90_hsh_64x16_64x16_4x2_h_bz_TNT": 5.2409000000000106
+      },
+      "fused_kernel_us": 5.2409000000000106,
+      "flops": {
+        "total": 353894400
+      },
+      "min_bytes": 396288,
+      "achieved_tflops": 67.52550134518867,
+      "pct_fp16_tc_peak": 6.824894011035848,
+      "achieved_gbs": 75.61449369383107,
+      "pct_hbm_peak": 2.2571490654874946
+    },
+    {
+      "rank": 8,
+      "tokens": 32,
+      "design": "A",
+      "kc_tt": [
+        5,
+        4,
+        10
+      ],
+      "stream_us_per_call": 50.74080228805542,
+      "kernel_us_per_call": 47.17249999999998,
+      "kernels": {
+        "void at::native::vectorized_elementwise_kernel<4, at::native::FillFunctor<float>, std::array<char*, 1ul>, false>(int, at::native::FillFunctor<float>, std::array<char*, 1ul>)": 1.085899999999998,
+        "void tr_ring_fused_kernel<false, Shape<8, 12, 12, 10, 24, 8> >(__half const*, __half const*, __half const*, __half const*, float*, __half*, unsigned int*, Dims)": 44.7641,
+        "tr_ring_convert_kernel(float const*, __half*, unsigned long)": 1.3224999999999794
+      },
+      "fused_kernel_us": 44.7641,
+      "flops": {
+        "stage1": 94371840,
+        "stage2": 943718400,
+        "stage3": 235929600,
+        "total": 1274019840
+      },
+      "min_bytes": 396288,
+      "achieved_tflops": 28.460749573877287,
+      "pct_fp16_tc_peak": 2.8765665629550523,
+      "achieved_gbs": 8.852808388865185,
+      "pct_hbm_peak": 0.2642629369810503
+    },
+    {
+      "rank": 8,
+      "tokens": 32,
+      "design": "B",
+      "kc_tt": [
+        5,
+        4,
+        10
+      ],
+      "stream_us_per_call": 56.86879754066467,
+      "kernel_us_per_call": 55.49745000000002,
+      "kernels": {
+        "void tr_ring_fused_kernel<true, Shape<8, 12, 12, 10, 24, 8> >(__half const*, __half const*, __half const*, __half const*, float*, __half*, unsigned int*, Dims)": 55.49745000000002
+      },
+      "fused_kernel_us": 55.49745000000002,
+      "flops": {
+        "stage1": 94371840,
+        "stage2": 943718400,
+        "stage3": 235929600,
+        "total": 1274019840
+      },
+      "min_bytes": 396288,
+      "achieved_tflops": 22.956367184438196,
+      "pct_fp16_tc_peak": 2.320231168833454,
+      "achieved_gbs": 7.140652408353895,
+      "pct_hbm_peak": 0.21315380323444463
+    },
+    {
+      "rank": 16,
+      "tokens": 1,
+      "design": "ref",
+      "kc_tt": null,
+      "stream_us_per_call": 155.50240278244019,
+      "kernel_us_per_call": 26.626100000000015,
+      "kernels": {
+        "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1} const&)::{lambda(int)#1})": 13.109750000000071,
+        "nvjet_sm90_hsh_96x64_64x8_1x2_h_bz_NTN": 3.050699999999961,
+        "nvjet_sm90_hsh_32x256_64x5_4x1_v_bz_NNN": 3.8955000000000384,
+        "nvjet_sm90_hsh_64x8_64x16_1x4_h_bz_splitK_NNT": 4.797599999999875,
+        "void cublasLt::splitKreduce_kernel<32, 16, int, float, __half, float, __half, false, float, __half, __half, true, false, false, false>(cublasLt::cublasSplitKParams<float>, float const*, __half const*, float*, __half*, float const*, float const*, __half const*, float const*, __half*, void*, long, float*, int*, float*, float*, float const*, float const*, float const*, float const*, float const*)": 1.7725500000000693
+      },
+      "fused_kernel_us": 26.626100000000015,
+      "flops": {
+        "stage1": 11796480,
+        "stage2": 235929600,
+        "stage3": 29491200,
+        "total": 277217280
+      },
+      "min_bytes": 365952,
+      "achieved_tflops": 10.41148647379826,
+      "pct_fp16_tc_peak": 1.0523030598138527,
+      "achieved_gbs": 13.744108224636722,
+      "pct_hbm_peak": 0.41027188730258873
+    },
+    {
+      "rank": 16,
+      "tokens": 1,
+      "design": "dense",
+      "kc_tt": null,
+      "stream_us_per_call": 13.260799646377563,
+      "kernel_us_per_call": 4.986699999999996,
+      "kernels": {
+        "nvjet_sm90_hsh_64x8_64x16_4x1_v_bz_TNT": 4.986699999999996
+      },
+      "fused_kernel_us": 4.986699999999996,
+      "flops": {
+        "total": 11059200
+      },
+      "min_bytes": 365952,
+      "achieved_tflops": 2.2177391862353883,
+      "pct_fp16_tc_peak": 0.2241499076445713,
+      "achieved_gbs": 73.38560571119183,
+      "pct_hbm_peak": 2.1906150958564723
+    },
+    {
+      "rank": 16,
+      "tokens": 1,
+      "design": "A",
+      "kc_tt": [
+        4,
+        1,
+        4
+      ],
+      "stream_us_per_call": 20.136000216007233,
+      "kernel_us_per_call": 9.96374999999996,
+      "kernels": {
+        "void at::native::vectorized_elementwise_kernel<4, at::native::FillFunctor<float>, std::array<char*, 1ul>, false>(int, at::native::FillFunctor<float>, std::array<char*, 1ul>)": 1.0376999999999867,
+        "void v3::tr_ring_fused_v3_kernel<false, 0, 16, 4, 4>(__half const*, __half const*, __half const*, __half const*, float*, __half*, unsigned int*)": 7.826099999999972,
+        "tr_ring_convert_kernel(float const*, __half*, unsigned long)": 1.099950000000001
+      },
+      "fused_kernel_us": 7.826099999999972,
+      "flops": {
+        "stage1": 11796480,
+        "stage2": 235929600,
+        "stage3": 29491200,
+        "total": 277217280
+      },
+      "min_bytes": 365952,
+      "achieved_tflops": 35.42214896308519,
+      "pct_fp16_tc_peak": 3.5801646415085093,
+      "achieved_gbs": 46.760455399241174,
+      "pct_hbm_peak": 1.3958344895295873
+    },
+    {
+      "rank": 16,
+      "tokens": 1,
+      "design": "B",
+      "kc_tt": [
+        4,
+        1,
+        4
+      ],
+      "stream_us_per_call": 10.924799740314484,
+      "kernel_us_per_call": 9.508399999999995,
+      "kernels": {
+        "void v3::tr_ring_fused_v3_kernel<true, 1, 16, 4, 4>(__half const*, __half const*, __half const*, __half const*, float*, __half*, unsigned int*)": 9.508399999999995
+      },
+      "fused_kernel_us": 9.508399999999995,
+      "flops": {
+        "stage1": 11796480,
+        "stage2": 235929600,
+        "stage3": 29491200,
+        "total": 277217280
+      },
+      "min_bytes": 365952,
+      "achieved_tflops": 29.154987169239853,
+      "pct_fp16_tc_peak": 2.946734098366672,
+      "achieved_gbs": 38.48723234192927,
+      "pct_hbm_peak": 1.1488726072217692
+    },
+    {
+      "rank": 16,
+      "tokens": 32,
+      "design": "ref",
+      "kc_tt": null,
+      "stream_us_per_call": 210.62240600585938,
+      "kernel_us_per_call": 198.93600000000012,
+      "kernels": {
+        "void at::native::elementwise_kernel<128, 4, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1} const&)::{lambda(int)#1}>(int, at::native::gpu_kernel_impl_nocast<at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1}>(at::TensorIteratorBase&, at::native::direct_copy_kernel_cuda(at::TensorIteratorBase&)::{lambda()#3}::operator()() const::{lambda()#10}::operator()() const::{lambda(c10::Half)#1} const&)::{lambda(int)#1})": 129.51100000000002,
+        "Memset (Device)": 1.6669000000000496,
+        "nvjet_sm90_hsh_192x192_64x3_2x1_v_bz_coopB_NNN": 21.715200000000014,
+        "nvjet_sm90_hsh_160x256_64x3_1x2_h_bz_coopA_NNN": 30.215850000000046,
+        "nvjet_sm90_hsh_32x64_64x16_1x4_h_bz_NNN": 15.827049999999986
+      },
+      "fused_kernel_us": 198.93600000000012,
+      "flops": {
+        "stage1": 377487360,
+        "stage2": 7549747200,
+        "stage3": 943718400,
+        "total": 8870952960
+      },
+      "min_bytes": 663552,
+      "achieved_tflops": 44.59199420919288,
+      "pct_fp16_tc_peak": 4.5069733383053245,
+      "achieved_gbs": 3.3355048859934837,
+      "pct_hbm_peak": 0.09956731002965624
+    },
+    {
+      "rank": 16,
+      "tokens": 32,
+      "design": "dense",
+      "kc_tt": null,
+      "stream_us_per_call": 13.184000551700592,
+      "kernel_us_per_call": 5.259050000000011,
+      "kernels": {
+        "nvjet_sm90_hsh_64x16_64x16_4x2_h_bz_TNT": 5.259050000000011
+      },
+      "fused_kernel_us": 5.259050000000011,
+      "flops": {
+        "total": 353894400
+      },
+      "min_bytes": 663552,
+      "achieved_tflops": 67.2924577632841,
+      "pct_fp16_tc_peak": 6.801339980117658,
+      "achieved_gbs": 126.17335830615771,
+      "pct_hbm_peak": 3.7663689046614244
+    },
+    {
+      "rank": 16,
+      "tokens": 32,
+      "design": "A",
+      "kc_tt": [
+        20,
+        4,
+        10
+      ],
+      "stream_us_per_call": 127.13279724121094,
+      "kernel_us_per_call": 123.48379999999997,
+      "kernels": {
+        "void at::native::vectorized_elementwise_kernel<4, at::native::FillFunctor<float>, std::array<char*, 1ul>, false>(int, at::native::FillFunctor<float>, std::array<char*, 1ul>)": 1.0797999999999885,
+        "void tr_ring_fused_kernel<false, Shape<8, 12, 12, 10, 24, 16> >(__half const*, __half const*, __half const*, __half const*, float*, __half*, unsigned int*, Dims)": 121.08599999999998,
+        "tr_ring_convert_kernel(float const*, __half*, unsigned long)": 1.3180000000000007
+      },
+      "fused_kernel_us": 121.08599999999998,
+      "flops": {
+        "stage1": 377487360,
+        "stage2": 7549747200,
+        "stage3": 943718400,
+        "total": 8870952960
+      },
+      "min_bytes": 663552,
+      "achieved_tflops": 73.26159060502454,
+      "pct_fp16_tc_peak": 7.404648332830457,
+      "achieved_gbs": 5.480005946187008,
+      "pct_hbm_peak": 0.16358226705035844
+    },
+    {
+      "rank": 16,
+      "tokens": 32,
+      "design": "B",
+      "kc_tt": [
+        20,
+        4,
+        10
+      ],
+      "stream_us_per_call": 133.04959535598755,
+      "kernel_us_per_call": 130.03654999999998,
+      "kernels": {
+        "void tr_ring_fused_kernel<true, Shape<8, 12, 12, 10, 24, 16> >(__half const*, __half const*, __half const*, __half const*, float*, __half*, unsigned int*, Dims)": 130.03654999999998
+      },
+      "fused_kernel_us": 130.03654999999998,
+      "flops": {
+        "stage1": 377487360,
+        "stage2": 7549747200,
+        "stage3": 943718400,
+        "total": 8870952960
+      },
+      "min_bytes": 663552,
+      "achieved_tflops": 68.21891968065903,
+      "pct_fp16_tc_peak": 6.894978742738935,
+      "achieved_gbs": 5.1028114787727,
+      "pct_hbm_peak": 0.15232273070963281
+    }
+  ]
+}

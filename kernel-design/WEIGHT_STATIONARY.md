@@ -243,12 +243,53 @@ neither is dense: both are latency-bound at this layer size.
   general tensor-contraction code generation (J. Kim, *Optimizing Tensor Contractions on GPUs*,
   2019).
 
+### Dependency counters: the ceiling, measured first (third instance, 2026-09-26)
+
+In the current cut, each unit of layer l + 1 reads a k chunk of its input. That chunk is
+an r chunk of layer l's output, and every unit of layer l writes all r. So every unit
+depends on the whole previous layer: a counter there is just a barrier. For a real
+dependency, layer l + 1 must be cut by j chunks that match layer l's q chunks. Then each
+unit waits for only 1/nqc of the previous layer: 80 of 240 units (R8 up) or 96 of 192
+(R8 down).
+
+That re-partition takes hours, so the **ceiling** was measured first with mode 9
+(`kernel_work/stack/dep_bench.py`, `tools/h100_dep.sh`, `results/h100/stack/dep_r*.json`).
+Mode 9 keeps today's units but makes each unit wait for exactly that pattern: one group of
+R · nkc units of the previous layer, counted by per-layer, per-group `red.release`
+counters. The control is the same counters with every group awaited, which should equal
+a barrier. Numbers are µs per layer (slope over L = 8, 32, 128), round 1 / round 2:
+
+| | grid.sync (3) | monotonic (6) | counters, all groups | **counters, one group** |
+|---|---|---|---|---|
+| R8 (2,4,2,6)  | 8.00 / 7.93 | 8.38 / 8.36 | 8.37 / 8.37 | **8.00 / 8.00** |
+| R16 (4,4,3,6) | 14.12 / 14.11 | 13.77 / 13.77 | 14.00 / 14.00 | **13.59 / 13.59** |
+
+- The control matches the monotonic barrier, so the counter machinery costs nothing extra.
+- Waiting for one group instead of all saves 0.37–0.41 µs per layer. Against the best
+  barrier for each rank, the gain is **0** at R8 (grid.sync is as good) and **0.18 µs
+  (1.3%)** at R16. This is the ceiling: the real re-partition would add costs on top
+  (more units, partial sums over j, and a WAR guard on the activation buffers).
+- **Why so little:** each group of 80–96 units is spread across all 132 SMs. Its slowest
+  unit is almost as slow as the slowest unit of the whole layer. So the ~30% "waiting"
+  is **work imbalance between units, not the barrier**. Waiting for fewer producers does
+  not change who is slow. Counters would pay off only with *much* finer dependencies
+  (a few producers per consumer), which the ring's all-to-all mixing across a layer
+  does not allow.
+- **Decision: not worth the re-partition.** The lever against the stragglers is balance
+  (equal-cost units, e.g. qc = 5 instead of 4 + 4 + 2, or work stealing), not the
+  synchronisation.
+- On this instance the barriers are ~8% slower than on the second one: 8.0 vs 7.35 µs
+  per layer, grid.sync, R8. Compare only within one run.
+
 ### Not tried yet (ordered by expected value)
 
-1. Dependency counters instead of the grid barrier (per r-chunk of the producer layer), as the
-   megakernels do: attacks the ~30% of time blocks wait for stragglers.
+1. ~~Dependency counters~~: measured above, ceiling ≤ 0.2 µs/layer, dropped. Look at the
+   straggler instead. First find *which* units are slow, from the per-unit timeline
+   (STACK_TIMING): is it a fixed unit type or random (L2 / SM placement)? Only then choose
+   a fix. Note that the tiling sweep already preferred qc = 4 (chunks 4 + 4 + 2) over
+   qc = 5, so simple chunk balance alone is not the answer.
 2. The same V3 treatment for the dense baseline (paged shared memory, weight streaming), to keep
    the comparison honest against a 60–78%-of-HBM dense.
 3. `ldmatrix` for the S1 fragments and a q split across more warps (half the warps idle at qc = 4).
-4. The V3 path in the single-layer submission kernel (`csrc/tr_ring.cu`), where t = 1 is the
-   headline case.
+4. ~~The V3 path in the single-layer submission kernel~~: done. R8 t1 is 8.0 µs per call
+   against dense's 10.6 (`kernel-design/V3_IDEAS.md` §8).

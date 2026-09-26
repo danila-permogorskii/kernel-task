@@ -1,0 +1,124 @@
+== start Sat Sep 26 18:50:31 UTC 2026
+== 1. correctness on the H100
+ok   V3 R= 8 kc=2 qc=4 design A tail 0  max|err| = 1.69e-03
+     WMMA vs V3 max|diff| = 0.00e+00
+ok   V3 R= 8 kc=2 qc=4 design B tail 0  max|err| = 1.69e-03
+     WMMA vs V3 max|diff| = 4.88e-04
+ok   V3 R= 8 kc=2 qc=4 design B tail 1  max|err| = 1.69e-03
+     WMMA vs V3 max|diff| = 4.88e-04
+ok   V3 R= 8 kc=2 qc=4 design B tail 2  max|err| = 1.69e-03
+     WMMA vs V3 max|diff| = 6.10e-05
+ok   V3 R= 8 kc=2 qc=5 design A tail 0  max|err| = 1.69e-03
+     WMMA vs V3 max|diff| = 3.05e-05
+ok   V3 R= 8 kc=2 qc=5 design B tail 0  max|err| = 1.69e-03
+     WMMA vs V3 max|diff| = 2.44e-04
+ok   V3 R= 8 kc=2 qc=5 design B tail 1  max|err| = 1.69e-03
+     WMMA vs V3 max|diff| = 1.22e-04
+ok   V3 R= 8 kc=2 qc=5 design B tail 2  max|err| = 1.69e-03
+     WMMA vs V3 max|diff| = 0.00e+00
+ok   V3 R=16 kc=4 qc=4 design A tail 0  max|err| = 1.76e-03
+     WMMA vs V3 max|diff| = 1.91e-06
+ok   V3 R=16 kc=4 qc=4 design B tail 0  max|err| = 1.76e-03
+     WMMA vs V3 max|diff| = 3.81e-06
+ok   V3 R=16 kc=4 qc=4 design B tail 1  max|err| = 1.76e-03
+     WMMA vs V3 max|diff| = 1.79e-07
+ok   V3 R=16 kc=4 qc=4 design B tail 2  max|err| = 1.76e-03
+     WMMA vs V3 max|diff| = 3.81e-06
+ok   V3 R=16 kc=4 qc=5 design A tail 0  max|err| = 1.76e-03
+     WMMA vs V3 max|diff| = 3.81e-06
+ok   V3 R=16 kc=4 qc=5 design B tail 0  max|err| = 1.76e-03
+     WMMA vs V3 max|diff| = 7.63e-06
+ok   V3 R=16 kc=4 qc=5 design B tail 1  max|err| = 1.76e-03
+     WMMA vs V3 max|diff| = 3.81e-06
+ok   V3 R=16 kc=4 qc=5 design B tail 2  max|err| = 1.76e-03
+     WMMA vs V3 max|diff| = 1.19e-07
+ALL OK
+ALL OK
+21 passed in 8.14s
+== 2. harness, design B, t = 1, tails 0 1 2, two interleaved rounds
+tokens=1 dense: host=0.0179 ms; CUDA stream=0.01051200032234192 ms; steady allocated peak=44623872 bytes
+tokens=1 factorized_optimized: host=0.0182 ms; CUDA stream=0.010116799920797347 ms; steady allocated peak=318464 bytes
+tokens=1 dense: host=0.0178 ms; CUDA stream=0.010494399815797806 ms; steady allocated peak=44623872 bytes
+tokens=1 factorized_optimized: host=0.0206 ms; CUDA stream=0.012328000366687774 ms; steady allocated peak=817152 bytes
+tokens=1 dense: host=0.0178 ms; CUDA stream=0.010281600058078766 ms; steady allocated peak=44623872 bytes
+tokens=1 factorized_optimized: host=0.0163 ms; CUDA stream=0.00804160013794899 ms; steady allocated peak=318464 bytes
+tokens=1 dense: host=0.0179 ms; CUDA stream=0.010737600177526474 ms; steady allocated peak=44623872 bytes
+tokens=1 factorized_optimized: host=0.0187 ms; CUDA stream=0.010579200088977813 ms; steady allocated peak=817152 bytes
+tokens=1 dense: host=0.0178 ms; CUDA stream=0.010142400115728378 ms; steady allocated peak=44623872 bytes
+tokens=1 factorized_optimized: host=0.0161 ms; CUDA stream=0.007942400127649307 ms; steady allocated peak=318464 bytes
+tokens=1 dense: host=0.0179 ms; CUDA stream=0.010569600015878677 ms; steady allocated peak=44623872 bytes
+tokens=1 factorized_optimized: host=0.0187 ms; CUDA stream=0.010489600151777268 ms; steady allocated peak=817152 bytes
+tokens=1 dense: host=0.0179 ms; CUDA stream=0.010371199995279311 ms; steady allocated peak=44623872 bytes
+tokens=1 factorized_optimized: host=0.0182 ms; CUDA stream=0.010099200159311294 ms; steady allocated peak=318464 bytes
+tokens=1 dense: host=0.0180 ms; CUDA stream=0.010201600193977357 ms; steady allocated peak=44623872 bytes
+tokens=1 factorized_optimized: host=0.0206 ms; CUDA stream=0.012535999715328216 ms; steady allocated peak=817152 bytes
+tokens=1 dense: host=0.0179 ms; CUDA stream=0.011023999750614166 ms; steady allocated peak=44623872 bytes
+tokens=1 factorized_optimized: host=0.0161 ms; CUDA stream=0.008044800162315369 ms; steady allocated peak=318464 bytes
+tokens=1 dense: host=0.0179 ms; CUDA stream=0.010264000296592713 ms; steady allocated peak=44623872 bytes
+tokens=1 factorized_optimized: host=0.0187 ms; CUDA stream=0.010550399869680404 ms; steady allocated peak=817152 bytes
+tokens=1 dense: host=0.0180 ms; CUDA stream=0.010659199953079224 ms; steady allocated peak=44623872 bytes
+tokens=1 factorized_optimized: host=0.0164 ms; CUDA stream=0.008191999793052674 ms; steady allocated peak=318464 bytes
+tokens=1 dense: host=0.0181 ms; CUDA stream=0.010675200074911118 ms; steady allocated peak=44623872 bytes
+tokens=1 factorized_optimized: host=0.0189 ms; CUDA stream=0.010659199953079224 ms; steady allocated peak=817152 bytes
+== 3. kernel-only time per tail
+-- tail 0
+R= 8 T= 1 dense stream    13.60 µs/call   kernels     5.03 µs (1 kinds)   fused     5.03 µs    0.2% TC   0.59% HBM
+R= 8 T= 1 A   stream    19.76 µs/call   kernels     6.78 µs (3 kinds)   fused     4.58 µs    0.9% TC   0.64% HBM
+R= 8 T= 1 B   stream    10.62 µs/call   kernels     9.01 µs (1 kinds)   fused     9.01 µs    0.4% TC   0.33% HBM
+R=16 T= 1 dense stream    13.40 µs/call   kernels     5.10 µs (1 kinds)   fused     5.10 µs    0.2% TC   2.14% HBM
+R=16 T= 1 A   stream    19.78 µs/call   kernels     9.95 µs (3 kinds)   fused     7.79 µs    3.6% TC   1.40% HBM
+R=16 T= 1 B   stream    13.07 µs/call   kernels    11.57 µs (1 kinds)   fused    11.57 µs    2.4% TC   0.94% HBM
+-- tail 1
+R= 8 T= 1 dense stream    13.46 µs/call   kernels     4.98 µs (1 kinds)   fused     4.98 µs    0.2% TC   0.59% HBM
+R= 8 T= 1 A   stream    20.14 µs/call   kernels     6.72 µs (3 kinds)   fused     4.53 µs    0.9% TC   0.65% HBM
+R= 8 T= 1 B   stream     9.41 µs/call   kernels     6.68 µs (1 kinds)   fused     6.68 µs    0.6% TC   0.44% HBM
+R=16 T= 1 dense stream    13.26 µs/call   kernels     4.99 µs (1 kinds)   fused     4.99 µs    0.2% TC   2.19% HBM
+R=16 T= 1 A   stream    20.14 µs/call   kernels     9.96 µs (3 kinds)   fused     7.83 µs    3.6% TC   1.40% HBM
+R=16 T= 1 B   stream    10.92 µs/call   kernels     9.51 µs (1 kinds)   fused     9.51 µs    2.9% TC   1.15% HBM
+-- tail 2
+R= 8 T= 1 dense stream    13.85 µs/call   kernels     5.00 µs (1 kinds)   fused     5.00 µs    0.2% TC   0.59% HBM
+R= 8 T= 1 A   stream    20.69 µs/call   kernels     6.71 µs (3 kinds)   fused     4.52 µs    0.9% TC   0.65% HBM
+R= 8 T= 1 B   stream     9.37 µs/call   kernels     6.68 µs (1 kinds)   fused     6.68 µs    0.6% TC   0.44% HBM
+R=16 T= 1 dense stream    14.25 µs/call   kernels     5.00 µs (1 kinds)   fused     5.00 µs    0.2% TC   2.18% HBM
+R=16 T= 1 A   stream    19.99 µs/call   kernels     9.95 µs (3 kinds)   fused     7.82 µs    3.6% TC   1.40% HBM
+R=16 T= 1 B   stream    10.82 µs/call   kernels     9.50 µs (1 kinds)   fused     9.50 µs    2.9% TC   1.15% HBM
+== 4. the README's harness runs, design B, default tail
+USDT:2026-09-26 18:52:37 9411:9411 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-26 18:52:37 9411:9411 SyncActivityProfilerHandler.cpp:46] profiler_stop
+tokens=1 dense: host=0.0179 ms; CUDA stream=0.01061279997229576 ms; steady allocated peak=44623872 bytes
+USDT:2026-09-26 18:52:40 9453:9453 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-26 18:52:40 9453:9453 SyncActivityProfilerHandler.cpp:46] profiler_stop
+tokens=1 factorized_reference: host=0.1156 ms; CUDA stream=0.11144800186157226 ms; steady allocated peak=34707456 bytes
+USDT:2026-09-26 18:52:42 9495:9495 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-26 18:52:42 9495:9495 SyncActivityProfilerHandler.cpp:46] profiler_stop
+tokens=1 factorized_optimized: host=0.0162 ms; CUDA stream=0.007996799796819687 ms; steady allocated peak=318464 bytes
+tokens=8 dense: host=0.0178 ms; CUDA stream=0.010598400235176086 ms; steady allocated peak=44690432 bytes
+tokens=8 factorized_reference: host=0.1223 ms; CUDA stream=0.11848479509353638 ms; steady allocated peak=42045440 bytes
+tokens=8 factorized_optimized: host=0.0338 ms; CUDA stream=0.02540639936923981 ms; steady allocated peak=465408 bytes
+tokens=32 dense: host=0.0180 ms; CUDA stream=0.010076799988746643 ms; steady allocated peak=44920832 bytes
+tokens=32 factorized_reference: host=0.1256 ms; CUDA stream=0.12181440591812134 ms; steady allocated peak=68777984 bytes
+tokens=32 factorized_optimized: host=0.0650 ms; CUDA stream=0.05671839714050293 ms; steady allocated peak=972288 bytes
+Wrote results/h100/v3tail/B/rank8.json
+USDT:2026-09-26 18:53:01 9813:9813 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-26 18:53:01 9813:9813 SyncActivityProfilerHandler.cpp:46] profiler_stop
+tokens=1 dense: host=0.0181 ms; CUDA stream=0.010406400263309478 ms; steady allocated peak=44623872 bytes
+USDT:2026-09-26 18:53:04 9855:9855 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-26 18:53:04 9855:9855 SyncActivityProfilerHandler.cpp:46] profiler_stop
+tokens=1 factorized_reference: host=0.1187 ms; CUDA stream=0.11531039476394653 ms; steady allocated peak=38154240 bytes
+USDT:2026-09-26 18:53:07 9899:9899 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-26 18:53:07 9899:9899 SyncActivityProfilerHandler.cpp:46] profiler_stop
+tokens=1 factorized_optimized: host=0.0186 ms; CUDA stream=0.010555200278759003 ms; steady allocated peak=817152 bytes
+tokens=32 dense: host=0.0180 ms; CUDA stream=0.010543999820947647 ms; steady allocated peak=44920832 bytes
+tokens=32 factorized_reference: host=0.2428 ms; CUDA stream=0.2123392105102539 ms; steady allocated peak=170409984 bytes
+tokens=32 factorized_optimized: host=0.1418 ms; CUDA stream=0.13310879468917847 ms; steady allocated peak=1470976 bytes
+Wrote results/h100/v3tail/B/rank16.json
+== 5. summary
+| case | tail | dense r1 / r2 | V3 B r1 / r2 | V3 B kernel |
+|---|---|---|---|---|
+| R8 t1 | 0 | 10.5 / 10.4 | 10.1 / 10.1 | 9.01 |
+| R8 t1 | 1 | 10.3 / 11.0 | 8.0 / 8.0 | 6.68 |
+| R8 t1 | 2 | 10.1 / 10.7 | 7.9 / 8.2 | 6.68 |
+| R16 t1 | 0 | 10.5 / 10.2 | 12.3 / 12.5 | 11.57 |
+| R16 t1 | 1 | 10.7 / 10.3 | 10.6 / 10.6 | 9.51 |
+| R16 t1 | 2 | 10.6 / 10.7 | 10.5 / 10.7 | 9.50 |
+== end Sat Sep 26 18:53:15 UTC 2026

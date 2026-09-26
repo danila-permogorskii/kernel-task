@@ -152,6 +152,7 @@ __host__ __device__ inline WorkLayout work_layout(const Tiling& t, int T) {
 // Ablation flags (timing only: results are wrong when any is set).
 constexpr int kNoX = 1, kNoS1 = 2, kNoS2 = 4, kNoS3 = 8, kNoAtomics = 16, kNoCores = 32;
 constexpr int kNoUnit = 64;  // skip the units entirely: barrier + loop skeleton only
+constexpr int kDepAll = 128;  // mode 9 control: wait for all groups (= a barrier)
 
 // STACK_TIMING: thread 0 of every block writes timestamps for every layer into
 // tbuf[layer][block][kTSlots]:
@@ -818,7 +819,7 @@ struct StackArgs {
 
 template <int kMode> struct ModeTraits {
   static constexpr bool work = kMode == 0 || kMode == 3 || kMode == 4 || kMode == 5 ||
-                               kMode == 6 || kMode == 8;
+                               kMode == 6 || kMode == 8 || kMode == 9;
   static constexpr bool prefetch = kMode == 4 || kMode == 5 || kMode == 8;
   static constexpr int bar = (kMode == 2 || kMode == 3 || kMode == 8) ? 1
                              : (kMode >= 5 ? 2 : 0);  // gen / cg / mono
@@ -839,6 +840,49 @@ __device__ __forceinline__ void barrier(const StackArgs& g, int b, F between) {
     between();
     mono_wait(g.sync, g.bar_base + gridDim.x * (unsigned)(b + 1));
   }
+}
+
+// ---- mode 9: dependency counters, TIMING PROXY (results are wrong) ---------------------------
+// Instead of a grid barrier after layer l, each unit of layer l adds 1 to the counter of its
+// q chunk, sync[4 + 4 l + q chunk]; a unit of layer l + 1 waits only for ONE group: the
+// R * nkc units of layer l with q chunk (u % nqc). That is the dependency a unit would have if
+// layer l + 1 were cut by j chunks matching layer l's q chunks (the real change needs that
+// re-partition, and a WAR guard on the 3 activation buffers). Here the data dependency is not
+// real, so the output is wrong: this measures only what the waiting pattern would cost.
+// The caller zeroes sync[4 ..] before each launch.
+__device__ __forceinline__ unsigned int* dep_counter(const StackArgs& g, int l, int grp) {
+  return g.sync + 4 + 4 * l + grp;
+}
+
+__device__ __forceinline__ void dep_arrive(const StackArgs& g, int l) {
+  const Tiling tl = g.tl[l & 1];
+  __syncthreads();
+  if (threadIdx.x == 0) {
+    __threadfence();
+    for (int u = blockIdx.x; u < tl.units; u += gridDim.x) {
+      const int grp = (u % (tl.nkc * tl.nqc)) / tl.nkc;
+      asm volatile("red.release.gpu.global.add.u32 [%0], %1;" ::"l"(dep_counter(g, l, grp)),
+                   "r"(1u) : "memory");
+    }
+  }
+}
+
+__device__ __forceinline__ void dep_wait(const StackArgs& g, int l) {  // before layer l >= 1
+  const Tiling prev = g.tl[(l - 1) & 1], cur = g.tl[l & 1];
+  if (threadIdx.x == 0) {
+    const unsigned int need = (unsigned)(prev.units / prev.nqc);  // R * nkc of layer l - 1
+    const bool all = g.flags & kDepAll;  // control: wait for every group = a grid barrier
+    for (int u = blockIdx.x; u < cur.units; u += gridDim.x) {
+      for (int grp = all ? 0 : u % prev.nqc; grp < (all ? prev.nqc : u % prev.nqc + 1); ++grp) {
+        const unsigned int* c = dep_counter(g, l - 1, grp);
+        unsigned int v;
+        do {
+          asm volatile("ld.acquire.gpu.global.u32 %0, [%1];" : "=r"(v) : "l"(c) : "memory");
+        } while (v < need);
+      }
+    }
+  }
+  __syncthreads();
 }
 
 // ---- per-unit dispatch: compiled tilings for t = 1, runtime tiling otherwise ---------------
@@ -970,6 +1014,9 @@ __global__ void __launch_bounds__(kThreads, 2) tr_stack_kernel(const StackArgs g
     unsigned long long* tb =
         g.tbuf ? g.tbuf + ((size_t)l * gridDim.x + blockIdx.x) * kTSlots : nullptr;
     TG(tb, 0);
+    if constexpr (kMode == 9) {
+      if (l > 0) dep_wait(g, l);
+    }
     TS(tb, 3);
     if constexpr (kWork) {
       const float* in = g.buf + (size_t)(l % 3) * BS;
@@ -981,12 +1028,17 @@ __global__ void __launch_bounds__(kThreads, 2) tr_stack_kernel(const StackArgs g
     }
     TG(tb, 1);
     TS(tb, 12);
-    barrier<kMode>(g, l + 1, [&] {
-      if constexpr (kPrefetch) {
-        if (l + 1 < g.L) prefetch_layer<R>(g, l + 1, slot[cur ^ 1]);  // while others finish
-      }
-      TS(tb, 13);
-    });
+    if constexpr (kMode == 9) {
+      dep_arrive(g, l);
+      if (l + 1 == g.L) barrier<kMode>(g, 1, [] {});  // everyone done before the output
+    } else {
+      barrier<kMode>(g, l + 1, [&] {
+        if constexpr (kPrefetch) {
+          if (l + 1 < g.L) prefetch_layer<R>(g, l + 1, slot[cur ^ 1]);  // while others finish
+        }
+        TS(tb, 13);
+      });
+    }
     if constexpr (kPrefetch) cur ^= 1;
     TG(tb, 2);
     TS(tb, 14);
@@ -1058,6 +1110,7 @@ static void dispatch_mode(int64_t mode, StackArgs& args, int grid, size_t smem,
     case 5: launch<R, 5>(args, grid, smem, stream); break;
     case 6: launch<R, 6>(args, grid, smem, stream); break;
     case 7: launch<R, 7>(args, grid, smem, stream); break;
+    case 9: launch<R, 9>(args, grid, smem, stream); break;
     default: launch<R, 8>(args, grid, smem, stream); break;
   }
 }
@@ -1083,7 +1136,7 @@ torch::Tensor stack_forward(torch::Tensor x, std::vector<torch::Tensor> A1,
   TORCH_CHECK(A1.size() == 2 && B2.size() == 2 && C3.size() == 2 && tiling.size() == 4);
   TORCH_CHECK(R == 8 || R == 16, "R must be 8 or 16");
   TORCH_CHECK(x.dim() == 2 && x.size(1) == 1920, "x must be [T, 1920]");
-  TORCH_CHECK(L >= 1 && mode >= 0 && mode <= 8);
+  TORCH_CHECK(L >= 1 && mode >= 0 && mode <= 9);
   for (int i = 0; i < 2; ++i) { check_half(A1[i], "A1"); check_half(B2[i], "B2"); check_half(C3[i], "C3"); }
   const at::cuda::CUDAGuard guard(x.device());
   auto stream = at::cuda::getCurrentCUDAStream();
@@ -1092,6 +1145,7 @@ torch::Tensor stack_forward(torch::Tensor x, std::vector<torch::Tensor> A1,
   TORCH_CHECK(buf.scalar_type() == torch::kFloat && buf.numel() >= 3 * (int64_t)bufstride,
               "buf must hold 3 * T * 2880 floats");
   TORCH_CHECK(sync.scalar_type() == torch::kInt && sync.numel() >= 3, "sync must be int32[>=3]");
+  TORCH_CHECK(mode != 9 || sync.numel() >= 4 + 4 * L, "mode 9 needs sync int32[>= 4 + 4 L]");
   // two-phase loads: C (kc * 64 int4) and A are loaded in the first round only
   TORCH_CHECK(tiling[0] * 64 <= 2 * kThreads && tiling[2] * 64 <= 2 * kThreads,
               "k chunk too large for the C load round");

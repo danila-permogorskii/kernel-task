@@ -103,7 +103,8 @@ class Stack:
                 for lst in (self.A1, self.B2, self.C3):
                     lst.append(torch.zeros(8, dtype=torch.float16, device=dev))
         self.buf = torch.zeros(3 * max_tokens * 2880, dtype=torch.float32, device=dev)
-        self.sync = torch.zeros(4, dtype=torch.int32, device=dev)  # gen barrier + monotonic
+        # gen barrier + monotonic counter; then 4 dependency counters per layer (mode 9)
+        self.sync = torch.zeros(4 + 4 * len(layers), dtype=torch.int32, device=dev)
         self.bar_base = 0     # monotonic barrier: counter value at the next launch
         self._grid = {}
         self.core_bytes = sum(t.numel() * 2 for t in (*self.A1, *self.B2, *self.C3))
@@ -125,6 +126,9 @@ class Stack:
         base = self.bar_base
         if mode in (5, 6, 7):
             self.bar_base += need
+        elif mode == 9:  # two monotonic barriers (start, end); dependency counters from zero
+            self.bar_base += 2 * g
+            self.sync[4:].zero_()
         return self.ext.forward(x, self.A1, self.B2, self.C3, self.L, self.R, self.tiling,
                                 self.buf, self.sync, mode, grid, flags,
                                 0 if tbuf is None else tbuf.data_ptr(), base)

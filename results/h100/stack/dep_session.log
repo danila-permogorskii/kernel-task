@@ -1,0 +1,58 @@
+== start Sat Sep 26 18:55:22 UTC 2026
+== check: the real modes still correct after the edit (v3a)
+ALL OK
+== R8
+R=8 tiling (2, 4, 2, 6) v3a: units up 240 down 192, resident blocks 264
+  round 1  grid.sync (mode 3)                       8.00 µs/layer   rel L2 9.2e-04
+  round 1  monotonic barrier (mode 6)               8.37 µs/layer   rel L2 9.0e-04
+Traceback (most recent call last):
+  File "/root/kernel-task/kernel_work/stack/dep_bench.py", line 64, in <module>
+    main()
+  File "/root/kernel-task/kernel_work/stack/dep_bench.py", line 49, in main
+    errs[name] = errors(stacks[Ls[0]](x, mode, flags=flags), ref)["rel_l2"]
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/kernel-task/kernel_work/stack/stack_bench.py", line 132, in __call__
+    return self.ext.forward(x, self.A1, self.B2, self.C3, self.L, self.R, self.tiling,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Expected L >= 1 && mode >= 0 && mode <= 8 to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+== R16
+R=16 tiling (4, 4, 3, 6) v3a: units up 240 down 256, resident blocks 264
+  round 1  grid.sync (mode 3)                      14.14 µs/layer   rel L2 8.8e-04
+  round 1  monotonic barrier (mode 6)              13.79 µs/layer   rel L2 8.7e-04
+Traceback (most recent call last):
+  File "/root/kernel-task/kernel_work/stack/dep_bench.py", line 64, in <module>
+    main()
+  File "/root/kernel-task/kernel_work/stack/dep_bench.py", line 49, in main
+    errs[name] = errors(stacks[Ls[0]](x, mode, flags=flags), ref)["rel_l2"]
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/kernel-task/kernel_work/stack/stack_bench.py", line 132, in __call__
+    return self.ext.forward(x, self.A1, self.B2, self.C3, self.L, self.R, self.tiling,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Expected L >= 1 && mode >= 0 && mode <= 8 to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+== end Sat Sep 26 18:57:14 UTC 2026
+== start Sat Sep 26 18:57:50 UTC 2026
+== check: the real modes still correct after the edit (v3a)
+ALL OK
+== R8
+R=8 tiling (2, 4, 2, 6) v3a: units up 240 down 192, resident blocks 264
+  round 1  grid.sync (mode 3)                       8.00 µs/layer   rel L2 8.2e-04
+  round 1  monotonic barrier (mode 6)               8.38 µs/layer   rel L2 8.2e-04
+  round 1  counters, wait all groups (control)      8.37 µs/layer   rel L2 8.1e-04
+  round 1  counters, wait one group (proxy)         8.00 µs/layer   rel L2 8.5e-04
+  round 2  grid.sync (mode 3)                       7.93 µs/layer   rel L2 8.3e-04
+  round 2  monotonic barrier (mode 6)               8.36 µs/layer   rel L2 8.2e-04
+  round 2  counters, wait all groups (control)      8.37 µs/layer   rel L2 8.2e-04
+  round 2  counters, wait one group (proxy)         8.00 µs/layer   rel L2 8.6e-04
+wrote results/h100/stack/dep_r8.json
+== R16
+R=16 tiling (4, 4, 3, 6) v3a: units up 240 down 256, resident blocks 264
+  round 1  grid.sync (mode 3)                      14.12 µs/layer   rel L2 8.7e-04
+  round 1  monotonic barrier (mode 6)              13.77 µs/layer   rel L2 8.2e-04
+  round 1  counters, wait all groups (control)     14.00 µs/layer   rel L2 8.5e-04
+  round 1  counters, wait one group (proxy)        13.59 µs/layer   rel L2 8.6e-04
+  round 2  grid.sync (mode 3)                      14.11 µs/layer   rel L2 8.4e-04
+  round 2  monotonic barrier (mode 6)              13.77 µs/layer   rel L2 8.4e-04
+  round 2  counters, wait all groups (control)     14.00 µs/layer   rel L2 8.5e-04
+  round 2  counters, wait one group (proxy)        13.59 µs/layer   rel L2 8.3e-04
+wrote results/h100/stack/dep_r16.json
+== end Sat Sep 26 18:59:45 UTC 2026

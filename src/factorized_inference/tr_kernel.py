@@ -6,6 +6,11 @@ call     : choose the tiling, launch design A (3 launches) or B (1 launch)
 Environment switches (read at prepare time, inherited by the harness's worker processes):
   TR_DESIGN = A | B    reduction design, default A
   TR_KC, TR_TT, TR_QC  force the tiling: k values / tokens / q values per block
+  TR_V3 = 1 | 0        t = 1 on the real modes: V3 kernel (stages 2 -> 3 in registers on
+                       PTX mma.sync) when its tiling is compiled; 0 = WMMA kernel. Default 1
+  TR_V3_TAIL = 0|1|2   design B, V3: how the last block finishes. 0 = one block converts all
+                       of y, 1 = the same with float4 loads in flight together, 2 = one counter
+                       per q chunk, its last block converts only those q's. Default 2
 """
 from __future__ import annotations
 
@@ -147,6 +152,10 @@ class PreparedTRKernel:
         if self.design not in ("A", "B"):
             raise ValueError("TR_DESIGN must be A or B")
         self.A1, self.B2, self.C3 = pack_cores(cores, spec)
+        # V3 path for t = 1 on the real modes; TR_V3=0 keeps the WMMA kernel everywhere
+        self.use_v3 = (os.environ.get("TR_V3", "1") != "0"
+                       and spec.input_modes == (8, 12, 20) and spec.output_modes == (12, 10, 24))
+        self.v3_tail = int(os.environ.get("TR_V3_TAIL", "2"))
         self.modes = [*spec.input_modes, *spec.output_modes, spec.rank]
         dev = cores[0].device
         props = torch.cuda.get_device_properties(dev)
@@ -173,6 +182,18 @@ class PreparedTRKernel:
             warnings.warn("tr_ring: block does not fit in shared memory, using the reference")
             return tr_forward_reference(x, self.cores, self.spec)
         kc, tt, qc = tiling
+        if T == 1 and self.use_v3 and self.ext.v3_supported(self.spec.rank, kc, qc):
+            # t = 1: stages 2 -> 3 in registers (PTX mma.sync), csrc/tr_ring.cu "V3"
+            if self.design == "A":
+                return self.ext.forward_v3(x, self.A1, self.B2, self.C3, self.spec.rank, kc, qc,
+                                           False, self._empty, self._empty, 0)
+            if self.ws.numel() < self.spec.out_features:
+                self.ws = torch.zeros(self.spec.out_features, dtype=torch.float32,
+                                      device=x.device)
+            if self.tile_done.numel() < 16:  # one counter per q chunk (TR_V3_TAIL=2)
+                self.tile_done = torch.zeros(16, dtype=torch.int32, device=x.device)
+            return self.ext.forward_v3(x, self.A1, self.B2, self.C3, self.spec.rank, kc, qc,
+                                       True, self.ws, self.tile_done, self.v3_tail)
         if self.design == "A":
             return self.ext.forward(x, self.A1, self.B2, self.C3, self.modes, kc, tt, qc,
                                     False, self._empty, self._empty)
