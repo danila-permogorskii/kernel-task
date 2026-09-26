@@ -5,7 +5,7 @@ call     : choose the tiling, launch design A (3 launches) or B (1 launch)
 
 Environment switches (read at prepare time, inherited by the harness's worker processes):
   TR_DESIGN = A | B    reduction design, default A
-  TR_KC, TR_TT         force the tiling: k values / tokens per block (default: heuristic)
+  TR_KC, TR_TT, TR_QC  force the tiling: k values / tokens / q values per block
 """
 from __future__ import annotations
 
@@ -66,35 +66,70 @@ def pack_cores(cores: Sequence[torch.Tensor], spec: TRSpec):
     return A1, B2.reshape(K2p, Q * Rc).contiguous(), C3
 
 
+# Best (kc, tt, qc) per required case, measured on the H100 SXM5 by
+# `tools/measure_kernels.py --sweep` (results/h100/sweep_v2.json). Other GPUs / shapes /
+# token counts use the rule in choose_tiling.
+H100_TUNED = {
+    (8, 1): (2, 1, 4), (8, 8): (5, 1, 10), (8, 32): (5, 4, 10),
+    (16, 1): (4, 1, 4), (16, 32): (20, 4, 10),
+}
+
+
 def choose_tiling(T: int, spec: TRSpec, smem_limit: int, num_sms: int):
-    """Pick (kc, tt).
+    """Pick (kc, tt, qc).
+
+    qc: q values per block. Split q when the block would otherwise be too big for two
+        blocks per SM (B is the largest shared-memory item, and each block only needs
+        the columns of B for its q's). Costs: stage 1 is recomputed once per q chunk.
 
     tt: tokens per block, up to 4 (M = 12*tt rows = 48, a multiple of 16).
     kc: k values per block, the largest that still gives at least one block per SM:
         bigger kc = B loaded fewer times and fewer atomics, but fewer blocks.
+        Only balanced chunk sizes (kc = ceil(nk / chunks)), so no block gets 19 k's while
+        its neighbour gets 1.
     Then shrink until the block fits in shared memory. Returns None if nothing fits.
     """
     ext = load_extension()
     modes = [*spec.input_modes, *spec.output_modes, spec.rank]
-    nk, R = spec.input_modes[2], spec.rank
+    nk, Q, R = spec.input_modes[2], spec.output_modes[1], spec.rank
+    forced = any(k in os.environ for k in ("TR_KC", "TR_TT", "TR_QC"))
+    real = spec.input_modes == (8, 12, 20) and spec.output_modes == (12, 10, 24)
+    if (not forced and real and (R, T) in H100_TUNED
+            and torch.cuda.get_device_capability() == (9, 0)):
+        return H100_TUNED[(R, T)]
     tt = max(1, min(int(os.environ.get("TR_TT", min(T, 4))), T))
+    two_per_sm = smem_limit // 2 - 1024  # (228 KB per SM on the H100)
+    if "TR_QC" in os.environ:
+        qc = int(os.environ["TR_QC"])
+    else:  # largest balanced q chunk that lets two blocks share an SM (kc = 1 for now)
+        qc = Q
+        for chunks in range(1, Q + 1):
+            qc = -(-Q // chunks)
+            if ext.smem_bytes(modes, 1, tt, qc) <= two_per_sm:
+                break
+    qc = max(1, min(qc, Q))
+    nqc = -(-Q // qc)
     if "TR_KC" in os.environ:
         kc = int(os.environ["TR_KC"])
     else:
         tiles = -(-T // tt)
         kc = 1
-        for cand in range(1, nk + 1):
-            if R * tiles * -(-nk // cand) >= num_sms:
+        for chunks in range(nk, 0, -1):
+            cand = -(-nk // chunks)
+            fits2 = ext.smem_bytes(modes, cand, tt, qc) <= two_per_sm
+            if R * tiles * nqc * -(-nk // cand) >= num_sms and fits2:
                 kc = cand
     kc = max(1, min(kc, nk))
-    while ext.smem_bytes(modes, kc, tt) > smem_limit:
+    # shrink until the block fits: shared memory, and Y tiles the warps can hold in registers
+    while (ext.smem_bytes(modes, kc, tt, qc) > smem_limit
+           or ext.y_tiles(modes, tt, qc) > ext.max_y_tiles()):
         if tt > 1:
             tt = (tt + 1) // 2
         elif kc > 1:
             kc = (kc + 1) // 2
         else:
             return None
-    return kc, tt
+    return kc, tt, qc
 
 
 class PreparedTRKernel:
@@ -115,7 +150,7 @@ class PreparedTRKernel:
         self.modes = [*spec.input_modes, *spec.output_modes, spec.rank]
         dev = cores[0].device
         props = torch.cuda.get_device_properties(dev)
-        self.smem_limit = props.shared_memory_per_block_optin
+        self.smem_limit = props.shared_memory_per_block_optin - 1024  # room for static smem
         self.num_sms = props.multi_processor_count
         self._tiling: dict[int, tuple[int, int]] = {}
         # design B persistent state, grown on demand
@@ -137,13 +172,13 @@ class PreparedTRKernel:
         if tiling is None:  # does not fit this GPU's shared memory (laptop, R = 16)
             warnings.warn("tr_ring: block does not fit in shared memory, using the reference")
             return tr_forward_reference(x, self.cores, self.spec)
-        kc, tt = tiling
+        kc, tt, qc = tiling
         if self.design == "A":
-            return self.ext.forward(x, self.A1, self.B2, self.C3, self.modes, kc, tt,
+            return self.ext.forward(x, self.A1, self.B2, self.C3, self.modes, kc, tt, qc,
                                     False, self._empty, self._empty)
         need = T * self.spec.out_features
         if self.ws.numel() < need:  # grow once; afterwards the kernel keeps it zeroed
             self.ws = torch.zeros(need, dtype=torch.float32, device=x.device)
             self.tile_done = torch.zeros(T, dtype=torch.int32, device=x.device)
-        return self.ext.forward(x, self.A1, self.B2, self.C3, self.modes, kc, tt,
+        return self.ext.forward(x, self.A1, self.B2, self.C3, self.modes, kc, tt, qc,
                                 True, self.ws, self.tile_done)

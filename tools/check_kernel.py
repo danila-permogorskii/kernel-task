@@ -25,9 +25,9 @@ def oracle(x, cores, spec):
     return dense_forward(x.double(), materialize_dense_weight(tuple(c.double() for c in cores), spec))
 
 
-def run_case(spec, design, tokens_seq, kc=None, tt=None, seed=0):
+def run_case(spec, design, tokens_seq, kc=None, tt=None, seed=0, qc=None):
     os.environ["TR_DESIGN"] = design
-    for name, val in (("TR_KC", kc), ("TR_TT", tt)):
+    for name, val in (("TR_KC", kc), ("TR_TT", tt), ("TR_QC", qc)):
         if val is None:
             os.environ.pop(name, None)
         else:
@@ -76,17 +76,26 @@ def main():
             (TRSpec(rank=16), (32, 9), 2, 2),
             (TRSpec(rank=16), (1,), 20, 1),     # one block per a
         ]
+        qcases = [  # forced q chunks, including ragged ones (Q = 10 split into 3 + 3 + 3 + 1)
+            (TRSpec(rank=8), (1, 32, 7), 3, 4, 3),
+            (TRSpec(rank=16), (1, 32, 7), 5, 4, 5),
+            (TRSpec(rank=16), (32,), 2, 2, 1),
+            (TRSpec((2, 3, 4), (5, 6, 7), 3), (1, 5), 2, 2, 4),
+        ]
+    else:
+        qcases = []
     ok_all = True
     for design in ("A", "B"):
-        for spec, toks, kc, tt in cases:
-            ok, worst = run_case(spec, design, toks, kc, tt)
+        for spec, toks, kc, tt, *rest in cases + qcases:
+            qc = rest[0] if rest else None
+            ok, worst = run_case(spec, design, toks, kc, tt, qc=qc)
             if ok is None:
                 print(f"skip design {design}  modes={spec.input_modes}->{spec.output_modes} "
                       f"R={spec.rank:2d}: does not fit this GPU's shared memory")
                 continue
             ok_all &= ok
             print(f"{'ok  ' if ok else 'FAIL'} design {design}  modes={spec.input_modes}->"
-                  f"{spec.output_modes} R={spec.rank:2d} tokens={toks} kc={kc} tt={tt}  "
+                  f"{spec.output_modes} R={spec.rank:2d} tokens={toks} kc={kc} tt={tt} qc={qc}  "
                   f"max|err|={worst:.2e}")
     print("ALL OK" if ok_all else "SOME CASES FAILED")
     sys.exit(0 if ok_all else 1)

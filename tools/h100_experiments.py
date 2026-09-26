@@ -29,7 +29,7 @@ SRC = (REPO / "src/factorized_inference/csrc/tr_ring.cu").read_text()
 
 # text markers in tr_ring.cu that bound each removable part
 PARTS = {
-    "load":     ("  // ---- load: global -> shared", "  const int M = d.tt * d.P;"),
+    "load":     ("  // ---- load: global -> shared", "  // Y accumulators live in registers"),
     "stage1":   ("    // ---- stage 1:", "    // ---- stage 2:"),
     "stage2":   ("    // ---- stage 2:", "    // ---- stage 3:"),
     # stop before the loop's last __syncthreads so the k loop's closing brace survives

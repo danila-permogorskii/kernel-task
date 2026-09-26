@@ -103,10 +103,10 @@ def floors(ext) -> dict:
     }
 
 
-def measure_case(R, T, design, peak_tflops, peak_gbs, kc=None, tt=None):
+def measure_case(R, T, design, peak_tflops, peak_gbs, kc=None, tt=None, qc=None):
     spec = TRSpec(rank=R)
     os.environ["TR_DESIGN"] = design
-    for name, val in (("TR_KC", kc), ("TR_TT", tt)):
+    for name, val in (("TR_KC", kc), ("TR_TT", tt), ("TR_QC", qc)):
         os.environ.pop(name, None) if val is None else os.environ.__setitem__(name, str(val))
     cores = make_cores(spec, device="cuda", dtype=torch.float16, seed=0)
     x = torch.randn(T, spec.in_features, device="cuda", dtype=torch.float16)
@@ -130,6 +130,8 @@ def measure_case(R, T, design, peak_tflops, peak_gbs, kc=None, tt=None):
     s_us = stream_us(fn)
     k_us, names = kernel_us(fn)
     fl = flops_per_call(spec, T)
+    if design == "dense":  # the dense baseline does 2 * T * in * out FLOPs, not the ring's
+        fl = {"total": 2 * T * spec.in_features * spec.out_features}
     by = min_bytes_per_call(spec, T)
     main_us = sum(v for n, v in names.items() if "tr_ring_fused" in n) or k_us
     tflops = fl["total"] / (main_us * 1e-6) / 1e12
@@ -158,20 +160,25 @@ def main():
 
     if args.sweep:
         rows = []
-        for R, T in ((8, 32), (16, 32), (16, 1), (8, 1)):
-            for kc in (1, 2, 4, 5, 10):
-                for tt in (1, 2, 4, 8, 16, 32):
-                    if tt > T:
-                        continue
-                    try:
-                        r = measure_case(R, T, "A", args.peak_tflops, args.peak_gbs, kc, tt)
-                    except RuntimeError as err:  # does not fit in shared memory
-                        print(f"R={R} T={T} kc={kc} tt={tt}: skipped ({err})")
-                        continue
-                    rows.append(r)
-                    print(f"R={R:2d} T={T:2d} kc={kc:2d} tt={tt:2d} -> used {r['kc_tt']}  "
-                          f"fused {r['fused_kernel_us']:8.2f} µs  stream {r['stream_us_per_call']:8.2f} µs  "
-                          f"{r['pct_fp16_tc_peak']:5.1f}% TC peak")
+        for R, T in CASES:
+            best = None
+            for qc in (10, 5, 4, 3, 2, 1):
+                for kc in (1, 2, 4, 5, 7, 10, 20):
+                    for tt in (1, 2, 4, 8):
+                        if tt > T:
+                            continue
+                        try:
+                            r = measure_case(R, T, "A", args.peak_tflops, args.peak_gbs, kc, tt, qc)
+                        except RuntimeError:  # does not fit
+                            continue
+                        if list(r["kc_tt"]) != [kc, tt, qc]:
+                            continue  # was shrunk to fit: a duplicate of another point
+                        rows.append(r)
+                        if best is None or r["fused_kernel_us"] < best["fused_kernel_us"]:
+                            best = r
+            print(f"R={R:2d} T={T:2d}  best (kc, tt, qc) = {best['kc_tt']}  "
+                  f"fused {best['fused_kernel_us']:8.2f} us  {best['pct_fp16_tc_peak']:5.1f}% TC peak",
+                  flush=True)
         result["sweep"] = rows
     else:
         result["floors"] = floors(ext)
