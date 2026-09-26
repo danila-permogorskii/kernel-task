@@ -294,10 +294,25 @@ tr_ring_fused_kernel(const __half* __restrict__ x,    // [T, ni*nj*nk]
     if (is_last) {
       __threadfence();
       const size_t base = (size_t)t0 * out_features;
-      for (int e = tid; e < tt_valid * out_features; e += kThreads) {
-        const float v = __ldcg(ws + base + e);  // read from L2, not a stale L1 line
-        y[base + e] = __float2half(v);
-        ws[base + e] = 0.f;                     // read-and-clear: ready for the next call
+      const int n = tt_valid * out_features;
+      // kInFlight loads issued before any store: one L2 round trip per batch, not per value
+      // (any out_features, so scalar loads: float4 would need a multiple of 4)
+      constexpr int kInFlight = 8;
+      for (int e0 = tid; e0 < n; e0 += kInFlight * kThreads) {
+        float v[kInFlight];
+#pragma unroll
+        for (int s = 0; s < kInFlight; ++s) {
+          const int e = e0 + s * kThreads;
+          if (e < n) v[s] = __ldcg(ws + base + e);  // read from L2, not a stale L1 line
+        }
+#pragma unroll
+        for (int s = 0; s < kInFlight; ++s) {
+          const int e = e0 + s * kThreads;
+          if (e < n) {
+            y[base + e] = __float2half(v[s]);
+            ws[base + e] = 0.f;                     // read-and-clear: ready for the next call
+          }
+        }
       }
       if (tid == 0) tile_done[blockIdx.z] = 0;
     }

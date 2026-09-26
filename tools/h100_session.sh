@@ -25,6 +25,9 @@ nvidia-smi > results/h100/gpu.txt
 nvidia-smi -q | grep -iE "product name|driver version|cuda version|max clocks|power limit" -A0 >> results/h100/gpu.txt || true
 python -m pip freeze 2>/dev/null > results/h100/environment.txt || uv pip freeze > results/h100/environment.txt
 
+echo "== 0b. correctness: V3 path (t = 1), both designs and every tail"
+python tools/check_v3.py 2>&1 | grep -E "FAIL|ALL OK|SOME" | tail -3
+
 echo "== 1. harness, the README's two commands, once per design"
 # --device cuda:0 (not cuda): torch 2.14 rejects torch.cuda.set_device("cuda"); see report.
 for D in A B; do
@@ -43,12 +46,12 @@ if [ -z "${SKIP_SWEEP:-}" ]; then
   python tools/measure_kernels.py --sweep --out results/h100/sweep.json
 fi
 
-echo "== 4. Nsight Compute on the fused kernel (R=16 T=32 and R=8 T=1)"
+echo "== 4. Nsight Compute, design B (default): R=16 T=32 (WMMA kernel), R=8 T=1 (V3 kernel)"
 NCU=$(command -v ncu || ls /usr/local/cuda*/bin/ncu 2>/dev/null | head -1 || true)
 if [ -n "$NCU" ]; then
   for RT in "16 32" "8 1"; do
     set -- $RT
-    TR_DESIGN=A "$NCU" --set full -k regex:tr_ring_fused -c 1 -f \
+    TR_DESIGN=B "$NCU" --set full -k regex:tr_ring_fused -c 1 -f \
       -o profiles/h100/fused_R$1_T$2 \
       python tools/ncu_target.py --rank $1 --tokens $2 || echo "ncu failed (permissions?)"
   done

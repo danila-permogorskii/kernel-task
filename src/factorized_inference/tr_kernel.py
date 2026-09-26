@@ -4,7 +4,7 @@ prepare  : pack the cores once into the operand layouts the kernel reads (no den
 call     : choose the tiling, launch design A (3 launches) or B (1 launch)
 
 Environment switches (read at prepare time, inherited by the harness's worker processes):
-  TR_DESIGN = A | B    reduction design, default A
+  TR_DESIGN = A | B    reduction design, default B (one launch; the last block finishes)
   TR_KC, TR_TT, TR_QC  force the tiling: k values / tokens / q values per block
   TR_V3 = 1 | 0        t = 1 on the real modes: V3 kernel (stages 2 -> 3 in registers on
                        PTX mma.sync) when its tiling is compiled; 0 = WMMA kernel. Default 1
@@ -148,7 +148,7 @@ class PreparedTRKernel:
     def __init__(self, cores: Sequence[torch.Tensor], spec: TRSpec):
         self.cores, self.spec = tuple(cores), spec
         self.ext = load_extension()
-        self.design = os.environ.get("TR_DESIGN", "A").upper()
+        self.design = os.environ.get("TR_DESIGN", "B").upper()
         if self.design not in ("A", "B"):
             raise ValueError("TR_DESIGN must be A or B")
         self.A1, self.B2, self.C3 = pack_cores(cores, spec)

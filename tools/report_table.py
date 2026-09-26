@@ -2,9 +2,9 @@
 
     python tools/report_table.py > results/h100/report_table.md
 
-Rows: all five required cases x (dense, reference, ours A, ours B). Dense and reference come
-from the design-A run (the harness runs them in every invocation; the B run's copies agree
-within noise).
+Rows: all five required cases x (dense, reference, ours B, ours A). Design B is the default.
+Dense and reference come from the design-B run (the harness runs them in every invocation;
+the A run's copies agree within noise).
 """
 import json
 from pathlib import Path
@@ -33,9 +33,9 @@ print("| Rank | Tokens | Method | Host median ms | CUDA stream median ms | Resid
       "First call ms | Max abs error |")
 print("|---|---|---|---|---|---|---|---|---|---|---|")
 for rank in (8, 16):
-    for ca, cb in zip(load("A", rank), load("B", rank)):
-        t = ca["tokens"]
-        print(row(rank, t, "dense", ca["methods"]["dense"]))
-        print(row(rank, t, "factorized_reference", ca["methods"]["factorized_reference"]))
-        print(row(rank, t, "**ours, design A**", ca["methods"]["factorized_optimized"]))
-        print(row(rank, t, "ours, design B", cb["methods"]["factorized_optimized"]))
+    for cb, ca in zip(load("B", rank), load("A", rank)):
+        t = cb["tokens"]
+        print(row(rank, t, "dense", cb["methods"]["dense"]))
+        print(row(rank, t, "factorized_reference", cb["methods"]["factorized_reference"]))
+        print(row(rank, t, "**ours, design B (default)**", cb["methods"]["factorized_optimized"]))
+        print(row(rank, t, "ours, design A", ca["methods"]["factorized_optimized"]))

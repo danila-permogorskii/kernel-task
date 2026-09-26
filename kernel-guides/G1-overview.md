@@ -8,6 +8,7 @@ shows how to read the evidence.
    G2  kernel walkthrough: tr_ring.cu, section by section
    G3  the optimisation journey: v0 → v2, every step measured
    G4  evidence: harness, traces, A vs B, what to say about it
+   G5  v3 and the tail: how t = 1 got past dense, and what is left
 ```
 
 ---
