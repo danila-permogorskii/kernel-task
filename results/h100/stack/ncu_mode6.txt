@@ -1,0 +1,25 @@
+    Issued Ipc Active     inst/cycle         1.20
+    Local Memory Spilling Requests                             1643286
+    Local Memory Spilling Request Overhead            %            100
+    L1/TEX Hit Rate                                   %          49.84
+    L2 Hit Rate                                       %          98.28
+    OPT   Est. Local Speedup: 70.22%                                                                                    
+          eligible warp results in no instruction being issued and the issue slot remains unused. To increase the       
+          number of eligible warps, avoid possible load imbalances due to highly different execution durations per      
+          warp. Reducing stalls indicated on the Warp State Statistics and Source Counters sections can help, too.      
+    Warp Cycles Per Issued Instruction             cycle        13.38
+          On average, each warp of this workload spends 5.8 cycles being stalled waiting for sibling warps at a CTA     
+          barrier. A high number of warps waiting at a barrier is commonly caused by diverging code paths before a      
+          barrier. This causes some warps to wait a long time until other warps reach the synchronization point.        
+          barrier instruction causes the most stalls, and optimize the code executed before that synchronization point  
+          first. This stall type represents about 43.2% of the total average of 13.4 cycles between issuing two         
+    INF   Check the Warp Stall Sampling (All Samples) table for the top stall locations in your source based on         
+          on each stall reason.                                                                                         
+    Registers Per Thread             register/thread             128
+    Stack Size                                                  1024
+    Block Limit Barriers                  block           32
+    Achieved Occupancy                        %        24.99
+    Branch Instructions Ratio           %         0.07
+    Branch Instructions              inst      8158572
+    Branch Efficiency                   %        98.22
+    Avg. Divergent Branches      branches       188.14

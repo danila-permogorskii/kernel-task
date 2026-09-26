@@ -1,0 +1,2 @@
+ptxas info    : Function properties for tr_stack_kernelILi8ELi6EEv9StackArgs	    432 bytes stack frame, 64 bytes spill stores, 100 bytes spill loads
+    0 bytes stack frame, 224 bytes spill stores, 228 bytes spill loads	ptxas info    : Function properties for tr_stack_kernelILi8ELi5EEv9StackArgs

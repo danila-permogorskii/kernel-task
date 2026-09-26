@@ -27,7 +27,7 @@ const y_dense = W * vec(X)
 @printf "  check W[1,1] = tr(A[:,1,1,:]·B[:,1,1,:]) = %.4f\n" tr(A[:, 1, 1, :] * B[:, 1, 1, :])
 
 function chain(A, B, X)
-    R, np, nj, _ = size(A)
+    R, np, ni, _ = size(A)
     _, nq, nj, _ = size(B)
     T = zeros(R, np, nj, R)
     for b in 1:R, j in 1:nj, p in 1:np, a in 1:R
@@ -60,7 +60,7 @@ for Rt in (1, 2, 4, 8, 16)
 end
 
 function cut_ring(A, B, X)
-    R, np, nj, _ = size(A)
+    R, np, ni, _ = size(A)
     _, nq, nj, _ = size(B)
     Y = zeros(np, nq)
     Ta = zeros(np, nj, R)

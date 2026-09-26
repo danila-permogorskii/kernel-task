@@ -1,0 +1,133 @@
+{
+  "device": "NVIDIA H100 80GB HBM3",
+  "tiling": [
+    2,
+    4,
+    2,
+    6
+  ],
+  "peak_gbs": 3350.0,
+  "rows": [
+    {
+      "rank": 8,
+      "layers": 8,
+      "tokens": 1,
+      "stack_info": {
+        "smem_bytes": 39424,
+        "resident_blocks": 264,
+        "units_up": 240,
+        "units_down": 192,
+        "smem_bytes_prefetch": 61696,
+        "resident_blocks_prefetch": 264
+      },
+      "core_bytes": 1785856,
+      "stack_err": {
+        "max_abs": 0.0032242536544799805,
+        "rel_l2": 0.0008953343494795263
+      },
+      "stack_us": 97.53919839859009,
+      "stack_pf_err": {
+        "max_abs": 0.002840787172317505,
+        "rel_l2": 0.0009381988202221692
+      },
+      "stack_pf_us": 93.53439807891846,
+      "barrier_ours_us": 28.444799780845642,
+      "barrier_cg_us": 18.993599712848663,
+      "stack_cg_err": {
+        "max_abs": 0.0031819939613342285,
+        "rel_l2": 0.0009177452302537858
+      },
+      "stack_cg_us": 91.29760265350342
+    },
+    {
+      "rank": 8,
+      "layers": 32,
+      "tokens": 1,
+      "stack_info": {
+        "smem_bytes": 39424,
+        "resident_blocks": 264,
+        "units_up": 240,
+        "units_down": 192,
+        "smem_bytes_prefetch": 61696,
+        "resident_blocks_prefetch": 264
+      },
+      "core_bytes": 7143424,
+      "stack_err": {
+        "max_abs": 0.006089216098189354,
+        "rel_l2": 0.0017150604398921132
+      },
+      "stack_us": 370.2255964279175,
+      "stack_pf_err": {
+        "max_abs": 0.004924282431602478,
+        "rel_l2": 0.0015258514322340488
+      },
+      "stack_pf_us": 350.7184028625488,
+      "barrier_ours_us": 96.70720100402832,
+      "barrier_cg_us": 61.64479851722717,
+      "stack_cg_err": {
+        "max_abs": 0.004917740821838379,
+        "rel_l2": 0.001667379168793559
+      },
+      "stack_cg_us": 343.64800453186035
+    },
+    {
+      "rank": 8,
+      "layers": 128,
+      "tokens": 1,
+      "stack_info": {
+        "smem_bytes": 39424,
+        "resident_blocks": 264,
+        "units_up": 240,
+        "units_down": 192,
+        "smem_bytes_prefetch": 61696,
+        "resident_blocks_prefetch": 264
+      },
+      "core_bytes": 28573696,
+      "stack_err": {
+        "max_abs": 0.017687082290649414,
+        "rel_l2": 0.0027034636586904526
+      },
+      "stack_us": 1448.196792602539,
+      "stack_pf_err": {
+        "max_abs": 0.01917976140975952,
+        "rel_l2": 0.0031571253202855587
+      },
+      "stack_pf_us": 1379.5007705688477,
+      "barrier_ours_us": 367.98720359802246,
+      "barrier_cg_us": 230.84800243377686,
+      "stack_cg_err": {
+        "max_abs": 0.017267584800720215,
+        "rel_l2": 0.0030850551556795835
+      },
+      "stack_cg_us": 1372.4431991577148
+    }
+  ],
+  "fits": {
+    "1": {
+      "stack_us": {
+        "us_per_layer": 11.247876144590832,
+        "intercept_us": 8.772798379262326
+      },
+      "stack_cg_us": {
+        "us_per_layer": 10.687757106054397,
+        "intercept_us": 3.9485375086466092
+      },
+      "stack_pf_us": {
+        "us_per_layer": 10.716414025851659,
+        "intercept_us": 7.798671722412109
+      },
+      "v2_graph_us": null,
+      "dense_graph_us": null,
+      "dense_eager_us": null,
+      "barrier_ours_us": {
+        "us_per_layer": 2.828466697108178,
+        "intercept_us": 5.985599756240845
+      },
+      "barrier_cg_us": {
+        "us_per_layer": 1.7646190754714466,
+        "intercept_us": 5.01013199488321
+      },
+      "dense_hbm_floor_us": null
+    }
+  }
+}

@@ -1,0 +1,196 @@
+{
+  "device": "NVIDIA H100 80GB HBM3",
+  "barrier": [
+    {
+      "variant": 0,
+      "name": "ours (all threads fence)",
+      "grid": 132,
+      "cluster": 1,
+      "us": 1.8209600845972698
+    },
+    {
+      "variant": 1,
+      "name": "cg grid.sync",
+      "grid": 132,
+      "cluster": 1,
+      "us": 1.113248070081075
+    },
+    {
+      "variant": 2,
+      "name": "ours + nanosleep(64)",
+      "grid": 132,
+      "cluster": 1,
+      "us": 1.835605263710022
+    },
+    {
+      "variant": 3,
+      "name": "ours, fence in thread 0 only",
+      "grid": 132,
+      "cluster": 1,
+      "us": 1.8215680122375488
+    },
+    {
+      "variant": 4,
+      "name": "monotonic red.release / ld.acquire",
+      "grid": 132,
+      "cluster": 1,
+      "us": 0.9991466204325358
+    },
+    {
+      "variant": 5,
+      "name": "cluster barrier + monotonic",
+      "grid": 132,
+      "cluster": 2,
+      "us": 2.104736089706421
+    },
+    {
+      "variant": 5,
+      "name": "cluster barrier + monotonic",
+      "grid": 132,
+      "cluster": 4,
+      "us": 2.1278186639149985
+    },
+    {
+      "variant": 0,
+      "name": "ours (all threads fence)",
+      "grid": 264,
+      "cluster": 1,
+      "us": 2.1862613360087075
+    },
+    {
+      "variant": 1,
+      "name": "cg grid.sync",
+      "grid": 264,
+      "cluster": 1,
+      "us": 1.2836373647054036
+    },
+    {
+      "variant": 2,
+      "name": "ours + nanosleep(64)",
+      "grid": 264,
+      "cluster": 1,
+      "us": 2.1624534130096436
+    },
+    {
+      "variant": 3,
+      "name": "ours, fence in thread 0 only",
+      "grid": 264,
+      "cluster": 1,
+      "us": 2.1927467981974282
+    },
+    {
+      "variant": 4,
+      "name": "monotonic red.release / ld.acquire",
+      "grid": 264,
+      "cluster": 1,
+      "us": 1.380021373430888
+    },
+    {
+      "variant": 5,
+      "name": "cluster barrier + monotonic",
+      "grid": 264,
+      "cluster": 2,
+      "us": 2.186432123184204
+    },
+    {
+      "variant": 5,
+      "name": "cluster barrier + monotonic",
+      "grid": 264,
+      "cluster": 4,
+      "us": 2.1855572859446206
+    },
+    {
+      "variant": 5,
+      "name": "cluster barrier + monotonic",
+      "grid": 264,
+      "cluster": 8,
+      "us": 2.2167678674062095
+    }
+  ],
+  "copy": [
+    {
+      "variant": 0,
+      "name": "256 threads, int4 loads",
+      "bytes": 8192,
+      "us": 0.3172266607483228
+    },
+    {
+      "variant": 1,
+      "name": "cp.async.bulk, 1 thread",
+      "bytes": 8192,
+      "us": 0.2923733244339625
+    },
+    {
+      "variant": 2,
+      "name": "cp.async.bulk, 4 threads x 1/4",
+      "bytes": 8192,
+      "us": 0.3293866788347562
+    },
+    {
+      "variant": 0,
+      "name": "256 threads, int4 loads",
+      "bytes": 16384,
+      "us": 0.5000533411900202
+    },
+    {
+      "variant": 1,
+      "name": "cp.async.bulk, 1 thread",
+      "bytes": 16384,
+      "us": 0.4692266757289569
+    },
+    {
+      "variant": 2,
+      "name": "cp.async.bulk, 4 threads x 1/4",
+      "bytes": 16384,
+      "us": 0.4854399835069974
+    },
+    {
+      "variant": 0,
+      "name": "256 threads, int4 loads",
+      "bytes": 24576,
+      "us": 0.5765333275000254
+    },
+    {
+      "variant": 1,
+      "name": "cp.async.bulk, 1 thread",
+      "bytes": 24576,
+      "us": 0.5847466737031937
+    },
+    {
+      "variant": 2,
+      "name": "cp.async.bulk, 4 threads x 1/4",
+      "bytes": 24576,
+      "us": 0.5965866645177206
+    },
+    {
+      "variant": 0,
+      "name": "256 threads, int4 loads",
+      "bytes": 49152,
+      "us": 1.6540800034999847
+    },
+    {
+      "variant": 1,
+      "name": "cp.async.bulk, 1 thread",
+      "bytes": 49152,
+      "us": 0.9150933722654978
+    },
+    {
+      "variant": 2,
+      "name": "cp.async.bulk, 4 threads x 1/4",
+      "bytes": 49152,
+      "us": 0.929813285668691
+    }
+  ],
+  "atomic": [
+    {
+      "variant": 0,
+      "name": "atomicAdd (scalar)",
+      "us": 2.10101326306661
+    },
+    {
+      "variant": 1,
+      "name": "red.global.add.v4.f32",
+      "us": 1.9046399494012196
+    }
+  ]
+}

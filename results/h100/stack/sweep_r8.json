@@ -1,0 +1,523 @@
+{
+  "device": "NVIDIA H100 80GB HBM3",
+  "sweeps": [
+    {
+      "rank": 8,
+      "tokens": 1,
+      "layers": 32,
+      "best": [
+        2,
+        5,
+        2,
+        6
+      ],
+      "best_us": 387.44640350341797,
+      "rows": [
+        {
+          "tiling": [
+            1,
+            2,
+            2,
+            6
+          ],
+          "stack_us": 617.409610748291,
+          "rel_l2": 0.0016883161151781678,
+          "smem_bytes": 39424,
+          "resident_blocks": 264,
+          "units_up": 800,
+          "units_down": 192
+        },
+        {
+          "tiling": [
+            1,
+            4,
+            2,
+            6
+          ],
+          "stack_us": 468.0448055267334,
+          "rel_l2": 0.0015763887204229832,
+          "smem_bytes": 39424,
+          "resident_blocks": 264,
+          "units_up": 480,
+          "units_down": 192
+        },
+        {
+          "tiling": [
+            1,
+            5,
+            2,
+            6
+          ],
+          "stack_us": 479.72002029418945,
+          "rel_l2": 0.001689227414317429,
+          "smem_bytes": 39424,
+          "resident_blocks": 264,
+          "units_up": 320,
+          "units_down": 192
+        },
+        {
+          "tiling": [
+            1,
+            10,
+            2,
+            6
+          ],
+          "stack_us": 403.10559272766113,
+          "rel_l2": 0.001605153433047235,
+          "smem_bytes": 55680,
+          "resident_blocks": 264,
+          "units_up": 160,
+          "units_down": 192
+        },
+        {
+          "tiling": [
+            2,
+            2,
+            2,
+            6
+          ],
+          "stack_us": 480.15198707580566,
+          "rel_l2": 0.0016952271107584238,
+          "smem_bytes": 39424,
+          "resident_blocks": 264,
+          "units_up": 400,
+          "units_down": 192
+        },
+        {
+          "tiling": [
+            2,
+            4,
+            2,
+            6
+          ],
+          "stack_us": 388.26560974121094,
+          "rel_l2": 0.0017616491531953216,
+          "smem_bytes": 39424,
+          "resident_blocks": 264,
+          "units_up": 240,
+          "units_down": 192
+        },
+        {
+          "tiling": [
+            2,
+            5,
+            2,
+            6
+          ],
+          "stack_us": 387.44640350341797,
+          "rel_l2": 0.0017158708069473505,
+          "smem_bytes": 39424,
+          "resident_blocks": 264,
+          "units_up": 160,
+          "units_down": 192
+        },
+        {
+          "tiling": [
+            2,
+            10,
+            2,
+            6
+          ],
+          "stack_us": 441.2479877471924,
+          "rel_l2": 0.0017301919870078564,
+          "smem_bytes": 57344,
+          "resident_blocks": 264,
+          "units_up": 80,
+          "units_down": 192
+        },
+        {
+          "tiling": [
+            4,
+            2,
+            2,
+            6
+          ],
+          "stack_us": 430.58719635009766,
+          "rel_l2": 0.0016533370362594724,
+          "smem_bytes": 39424,
+          "resident_blocks": 264,
+          "units_up": 200,
+          "units_down": 192
+        },
+        {
+          "tiling": [
+            4,
+            4,
+            2,
+            6
+          ],
+          "stack_us": 433.16001892089844,
+          "rel_l2": 0.0017811270663514733,
+          "smem_bytes": 39424,
+          "resident_blocks": 264,
+          "units_up": 120,
+          "units_down": 192
+        },
+        {
+          "tiling": [
+            4,
+            5,
+            2,
+            6
+          ],
+          "stack_us": 442.83199310302734,
+          "rel_l2": 0.0016443186905235052,
+          "smem_bytes": 42752,
+          "resident_blocks": 264,
+          "units_up": 80,
+          "units_down": 192
+        },
+        {
+          "tiling": [
+            4,
+            10,
+            2,
+            6
+          ],
+          "stack_us": 524.3072032928467,
+          "rel_l2": 0.0015245876275002956,
+          "smem_bytes": 60672,
+          "resident_blocks": 264,
+          "units_up": 40,
+          "units_down": 192
+        },
+        {
+          "tiling": [
+            5,
+            2,
+            2,
+            6
+          ],
+          "stack_us": 448.0544090270996,
+          "rel_l2": 0.0016721695428714156,
+          "smem_bytes": 39424,
+          "resident_blocks": 264,
+          "units_up": 160,
+          "units_down": 192
+        },
+        {
+          "tiling": [
+            5,
+            4,
+            2,
+            6
+          ],
+          "stack_us": 460.6048107147217,
+          "rel_l2": 0.0016203374834731221,
+          "smem_bytes": 40832,
+          "resident_blocks": 264,
+          "units_up": 96,
+          "units_down": 192
+        },
+        {
+          "tiling": [
+            5,
+            5,
+            2,
+            6
+          ],
+          "stack_us": 471.64158821105957,
+          "rel_l2": 0.0016631485195830464,
+          "smem_bytes": 44416,
+          "resident_blocks": 264,
+          "units_up": 64,
+          "units_down": 192
+        },
+        {
+          "tiling": [
+            5,
+            10,
+            2,
+            6
+          ],
+          "stack_us": 567.7103996276855,
+          "rel_l2": 0.0016539189964532852,
+          "smem_bytes": 62336,
+          "resident_blocks": 264,
+          "units_up": 32,
+          "units_down": 192
+        },
+        {
+          "tiling": [
+            2,
+            5,
+            1,
+            3
+          ],
+          "stack_us": 527.2192001342773,
+          "rel_l2": 0.001557710929773748,
+          "smem_bytes": 39424,
+          "resident_blocks": 264,
+          "units_up": 160,
+          "units_down": 768
+        },
+        {
+          "tiling": [
+            2,
+            5,
+            1,
+            4
+          ],
+          "stack_us": 544.1152095794678,
+          "rel_l2": 0.0017293589189648628,
+          "smem_bytes": 39424,
+          "resident_blocks": 264,
+          "units_up": 160,
+          "units_down": 576
+        },
+        {
+          "tiling": [
+            2,
+            5,
+            1,
+            6
+          ],
+          "stack_us": 461.0400199890137,
+          "rel_l2": 0.0018657762557268143,
+          "smem_bytes": 39424,
+          "resident_blocks": 264,
+          "units_up": 160,
+          "units_down": 384
+        },
+        {
+          "tiling": [
+            2,
+            5,
+            1,
+            12
+          ],
+          "stack_us": 409.7760200500488,
+          "rel_l2": 0.0015828555915504694,
+          "smem_bytes": 56064,
+          "resident_blocks": 264,
+          "units_up": 160,
+          "units_down": 192
+        },
+        {
+          "tiling": [
+            2,
+            5,
+            2,
+            3
+          ],
+          "stack_us": 488.6256217956543,
+          "rel_l2": 0.001827704138122499,
+          "smem_bytes": 39424,
+          "resident_blocks": 264,
+          "units_up": 160,
+          "units_down": 384
+        },
+        {
+          "tiling": [
+            2,
+            5,
+            2,
+            4
+          ],
+          "stack_us": 501.9872188568115,
+          "rel_l2": 0.0016348467906937003,
+          "smem_bytes": 39424,
+          "resident_blocks": 264,
+          "units_up": 160,
+          "units_down": 288
+        },
+        {
+          "tiling": [
+            2,
+            5,
+            2,
+            6
+          ],
+          "stack_us": 387.5744104385376,
+          "rel_l2": 0.0017553794896230102,
+          "smem_bytes": 39424,
+          "resident_blocks": 264,
+          "units_up": 160,
+          "units_down": 192
+        },
+        {
+          "tiling": [
+            2,
+            5,
+            2,
+            12
+          ],
+          "stack_us": 433.28962326049805,
+          "rel_l2": 0.001678806496784091,
+          "smem_bytes": 57856,
+          "resident_blocks": 264,
+          "units_up": 160,
+          "units_down": 96
+        },
+        {
+          "tiling": [
+            2,
+            5,
+            3,
+            3
+          ],
+          "stack_us": 406.31680488586426,
+          "rel_l2": 0.0016376321436837316,
+          "smem_bytes": 39424,
+          "resident_blocks": 264,
+          "units_up": 160,
+          "units_down": 256
+        },
+        {
+          "tiling": [
+            2,
+            5,
+            3,
+            4
+          ],
+          "stack_us": 410.2128028869629,
+          "rel_l2": 0.0016545852413401008,
+          "smem_bytes": 39424,
+          "resident_blocks": 264,
+          "units_up": 160,
+          "units_down": 192
+        },
+        {
+          "tiling": [
+            2,
+            5,
+            3,
+            6
+          ],
+          "stack_us": 412.77918815612793,
+          "rel_l2": 0.0018776286160573363,
+          "smem_bytes": 41216,
+          "resident_blocks": 264,
+          "units_up": 160,
+          "units_down": 128
+        },
+        {
+          "tiling": [
+            2,
+            5,
+            3,
+            12
+          ],
+          "stack_us": 483.8912010192871,
+          "rel_l2": 0.0015995251014828682,
+          "smem_bytes": 59648,
+          "resident_blocks": 264,
+          "units_up": 160,
+          "units_down": 64
+        },
+        {
+          "tiling": [
+            2,
+            5,
+            4,
+            3
+          ],
+          "stack_us": 439.3775939941406,
+          "rel_l2": 0.0016979199135676026,
+          "smem_bytes": 39424,
+          "resident_blocks": 264,
+          "units_up": 160,
+          "units_down": 192
+        },
+        {
+          "tiling": [
+            2,
+            5,
+            4,
+            4
+          ],
+          "stack_us": 430.0384044647217,
+          "rel_l2": 0.0016658309614285827,
+          "smem_bytes": 39424,
+          "resident_blocks": 264,
+          "units_up": 160,
+          "units_down": 144
+        },
+        {
+          "tiling": [
+            2,
+            5,
+            4,
+            6
+          ],
+          "stack_us": 451.8223762512207,
+          "rel_l2": 0.0016859153984114528,
+          "smem_bytes": 42880,
+          "resident_blocks": 264,
+          "units_up": 160,
+          "units_down": 96
+        },
+        {
+          "tiling": [
+            2,
+            5,
+            4,
+            12
+          ],
+          "stack_us": 531.5104007720947,
+          "rel_l2": 0.001523164683021605,
+          "smem_bytes": 61312,
+          "resident_blocks": 264,
+          "units_up": 160,
+          "units_down": 48
+        },
+        {
+          "tiling": [
+            2,
+            5,
+            6,
+            3
+          ],
+          "stack_us": 490.24481773376465,
+          "rel_l2": 0.001615551533177495,
+          "smem_bytes": 39424,
+          "resident_blocks": 264,
+          "units_up": 160,
+          "units_down": 128
+        },
+        {
+          "tiling": [
+            2,
+            5,
+            6,
+            4
+          ],
+          "stack_us": 496.9327926635742,
+          "rel_l2": 0.0016189890448004007,
+          "smem_bytes": 40320,
+          "resident_blocks": 264,
+          "units_up": 160,
+          "units_down": 96
+        },
+        {
+          "tiling": [
+            2,
+            5,
+            6,
+            6
+          ],
+          "stack_us": 523.4399795532227,
+          "rel_l2": 0.0016326598124578595,
+          "smem_bytes": 46464,
+          "resident_blocks": 264,
+          "units_up": 160,
+          "units_down": 64
+        },
+        {
+          "tiling": [
+            2,
+            5,
+            6,
+            12
+          ],
+          "stack_us": 626.1744022369385,
+          "rel_l2": 0.0017894278280436993,
+          "smem_bytes": 64896,
+          "resident_blocks": 264,
+          "units_up": 160,
+          "units_down": 32
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,160 @@
+{
+  "device": "NVIDIA H100 80GB HBM3",
+  "tiling": [
+    2,
+    4,
+    2,
+    6
+  ],
+  "peak_gbs": 3350.0,
+  "rows": [
+    {
+      "rank": 8,
+      "layers": 8,
+      "tokens": 1,
+      "stack_info": {
+        "smem_bytes": 39424,
+        "resident_blocks": 264,
+        "units_up": 240,
+        "units_down": 192,
+        "smem_bytes_prefetch": 61696,
+        "resident_blocks_prefetch": 264
+      },
+      "core_bytes": 1785856,
+      "stack_err": {
+        "max_abs": 0.003251791000366211,
+        "rel_l2": 0.0009054783149622381
+      },
+      "stack_us": 114.6623969078064,
+      "stack_pf_err": {
+        "max_abs": 0.002942323684692383,
+        "rel_l2": 0.0008510504849255085
+      },
+      "stack_pf_us": 107.10560083389282,
+      "barrier_ours_us": 28.40000092983246,
+      "barrier_cg_us": 18.940800428390503,
+      "stack_cg_err": {
+        "max_abs": 0.0032445788383483887,
+        "rel_l2": 0.0009079847950488329
+      },
+      "stack_cg_us": 109.91040468215942,
+      "v2_graph_us": 163.428795337677,
+      "dense_bytes": 88473600,
+      "dense_eager_us": 95.46719789505005,
+      "dense_graph_us": 63.203197717666626,
+      "dense_hbm_floor_us": 26.410029850746266
+    },
+    {
+      "rank": 8,
+      "layers": 32,
+      "tokens": 1,
+      "stack_info": {
+        "smem_bytes": 39424,
+        "resident_blocks": 264,
+        "units_up": 240,
+        "units_down": 192,
+        "smem_bytes_prefetch": 61696,
+        "resident_blocks_prefetch": 264
+      },
+      "core_bytes": 7143424,
+      "stack_err": {
+        "max_abs": 0.0068776607513427734,
+        "rel_l2": 0.0016021537594497204
+      },
+      "stack_us": 435.27679443359375,
+      "stack_pf_err": {
+        "max_abs": 0.00598376989364624,
+        "rel_l2": 0.001747472328133881
+      },
+      "stack_pf_us": 411.0095977783203,
+      "barrier_ours_us": 96.44479751586914,
+      "barrier_cg_us": 61.427199840545654,
+      "stack_cg_err": {
+        "max_abs": 0.00738978385925293,
+        "rel_l2": 0.0016085157403722405
+      },
+      "stack_cg_us": 413.8432025909424,
+      "v2_graph_us": 637.6143932342529,
+      "dense_bytes": 353894400,
+      "dense_eager_us": 368.15199851989746,
+      "dense_graph_us": 248.00639152526855,
+      "dense_hbm_floor_us": 105.64011940298506
+    },
+    {
+      "rank": 8,
+      "layers": 128,
+      "tokens": 1,
+      "stack_info": {
+        "smem_bytes": 39424,
+        "resident_blocks": 264,
+        "units_up": 240,
+        "units_down": 192,
+        "smem_bytes_prefetch": 61696,
+        "resident_blocks_prefetch": 264
+      },
+      "core_bytes": 28573696,
+      "stack_err": {
+        "max_abs": 0.015624403953552246,
+        "rel_l2": 0.004571346566081047
+      },
+      "stack_us": 1832.7056884765625,
+      "stack_pf_err": {
+        "max_abs": 0.014205873012542725,
+        "rel_l2": 0.0037760038394480944
+      },
+      "stack_pf_us": 1635.6208801269531,
+      "barrier_ours_us": 368.0639982223511,
+      "barrier_cg_us": 231.31520748138428,
+      "stack_cg_err": {
+        "max_abs": 0.015200376510620117,
+        "rel_l2": 0.0041391304694116116
+      },
+      "stack_cg_us": 1761.1919403076172,
+      "v2_graph_us": 2617.624092102051,
+      "dense_bytes": 1415577600,
+      "dense_eager_us": 1446.1359977722168,
+      "dense_graph_us": 986.7936134338379,
+      "dense_hbm_floor_us": 422.56047761194026
+    }
+  ],
+  "fits": {
+    "1": {
+      "stack_us": {
+        "us_per_layer": 14.38546272970381,
+        "intercept_us": -11.370952924092421
+      },
+      "stack_cg_us": {
+        "us_per_layer": 13.83902324097497,
+        "intercept_us": -13.336785634358762
+      },
+      "stack_pf_us": {
+        "us_per_layer": 12.742981669448671,
+        "intercept_us": 4.305052757263184
+      },
+      "v2_graph_us": {
+        "us_per_layer": 20.501191346418288,
+        "intercept_us": -8.510955174764149
+      },
+      "dense_graph_us": {
+        "us_per_layer": 7.6963334920860484,
+        "intercept_us": 1.6730586687722848
+      },
+      "dense_eager_us": {
+        "us_per_layer": 11.247980949424562,
+        "intercept_us": 6.698131561279297
+      },
+      "barrier_ours_us": {
+        "us_per_layer": 2.8301999859866642,
+        "intercept_us": 5.81173300743103
+      },
+      "barrier_cg_us": {
+        "us_per_layer": 1.769752445675078,
+        "intercept_us": 4.788265625635773
+      },
+      "dense_hbm_floor_us": {
+        "us_per_layer": 3.301253731343283,
+        "intercept_us": 2.842170943040401e-14
+      }
+    }
+  }
+}

@@ -1,0 +1,61 @@
+check R= 8 L=  1 T=1 mode 0  rel L2 3.58e-04  max abs 1.47e-03  ok
+check R= 8 L=  1 T=1 mode 4  rel L2 3.58e-04  max abs 1.47e-03  ok
+check R= 8 L=  1 T=2 mode 0  rel L2 3.64e-04  max abs 1.69e-03  ok
+check R= 8 L=  1 T=2 mode 4  rel L2 3.64e-04  max abs 1.69e-03  ok
+check R= 8 L=  1 T=4 mode 0  rel L2 3.59e-04  max abs 1.65e-03  ok
+check R= 8 L=  1 T=4 mode 4  rel L2 3.59e-04  max abs 1.65e-03  ok
+check R= 8 L=  2 T=1 mode 0  rel L2 4.62e-04  max abs 1.81e-03  ok
+check R= 8 L=  2 T=1 mode 4  rel L2 4.62e-04  max abs 1.81e-03  ok
+check R= 8 L=  2 T=2 mode 0  rel L2 4.52e-04  max abs 1.86e-03  ok
+check R= 8 L=  2 T=2 mode 4  rel L2 4.54e-04  max abs 1.86e-03  ok
+check R= 8 L=  2 T=4 mode 0  rel L2 4.69e-04  max abs 2.05e-03  ok
+check R= 8 L=  2 T=4 mode 4  rel L2 4.68e-04  max abs 2.05e-03  ok
+check R= 8 L=  3 T=1 mode 0  rel L2 5.43e-04  max abs 1.92e-03  ok
+check R= 8 L=  3 T=1 mode 4  rel L2 5.44e-04  max abs 2.56e-03  ok
+check R= 8 L=  3 T=2 mode 0  rel L2 5.34e-04  max abs 1.99e-03  ok
+check R= 8 L=  3 T=2 mode 4  rel L2 5.32e-04  max abs 1.99e-03  ok
+check R= 8 L=  3 T=4 mode 0  rel L2 5.38e-04  max abs 2.86e-03  ok
+check R= 8 L=  3 T=4 mode 4  rel L2 5.34e-04  max abs 2.54e-03  ok
+check R= 8 L=  4 T=1 mode 0  rel L2 6.35e-04  max abs 2.42e-03  ok
+check R= 8 L=  4 T=1 mode 4  rel L2 6.26e-04  max abs 2.38e-03  ok
+check R= 8 L=  4 T=2 mode 0  rel L2 6.19e-04  max abs 2.31e-03  ok
+check R= 8 L=  4 T=2 mode 4  rel L2 6.08e-04  max abs 2.66e-03  ok
+check R= 8 L=  4 T=4 mode 0  rel L2 6.29e-04  max abs 2.78e-03  ok
+check R= 8 L=  4 T=4 mode 4  rel L2 6.17e-04  max abs 3.00e-03  ok
+check R= 8 L=  8 T=1 mode 0  rel L2 8.19e-04  max abs 3.90e-03  ok
+check R= 8 L=  8 T=1 mode 4  rel L2 8.08e-04  max abs 3.20e-03  ok
+check R= 8 L=  8 T=2 mode 0  rel L2 8.39e-04  max abs 3.38e-03  ok
+check R= 8 L=  8 T=2 mode 4  rel L2 8.42e-04  max abs 3.22e-03  ok
+check R= 8 L=  8 T=4 mode 0  rel L2 8.36e-04  max abs 4.20e-03  ok
+check R= 8 L=  8 T=4 mode 4  rel L2 8.34e-04  max abs 3.64e-03  ok
+check R=16 L=  1 T=1 mode 0  rel L2 3.59e-04  max abs 1.46e-03  ok
+check R=16 L=  1 T=1 mode 4  rel L2 3.59e-04  max abs 1.46e-03  ok
+check R=16 L=  1 T=2 mode 0  rel L2 3.56e-04  max abs 1.47e-03  ok
+check R=16 L=  1 T=2 mode 4  rel L2 3.56e-04  max abs 1.47e-03  ok
+check R=16 L=  1 T=4 mode 0  rel L2 3.62e-04  max abs 1.65e-03  ok
+check R=16 L=  1 T=4 mode 4  rel L2 3.62e-04  max abs 1.65e-03  ok
+check R=16 L=  2 T=1 mode 0  rel L2 4.63e-04  max abs 1.70e-03  ok
+check R=16 L=  2 T=1 mode 4  rel L2 4.65e-04  max abs 1.70e-03  ok
+check R=16 L=  2 T=2 mode 0  rel L2 4.72e-04  max abs 1.87e-03  ok
+check R=16 L=  2 T=2 mode 4  rel L2 4.69e-04  max abs 1.87e-03  ok
+check R=16 L=  2 T=4 mode 0  rel L2 4.61e-04  max abs 1.96e-03  ok
+check R=16 L=  2 T=4 mode 4  rel L2 4.61e-04  max abs 1.96e-03  ok
+check R=16 L=  3 T=1 mode 0  rel L2 5.56e-04  max abs 2.26e-03  ok
+check R=16 L=  3 T=1 mode 4  rel L2 5.55e-04  max abs 1.88e-03  ok
+check R=16 L=  3 T=2 mode 0  rel L2 5.42e-04  max abs 2.33e-03  ok
+check R=16 L=  3 T=2 mode 4  rel L2 5.46e-04  max abs 2.65e-03  ok
+check R=16 L=  3 T=4 mode 0  rel L2 5.56e-04  max abs 2.19e-03  ok
+check R=16 L=  3 T=4 mode 4  rel L2 5.57e-04  max abs 2.23e-03  ok
+check R=16 L=  4 T=1 mode 0  rel L2 6.26e-04  max abs 2.49e-03  ok
+check R=16 L=  4 T=1 mode 4  rel L2 6.31e-04  max abs 2.55e-03  ok
+check R=16 L=  4 T=2 mode 0  rel L2 6.28e-04  max abs 2.26e-03  ok
+check R=16 L=  4 T=2 mode 4  rel L2 6.36e-04  max abs 2.46e-03  ok
+check R=16 L=  4 T=4 mode 0  rel L2 6.11e-04  max abs 2.22e-03  ok
+check R=16 L=  4 T=4 mode 4  rel L2 6.22e-04  max abs 2.57e-03  ok
+check R=16 L=  8 T=1 mode 0  rel L2 8.78e-04  max abs 3.01e-03  ok
+check R=16 L=  8 T=1 mode 4  rel L2 8.80e-04  max abs 3.25e-03  ok
+check R=16 L=  8 T=2 mode 0  rel L2 8.67e-04  max abs 3.30e-03  ok
+check R=16 L=  8 T=2 mode 4  rel L2 8.53e-04  max abs 4.16e-03  ok
+check R=16 L=  8 T=4 mode 0  rel L2 8.47e-04  max abs 3.14e-03  ok
+check R=16 L=  8 T=4 mode 4  rel L2 8.41e-04  max abs 3.45e-03  ok
+ALL OK

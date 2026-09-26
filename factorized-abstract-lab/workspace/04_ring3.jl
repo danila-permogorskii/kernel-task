@@ -43,7 +43,7 @@ function chain(A, B, C, X)
         T2[k, a, p, q, c, t] = s
     end
     Y = zeros(np, nq, nr, nt)
-    for t in 1:nt, r in 2:nr, q in 1:nq, p in 1:np
+    for t in 1:nt, r in 1:nr, q in 1:nq, p in 1:np
         s = 0.0
         for c in 1:R, a in 1:R, k in 1:nk
             s += T2[k, a, p, q, c, t] * C[c, r, k, a]

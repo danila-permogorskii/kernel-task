@@ -1,0 +1,11 @@
+R=16 T=1 L=   8 | stack     153.8 | v2_graph     235.7 | dense_graph      63.3 | dense_eager      93.3 | floor      26.4 | barriers      23.4 / cg      15.9 µs | err 8.3e-04
+R=16 T=1 L=  32 | stack     592.6 | v2_graph     923.8 | dense_graph     248.0 | dense_eager     366.4 | floor     105.6 | barriers      80.3 / cg      51.2 µs | err 1.7e-03
+R=16 T=1 L= 128 | stack    2437.4 | v2_graph    3971.4 | dense_graph     990.3 | dense_eager    1470.8 | floor     422.6 | barriers     311.5 / cg     189.0 µs | err 4.1e-03
+  T=1 stack_us               19.08 µs/layer  (+   -7.4 µs fixed)
+  T=1 v2_graph_us            31.31 µs/layer  (+  -42.9 µs fixed)
+  T=1 dense_graph_us          7.73 µs/layer  (+    1.2 µs fixed)
+  T=1 dense_eager_us         11.49 µs/layer  (+    0.2 µs fixed)
+  T=1 barrier_ours_us         2.40 µs/layer  (+    3.8 µs fixed)
+  T=1 barrier_cg_us           1.44 µs/layer  (+    4.7 µs fixed)
+  T=1 dense_hbm_floor_us      3.30 µs/layer  (+    0.0 µs fixed)
+wrote results/h100/stack/r16.json

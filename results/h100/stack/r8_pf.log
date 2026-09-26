@@ -1,0 +1,9 @@
+R= 8 T=1 L=   8 | stack     114.5 / cg     109.7 / pf     107.1 | v2_graph         - | dense_graph         - | dense_eager         - | floor         - | barriers      28.5 / cg      19.0 µs | err 8.6e-04
+R= 8 T=1 L=  32 | stack     431.5 / cg     415.9 / pf     412.0 | v2_graph         - | dense_graph         - | dense_eager         - | floor         - | barriers      96.4 / cg      61.4 µs | err 1.4e-03
+R= 8 T=1 L= 128 | stack    1807.6 / cg    1741.4 / pf    1628.8 | v2_graph         - | dense_graph         - | dense_eager         - | floor         - | barriers     368.5 / cg     230.9 µs | err 3.0e-03
+  T=1 stack_us               14.17 µs/layer  (+   -9.2 µs fixed)
+  T=1 stack_cg_us            13.66 µs/layer  (+   -9.2 µs fixed)
+  T=1 stack_pf_us            12.68 µs/layer  (+    5.9 µs fixed)
+  T=1 barrier_ours_us         2.83 µs/layer  (+    5.8 µs fixed)
+  T=1 barrier_cg_us           1.77 µs/layer  (+    4.9 µs fixed)
+wrote results/h100/stack/r8_pf.json

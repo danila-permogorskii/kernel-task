@@ -1,0 +1,1 @@
+columns: ['Kernel Name', 'void tr_stack_kernel<(int)8, (int)6>(StackArgs)', '']

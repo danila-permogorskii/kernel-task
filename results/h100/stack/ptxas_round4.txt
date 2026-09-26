@@ -1,0 +1,140 @@
+ptxas info    : Compiling entry function '_ZN3cub16_V_300200_SM_9006detail11EmptyKernelIvEEvv' for 'sm_90'
+ptxas info    : Function properties for _ZN3cub16_V_300200_SM_9006detail11EmptyKernelIvEEvv
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 4 registers, used 0 barriers
+ptxas info    : Compiling entry function 'tr_stack_kernelILi16ELi7EEv9StackArgs' for 'sm_90'
+ptxas info    : Function properties for tr_stack_kernelILi16ELi7EEv9StackArgs
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 10 registers, used 1 barriers
+ptxas info    : Compiling entry function 'tr_stack_kernelILi16ELi6EEv9StackArgs' for 'sm_90'
+ptxas info    : Function properties for tr_stack_kernelILi16ELi6EEv9StackArgs
+    296 bytes stack frame, 56 bytes spill stores, 60 bytes spill loads
+ptxas info    : Used 128 registers, used 1 barriers, 296 bytes cumulative stack size
+ptxas info    : Function properties for run_unitI5ShapeILi12ELi10ELi24ELi8ELi12ELi20ELi16EEEvRK6TilingiiPKfPfPK6__halfSA_SA_PhSB_iPy
+    0 bytes stack frame, 144 bytes spill stores, 152 bytes spill loads
+ptxas info    : Function properties for run_unitI5ShapeILi8ELi12ELi20ELi12ELi10ELi24ELi16EEEvRK6TilingiiPKfPfPK6__halfSA_SA_PhSB_iPy
+    0 bytes stack frame, 220 bytes spill stores, 224 bytes spill loads
+ptxas info    : Compiling entry function 'tr_stack_kernelILi16ELi5EEv9StackArgs' for 'sm_90'
+ptxas info    : Function properties for tr_stack_kernelILi16ELi5EEv9StackArgs
+    400 bytes stack frame, 72 bytes spill stores, 88 bytes spill loads
+ptxas info    : Used 128 registers, used 1 barriers, 400 bytes cumulative stack size
+ptxas info    : Function properties for prefetch_coresI5ShapeILi12ELi10ELi24ELi8ELi12ELi20ELi16EEEvRK6TilingiiPK6__halfS7_S7_Phi
+    0 bytes stack frame, 32 bytes spill stores, 32 bytes spill loads
+ptxas info    : Function properties for prefetch_coresI5ShapeILi8ELi12ELi20ELi12ELi10ELi24ELi16EEEvRK6TilingiiPK6__halfS7_S7_Phi
+    0 bytes stack frame, 32 bytes spill stores, 32 bytes spill loads
+ptxas info    : Function properties for run_prefetchedI5ShapeILi12ELi10ELi24ELi8ELi12ELi20ELi16EEEvRK6TilingiiPKfPfPhS8_iPy
+    0 bytes stack frame, 68 bytes spill stores, 80 bytes spill loads
+ptxas info    : Function properties for run_prefetchedI5ShapeILi8ELi12ELi20ELi12ELi10ELi24ELi16EEEvRK6TilingiiPKfPfPhS8_iPy
+    0 bytes stack frame, 152 bytes spill stores, 160 bytes spill loads
+ptxas info    : Function properties for run_unitI5ShapeILi12ELi10ELi24ELi8ELi12ELi20ELi16EEEvRK6TilingiiPKfPfPK6__halfSA_SA_PhSB_iPy
+    0 bytes stack frame, 144 bytes spill stores, 160 bytes spill loads
+ptxas info    : Function properties for run_unitI5ShapeILi8ELi12ELi20ELi12ELi10ELi24ELi16EEEvRK6TilingiiPKfPfPK6__halfSA_SA_PhSB_iPy
+    0 bytes stack frame, 224 bytes spill stores, 236 bytes spill loads
+ptxas info    : Compiling entry function 'tr_stack_kernelILi16ELi4EEv9StackArgs' for 'sm_90'
+ptxas info    : Function properties for tr_stack_kernelILi16ELi4EEv9StackArgs
+    400 bytes stack frame, 72 bytes spill stores, 84 bytes spill loads
+ptxas info    : Used 128 registers, used 1 barriers, 400 bytes cumulative stack size
+ptxas info    : Function properties for prefetch_coresI5ShapeILi12ELi10ELi24ELi8ELi12ELi20ELi16EEEvRK6TilingiiPK6__halfS7_S7_Phi
+    0 bytes stack frame, 32 bytes spill stores, 32 bytes spill loads
+ptxas info    : Function properties for prefetch_coresI5ShapeILi8ELi12ELi20ELi12ELi10ELi24ELi16EEEvRK6TilingiiPK6__halfS7_S7_Phi
+    0 bytes stack frame, 32 bytes spill stores, 32 bytes spill loads
+ptxas info    : Function properties for run_prefetchedI5ShapeILi12ELi10ELi24ELi8ELi12ELi20ELi16EEEvRK6TilingiiPKfPfPhS8_iPy
+    0 bytes stack frame, 68 bytes spill stores, 80 bytes spill loads
+ptxas info    : Function properties for run_prefetchedI5ShapeILi8ELi12ELi20ELi12ELi10ELi24ELi16EEEvRK6TilingiiPKfPfPhS8_iPy
+    0 bytes stack frame, 152 bytes spill stores, 160 bytes spill loads
+ptxas info    : Function properties for run_unitI5ShapeILi12ELi10ELi24ELi8ELi12ELi20ELi16EEEvRK6TilingiiPKfPfPK6__halfSA_SA_PhSB_iPy
+    0 bytes stack frame, 144 bytes spill stores, 160 bytes spill loads
+ptxas info    : Function properties for run_unitI5ShapeILi8ELi12ELi20ELi12ELi10ELi24ELi16EEEvRK6TilingiiPKfPfPK6__halfSA_SA_PhSB_iPy
+    0 bytes stack frame, 224 bytes spill stores, 236 bytes spill loads
+ptxas info    : Compiling entry function 'tr_stack_kernelILi16ELi3EEv9StackArgs' for 'sm_90'
+ptxas info    : Function properties for tr_stack_kernelILi16ELi3EEv9StackArgs
+    384 bytes stack frame, 140 bytes spill stores, 76 bytes spill loads
+ptxas info    : Used 128 registers, used 1 barriers, 384 bytes cumulative stack size
+ptxas info    : Function properties for run_unitI5ShapeILi12ELi10ELi24ELi8ELi12ELi20ELi16EEEvRK6TilingiiPKfPfPK6__halfSA_SA_PhSB_iPy
+    0 bytes stack frame, 164 bytes spill stores, 216 bytes spill loads
+ptxas info    : Function properties for run_unitI5ShapeILi8ELi12ELi20ELi12ELi10ELi24ELi16EEEvRK6TilingiiPKfPfPK6__halfSA_SA_PhSB_iPy
+    0 bytes stack frame, 220 bytes spill stores, 272 bytes spill loads
+ptxas info    : Compiling entry function 'tr_stack_kernelILi16ELi2EEv9StackArgs' for 'sm_90'
+ptxas info    : Function properties for tr_stack_kernelILi16ELi2EEv9StackArgs
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 12 registers, used 1 barriers
+ptxas info    : Compiling entry function 'tr_stack_kernelILi16ELi1EEv9StackArgs' for 'sm_90'
+ptxas info    : Function properties for tr_stack_kernelILi16ELi1EEv9StackArgs
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 12 registers, used 1 barriers
+ptxas info    : Compiling entry function 'tr_stack_kernelILi16ELi0EEv9StackArgs' for 'sm_90'
+ptxas info    : Function properties for tr_stack_kernelILi16ELi0EEv9StackArgs
+    296 bytes stack frame, 56 bytes spill stores, 60 bytes spill loads
+ptxas info    : Used 128 registers, used 1 barriers, 296 bytes cumulative stack size
+ptxas info    : Function properties for run_unitI5ShapeILi12ELi10ELi24ELi8ELi12ELi20ELi16EEEvRK6TilingiiPKfPfPK6__halfSA_SA_PhSB_iPy
+    0 bytes stack frame, 144 bytes spill stores, 152 bytes spill loads
+ptxas info    : Function properties for run_unitI5ShapeILi8ELi12ELi20ELi12ELi10ELi24ELi16EEEvRK6TilingiiPKfPfPK6__halfSA_SA_PhSB_iPy
+    0 bytes stack frame, 220 bytes spill stores, 224 bytes spill loads
+ptxas info    : Compiling entry function 'tr_stack_kernelILi8ELi7EEv9StackArgs' for 'sm_90'
+ptxas info    : Function properties for tr_stack_kernelILi8ELi7EEv9StackArgs
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 10 registers, used 1 barriers
+ptxas info    : Compiling entry function 'tr_stack_kernelILi8ELi6EEv9StackArgs' for 'sm_90'
+ptxas info    : Function properties for tr_stack_kernelILi8ELi6EEv9StackArgs
+    296 bytes stack frame, 56 bytes spill stores, 60 bytes spill loads
+ptxas info    : Used 128 registers, used 1 barriers, 296 bytes cumulative stack size
+ptxas info    : Function properties for run_unitI5ShapeILi12ELi10ELi24ELi8ELi12ELi20ELi8EEEvRK6TilingiiPKfPfPK6__halfSA_SA_PhSB_iPy
+    0 bytes stack frame, 136 bytes spill stores, 144 bytes spill loads
+ptxas info    : Function properties for run_unitI5ShapeILi8ELi12ELi20ELi12ELi10ELi24ELi8EEEvRK6TilingiiPKfPfPK6__halfSA_SA_PhSB_iPy
+    0 bytes stack frame, 220 bytes spill stores, 224 bytes spill loads
+ptxas info    : Compiling entry function 'tr_stack_kernelILi8ELi5EEv9StackArgs' for 'sm_90'
+ptxas info    : Function properties for tr_stack_kernelILi8ELi5EEv9StackArgs
+    400 bytes stack frame, 72 bytes spill stores, 88 bytes spill loads
+ptxas info    : Used 128 registers, used 1 barriers, 400 bytes cumulative stack size
+ptxas info    : Function properties for prefetch_coresI5ShapeILi12ELi10ELi24ELi8ELi12ELi20ELi8EEEvRK6TilingiiPK6__halfS7_S7_Phi
+    0 bytes stack frame, 32 bytes spill stores, 32 bytes spill loads
+ptxas info    : Function properties for prefetch_coresI5ShapeILi8ELi12ELi20ELi12ELi10ELi24ELi8EEEvRK6TilingiiPK6__halfS7_S7_Phi
+    0 bytes stack frame, 32 bytes spill stores, 32 bytes spill loads
+ptxas info    : Function properties for run_prefetchedI5ShapeILi12ELi10ELi24ELi8ELi12ELi20ELi8EEEvRK6TilingiiPKfPfPhS8_iPy
+    0 bytes stack frame, 64 bytes spill stores, 72 bytes spill loads
+ptxas info    : Function properties for run_prefetchedI5ShapeILi8ELi12ELi20ELi12ELi10ELi24ELi8EEEvRK6TilingiiPKfPfPhS8_iPy
+    0 bytes stack frame, 152 bytes spill stores, 160 bytes spill loads
+ptxas info    : Function properties for run_unitI5ShapeILi12ELi10ELi24ELi8ELi12ELi20ELi8EEEvRK6TilingiiPKfPfPK6__halfSA_SA_PhSB_iPy
+    0 bytes stack frame, 136 bytes spill stores, 152 bytes spill loads
+ptxas info    : Function properties for run_unitI5ShapeILi8ELi12ELi20ELi12ELi10ELi24ELi8EEEvRK6TilingiiPKfPfPK6__halfSA_SA_PhSB_iPy
+    0 bytes stack frame, 224 bytes spill stores, 236 bytes spill loads
+ptxas info    : Compiling entry function 'tr_stack_kernelILi8ELi4EEv9StackArgs' for 'sm_90'
+ptxas info    : Function properties for tr_stack_kernelILi8ELi4EEv9StackArgs
+    400 bytes stack frame, 72 bytes spill stores, 84 bytes spill loads
+ptxas info    : Used 128 registers, used 1 barriers, 400 bytes cumulative stack size
+ptxas info    : Function properties for prefetch_coresI5ShapeILi12ELi10ELi24ELi8ELi12ELi20ELi8EEEvRK6TilingiiPK6__halfS7_S7_Phi
+    0 bytes stack frame, 32 bytes spill stores, 32 bytes spill loads
+ptxas info    : Function properties for prefetch_coresI5ShapeILi8ELi12ELi20ELi12ELi10ELi24ELi8EEEvRK6TilingiiPK6__halfS7_S7_Phi
+    0 bytes stack frame, 32 bytes spill stores, 32 bytes spill loads
+ptxas info    : Function properties for run_prefetchedI5ShapeILi12ELi10ELi24ELi8ELi12ELi20ELi8EEEvRK6TilingiiPKfPfPhS8_iPy
+    0 bytes stack frame, 64 bytes spill stores, 72 bytes spill loads
+ptxas info    : Function properties for run_prefetchedI5ShapeILi8ELi12ELi20ELi12ELi10ELi24ELi8EEEvRK6TilingiiPKfPfPhS8_iPy
+    0 bytes stack frame, 152 bytes spill stores, 160 bytes spill loads
+ptxas info    : Function properties for run_unitI5ShapeILi12ELi10ELi24ELi8ELi12ELi20ELi8EEEvRK6TilingiiPKfPfPK6__halfSA_SA_PhSB_iPy
+    0 bytes stack frame, 136 bytes spill stores, 152 bytes spill loads
+ptxas info    : Function properties for run_unitI5ShapeILi8ELi12ELi20ELi12ELi10ELi24ELi8EEEvRK6TilingiiPKfPfPK6__halfSA_SA_PhSB_iPy
+    0 bytes stack frame, 224 bytes spill stores, 236 bytes spill loads
+ptxas info    : Compiling entry function 'tr_stack_kernelILi8ELi3EEv9StackArgs' for 'sm_90'
+ptxas info    : Function properties for tr_stack_kernelILi8ELi3EEv9StackArgs
+    368 bytes stack frame, 136 bytes spill stores, 76 bytes spill loads
+ptxas info    : Used 128 registers, used 1 barriers, 368 bytes cumulative stack size
+ptxas info    : Function properties for run_unitI5ShapeILi12ELi10ELi24ELi8ELi12ELi20ELi8EEEvRK6TilingiiPKfPfPK6__halfSA_SA_PhSB_iPy
+    0 bytes stack frame, 136 bytes spill stores, 188 bytes spill loads
+ptxas info    : Function properties for run_unitI5ShapeILi8ELi12ELi20ELi12ELi10ELi24ELi8EEEvRK6TilingiiPKfPfPK6__halfSA_SA_PhSB_iPy
+    0 bytes stack frame, 220 bytes spill stores, 268 bytes spill loads
+ptxas info    : Compiling entry function 'tr_stack_kernelILi8ELi2EEv9StackArgs' for 'sm_90'
+ptxas info    : Function properties for tr_stack_kernelILi8ELi2EEv9StackArgs
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 12 registers, used 1 barriers
+ptxas info    : Compiling entry function 'tr_stack_kernelILi8ELi1EEv9StackArgs' for 'sm_90'
+ptxas info    : Function properties for tr_stack_kernelILi8ELi1EEv9StackArgs
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 12 registers, used 1 barriers
+ptxas info    : Compiling entry function 'tr_stack_kernelILi8ELi0EEv9StackArgs' for 'sm_90'
+ptxas info    : Function properties for tr_stack_kernelILi8ELi0EEv9StackArgs
+    296 bytes stack frame, 56 bytes spill stores, 60 bytes spill loads
+ptxas info    : Used 128 registers, used 1 barriers, 296 bytes cumulative stack size
+ptxas info    : Function properties for run_unitI5ShapeILi12ELi10ELi24ELi8ELi12ELi20ELi8EEEvRK6TilingiiPKfPfPK6__halfSA_SA_PhSB_iPy
+    0 bytes stack frame, 136 bytes spill stores, 144 bytes spill loads
+ptxas info    : Function properties for run_unitI5ShapeILi8ELi12ELi20ELi12ELi10ELi24ELi8EEEvRK6TilingiiPKfPfPK6__halfSA_SA_PhSB_iPy
+    0 bytes stack frame, 220 bytes spill stores, 224 bytes spill loads

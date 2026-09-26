@@ -1,0 +1,218 @@
+{
+  "device": "NVIDIA H100 80GB HBM3",
+  "tiling": [
+    2,
+    5,
+    2,
+    6
+  ],
+  "peak_gbs": 3350.0,
+  "rows": [
+    {
+      "rank": 8,
+      "layers": 8,
+      "tokens": 1,
+      "stack_info": {
+        "smem_bytes": 39424,
+        "resident_blocks": 264,
+        "units_up": 160,
+        "units_down": 192
+      },
+      "core_bytes": 1785856,
+      "stack_err": {
+        "max_abs": 0.0030434727668762207,
+        "rel_l2": 0.0008368068956770003
+      },
+      "stack_us": 103.79680395126343,
+      "barrier_ours_us": 28.612801432609558,
+      "barrier_cg_us": 18.934400379657745,
+      "v2_graph_us": 163.21760416030884,
+      "dense_bytes": 88473600,
+      "dense_eager_us": 93.02719831466675,
+      "dense_graph_us": 63.576000928878784,
+      "dense_hbm_floor_us": 26.410029850746266
+    },
+    {
+      "rank": 8,
+      "layers": 32,
+      "tokens": 1,
+      "stack_info": {
+        "smem_bytes": 39424,
+        "resident_blocks": 264,
+        "units_up": 160,
+        "units_down": 192
+      },
+      "core_bytes": 7143424,
+      "stack_err": {
+        "max_abs": 0.006933689117431641,
+        "rel_l2": 0.0018426418537274003
+      },
+      "stack_us": 383.64479541778564,
+      "barrier_ours_us": 97.57599830627441,
+      "barrier_cg_us": 61.590397357940674,
+      "v2_graph_us": 646.0480213165283,
+      "dense_bytes": 353894400,
+      "dense_eager_us": 374.0799903869629,
+      "dense_graph_us": 248.92001152038574,
+      "dense_hbm_floor_us": 105.64011940298506
+    },
+    {
+      "rank": 8,
+      "layers": 128,
+      "tokens": 1,
+      "stack_info": {
+        "smem_bytes": 39424,
+        "resident_blocks": 264,
+        "units_up": 160,
+        "units_down": 192
+      },
+      "core_bytes": 28573696,
+      "stack_err": {
+        "max_abs": 0.016097545623779297,
+        "rel_l2": 0.0030444664880633354
+      },
+      "stack_us": 1575.044822692871,
+      "barrier_ours_us": 372.42400646209717,
+      "barrier_cg_us": 231.30719661712646,
+      "v2_graph_us": 2635.0831985473633,
+      "dense_bytes": 1415577600,
+      "dense_eager_us": 1468.0879592895508,
+      "dense_graph_us": 989.8528099060059,
+      "dense_hbm_floor_us": 422.56047761194026
+    },
+    {
+      "rank": 8,
+      "layers": 8,
+      "tokens": 4,
+      "stack_info": {
+        "smem_bytes": 53504,
+        "resident_blocks": 264,
+        "units_up": 160,
+        "units_down": 192
+      },
+      "core_bytes": 1785856,
+      "stack_err": {
+        "max_abs": 0.0035729408264160156,
+        "rel_l2": 0.0008360422216355801
+      },
+      "stack_us": 165.2448058128357,
+      "barrier_ours_us": 26.96000039577484,
+      "barrier_cg_us": 17.62080043554306,
+      "v2_graph_us": 332.63680934906006,
+      "dense_bytes": 88473600,
+      "dense_eager_us": 93.17439794540405,
+      "dense_graph_us": 62.54400014877319,
+      "dense_hbm_floor_us": 26.410029850746266
+    },
+    {
+      "rank": 8,
+      "layers": 32,
+      "tokens": 4,
+      "stack_info": {
+        "smem_bytes": 53504,
+        "resident_blocks": 264,
+        "units_up": 160,
+        "units_down": 192
+      },
+      "core_bytes": 7143424,
+      "stack_err": {
+        "max_abs": 0.0066034793853759766,
+        "rel_l2": 0.001771237701177597
+      },
+      "stack_us": 640.121603012085,
+      "barrier_ours_us": 91.19679927825928,
+      "barrier_cg_us": 56.6815972328186,
+      "v2_graph_us": 1329.5408248901367,
+      "dense_bytes": 353894400,
+      "dense_eager_us": 371.6223955154419,
+      "dense_graph_us": 248.907208442688,
+      "dense_hbm_floor_us": 105.64011940298506
+    },
+    {
+      "rank": 8,
+      "layers": 128,
+      "tokens": 4,
+      "stack_info": {
+        "smem_bytes": 53504,
+        "resident_blocks": 264,
+        "units_up": 160,
+        "units_down": 192
+      },
+      "core_bytes": 28573696,
+      "stack_err": {
+        "max_abs": 0.01809173822402954,
+        "rel_l2": 0.0035559150855988264
+      },
+      "stack_us": 2624.5407104492188,
+      "barrier_ours_us": 349.0943908691406,
+      "barrier_cg_us": 213.21280002593994,
+      "v2_graph_us": 5452.9327392578125,
+      "dense_bytes": 1415577600,
+      "dense_eager_us": 1482.9279899597168,
+      "dense_graph_us": 986.4192008972168,
+      "dense_hbm_floor_us": 422.56047761194026
+    }
+  ],
+  "fits": {
+    "1": {
+      "stack_us": {
+        "us_per_layer": 12.303262097494942,
+        "intercept_us": -1.4872034390767794
+      },
+      "v2_graph_us": {
+        "us_per_layer": 20.633233232157572,
+        "intercept_us": -7.344786326090571
+      },
+      "dense_graph_us": {
+        "us_per_layer": 7.718709572440102,
+        "intercept_us": 1.8685380617777696
+      },
+      "dense_eager_us": {
+        "us_per_layer": 11.440861579917726,
+        "intercept_us": 4.376800855000738
+      },
+      "barrier_ours_us": {
+        "us_per_layer": 2.8644952923059464,
+        "intercept_us": 5.792532364527375
+      },
+      "barrier_cg_us": {
+        "us_per_layer": 1.7692333087325096,
+        "intercept_us": 4.866932829221085
+      },
+      "dense_hbm_floor_us": {
+        "us_per_layer": 3.301253731343283,
+        "intercept_us": 2.842170943040401e-14
+      }
+    },
+    "4": {
+      "stack_us": {
+        "us_per_layer": 20.544675347350893,
+        "intercept_us": -7.199446360270031
+      },
+      "v2_graph_us": {
+        "us_per_layer": 42.74995170888447,
+        "intercept_us": -22.293837865193836
+      },
+      "dense_graph_us": {
+        "us_per_layer": 7.694233315331595,
+        "intercept_us": 1.7464041709899902
+      },
+      "dense_eager_us": {
+        "us_per_layer": 11.579799935931252,
+        "intercept_us": 0.7727980613708496
+      },
+      "barrier_ours_us": {
+        "us_per_layer": 2.6850189658857526,
+        "intercept_us": 5.3893347581227715
+      },
+      "barrier_cg_us": {
+        "us_per_layer": 1.6301047677795093,
+        "intercept_us": 4.5525322357813565
+      },
+      "dense_hbm_floor_us": {
+        "us_per_layer": 3.301253731343283,
+        "intercept_us": 2.842170943040401e-14
+      }
+    }
+  }
+}
