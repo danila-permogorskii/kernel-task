@@ -13,3 +13,6 @@ traces/laptop/
 
 # third-party papers: copyrighted, not ours to redistribute
 kernel-design/sources/papers/
+
+# pip-CUDA shim built by tools/make_cuda_home.sh (machine-specific symlinks)
+.cuda_home/

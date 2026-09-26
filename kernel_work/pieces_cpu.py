@@ -45,12 +45,42 @@ def check(spec, tokens=3, seed=0, piece=piece_einsum):
           f"R={spec.rank:2d} pieces={spec.rank * spec.input_modes[2]:3d}  max|err|={err:.1e}")
     return err
 
+# ---------- step 10: the same piece as three 2D matrix products --------------
+def piece_gemm(x, A, B, C, a, k):
+    """Same result as piece_einsum, but every stage is  [M x K] @ [K x N]."""
+    T, ni, nj, nk = x.shape
+    R, P, _, _ = A.shape
+    _, Q, _, _ = B.shape
+    _, Rr, _, _ = C.shape
+
+    # stage 1:  X[(t,j), i] @ A1[i, (p,b)]  ->  S1[(t,j), (p,b)]
+    X = x[:, :, :, k].permute(0, 2, 1).reshape(T * nj, ni)
+    A1 = A[a].permute(1, 0, 2).reshape(ni, P * R)
+    S1 = X @ A1
+
+    # "write it where the next stage reads it":  [(t,j),(p,b)] -> [(t,p),(j,b)]
+    S1 = S1.reshape(T, nj, P, R).permute(0, 2, 1, 3).reshape(T * P, nj * R)
+
+    # stage 2:  S1[(t,p), (j,b)] @ B2[(j,b), (q,c)]  ->  S2[(t,p), (q,c)]
+    B2 = B.permute(2, 0, 1, 3).reshape(nj * R, Q * R)
+    S2 = S1 @ B2
+
+    # free reshape: [(t,p),(q,c)] is already [(t,p,q), c] in memory
+    S2 = S2.reshape(T * P * Q, R)
+
+    # stage 3:  S2[(t,p,q), c] @ C3[c, r]  ->  Y[(t,p,q), r]  == y[t, p, q, r]
+    C3 = C[:, :, k, a]
+    Y = S2 @ C3
+    return Y.reshape(T, P, Q, Rr)
+
 
 if __name__ == "__main__":
     specs = [
         TRSpec((2, 3, 4), (5, 6, 7), 3),      # small, every mode different
+        TRSpec(rank=8), # the real workload
+        TRSpec(rank=16),
     ]
-    for piece in (piece_einsum,):
+    for piece in (piece_einsum, piece_gemm):
         for spec in specs:
             assert check(spec, piece=piece) < 1e-10
     print("all pieces agree with the dense oracle")
