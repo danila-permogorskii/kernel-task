@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+build/
+dist/
+*.egg-info/
+benchmark_results*.json
+
+# laptop runs are local scratch; H100 results/traces/profiles ARE committed (submission evidence)
+results/laptop/
+traces/laptop/
+
+# third-party papers: copyrighted, not ours to redistribute
+kernel-design/sources/papers/
