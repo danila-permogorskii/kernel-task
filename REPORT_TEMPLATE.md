@@ -372,4 +372,4 @@ Reading:
     - pursuing V3 and the finish;
     - design B as the default;
     - the optional graph and chain measurements, and V3T for t > 1.
-  - Independently verified by me
+  - Independently verified by me: I followed every H100 session's output live, re-ran the correctnesses checks on my own GPU (RTX 3050 Ti: pytest, check_kernel, check_v3, check_v3t - everything is ok). Confirmed that the harness, reference and tests are unchanged from the starting commit and that preparation packs the cores without forming W. Regenerated results table from the raw JSON. Inspected the t = 1 traces in Perfetto (8 gpu kernels per reference call, one for ours). I did not audit the CUDA code line by line.
