@@ -1,0 +1,106 @@
+ok   V3T R= 8 kc=2 qc=5 tt=4 mg=1 design A  max|err| 2.23e-03  vs WMMA 9.77e-04
+ok   V3T R= 8 kc=2 qc=5 tt=4 mg=1 design B  max|err| 2.23e-03  vs WMMA 9.77e-04
+ok   V3T R= 8 kc=2 qc=5 tt=4 mg=3 design A  max|err| 2.23e-03  vs WMMA 9.77e-04
+ok   V3T R= 8 kc=2 qc=5 tt=4 mg=3 design B  max|err| 2.23e-03  vs WMMA 9.77e-04
+ok   V3T R= 8 kc=4 qc=5 tt=4 mg=3 design A  max|err| 2.23e-03  vs WMMA 2.44e-04
+ok   V3T R= 8 kc=4 qc=5 tt=4 mg=3 design B  max|err| 2.23e-03  vs WMMA 2.44e-04
+ok   V3T R= 8 kc=2 qc=5 tt=8 mg=3 design A  max|err| 2.23e-03  vs WMMA 9.77e-04
+ok   V3T R= 8 kc=2 qc=5 tt=8 mg=3 design B  max|err| 2.23e-03  vs WMMA 9.77e-04
+ok   V3T R= 8 kc=4 qc=5 tt=8 mg=1 design A  max|err| 2.23e-03  vs WMMA 9.77e-04
+ok   V3T R= 8 kc=4 qc=5 tt=8 mg=1 design B  max|err| 2.23e-03  vs WMMA 9.77e-04
+ok   V3T R= 8 kc=4 qc=5 tt=8 mg=2 design A  max|err| 2.23e-03  vs WMMA 9.77e-04
+ok   V3T R= 8 kc=4 qc=5 tt=8 mg=2 design B  max|err| 2.23e-03  vs WMMA 9.77e-04
+ok   V3T R= 8 kc=4 qc=5 tt=8 mg=3 design A  max|err| 2.23e-03  vs WMMA 1.95e-03
+ok   V3T R= 8 kc=4 qc=5 tt=8 mg=3 design B  max|err| 2.23e-03  vs WMMA 9.77e-04
+ok   V3T R= 8 kc=4 qc=10 tt=8 mg=3 design A  max|err| 2.23e-03  vs WMMA 4.88e-04
+ok   V3T R= 8 kc=4 qc=10 tt=8 mg=3 design B  max|err| 2.23e-03  vs WMMA 4.88e-04
+ok   V3T R= 8 kc=5 qc=5 tt=8 mg=3 design A  max|err| 2.23e-03  vs WMMA 3.05e-05
+ok   V3T R= 8 kc=5 qc=5 tt=8 mg=3 design B  max|err| 2.23e-03  vs WMMA 9.77e-04
+ok   V3T R=16 kc=2 qc=10 tt=4 mg=1 design A  max|err| 2.20e-03  vs WMMA 4.88e-04
+ok   V3T R=16 kc=2 qc=10 tt=4 mg=1 design B  max|err| 2.20e-03  vs WMMA 4.88e-04
+ok   V3T R=16 kc=2 qc=10 tt=4 mg=3 design A  max|err| 2.20e-03  vs WMMA 1.95e-03
+ok   V3T R=16 kc=2 qc=10 tt=4 mg=3 design B  max|err| 2.20e-03  vs WMMA 4.88e-04
+ok   V3T R=16 kc=2 qc=5 tt=4 mg=3 design A  max|err| 2.20e-03  vs WMMA 9.77e-04
+ok   V3T R=16 kc=2 qc=5 tt=4 mg=3 design B  max|err| 2.20e-03  vs WMMA 1.95e-03
+ok   V3T R=16 kc=4 qc=10 tt=4 mg=3 design A  max|err| 2.20e-03  vs WMMA 9.77e-04
+ok   V3T R=16 kc=4 qc=10 tt=4 mg=3 design B  max|err| 2.20e-03  vs WMMA 9.77e-04
+ok   V3T R=16 kc=2 qc=10 tt=8 mg=3 design A  max|err| 2.20e-03  vs WMMA 4.88e-04
+ok   V3T R=16 kc=2 qc=10 tt=8 mg=3 design B  max|err| 2.20e-03  vs WMMA 9.77e-04
+ok   V3T R=16 kc=2 qc=10 tt=8 mg=2 design A  max|err| 2.20e-03  vs WMMA 1.95e-03
+ok   V3T R=16 kc=2 qc=10 tt=8 mg=2 design B  max|err| 2.20e-03  vs WMMA 4.88e-04
+30 configurations
+ALL OK
+ALL OK
+21 passed in 7.87s
+R= 8 T= 8 dense            stream    10.94  kernel     4.83 µs
+R= 8 T= 8 wmma             stream    23.73  kernel    22.08 µs
+R= 8 T= 8 v3t 2,5,4,1      stream    18.62  kernel    17.06 µs
+R= 8 T= 8 v3t 2,5,4,3      stream    17.85  kernel    16.24 µs
+R= 8 T= 8 v3t 4,5,4,3      stream    15.73  kernel    13.92 µs
+R= 8 T= 8 v3t 2,5,8,3      stream    19.72  kernel    17.89 µs
+R= 8 T= 8 v3t 4,5,8,1      stream    16.56  kernel    14.83 µs
+R= 8 T= 8 v3t 4,5,8,2      stream    17.05  kernel    15.37 µs
+R= 8 T= 8 v3t 4,5,8,3      stream    18.13  kernel    16.35 µs
+R= 8 T= 8 v3t 4,10,8,3     stream    21.82  kernel    20.09 µs
+R= 8 T= 8 v3t 5,5,8,3      stream    20.02  kernel    18.28 µs
+R= 8 T=32 dense            stream    13.54  kernel     4.96 µs
+R= 8 T=32 wmma             stream    49.70  kernel    47.99 µs
+R= 8 T=32 v3t 2,5,4,1      stream    38.73  kernel    37.11 µs
+R= 8 T=32 v3t 2,5,4,3      stream    42.48  kernel    40.64 µs
+R= 8 T=32 v3t 4,5,4,3      stream    31.86  kernel    29.99 µs
+R= 8 T=32 v3t 2,5,8,3      stream    42.29  kernel    40.54 µs
+R= 8 T=32 v3t 4,5,8,1      stream    37.56  kernel    36.00 µs
+R= 8 T=32 v3t 4,5,8,2      stream    38.42  kernel    36.81 µs
+R= 8 T=32 v3t 4,5,8,3      stream    40.72  kernel    39.10 µs
+R= 8 T=32 v3t 4,10,8,3     stream    37.29  kernel    35.54 µs
+R= 8 T=32 v3t 5,5,8,3      stream    35.96  kernel    34.19 µs
+R=16 T=32 dense            stream    13.00  kernel     5.00 µs
+R=16 T=32 wmma             stream   125.24  kernel   123.31 µs
+R=16 T=32 v3t 2,10,4,1     stream    95.39  kernel    93.60 µs
+R=16 T=32 v3t 2,10,4,3     stream    98.74  kernel    97.30 µs
+R=16 T=32 v3t 2,5,4,3      stream   115.56  kernel   114.40 µs
+R=16 T=32 v3t 4,10,4,3     stream    90.64  kernel    88.72 µs
+R=16 T=32 v3t 2,10,8,3     stream    94.06  kernel    93.66 µs
+R=16 T=32 v3t 2,10,8,2     stream    92.38  kernel    90.99 µs
+R= 8 T= 2 dense            stream    13.04  kernel     4.78 µs
+R= 8 T= 2 wmma             stream    18.41  kernel    16.81 µs
+R= 8 T= 2 v3t 2,5,4,1      stream    10.31  kernel     8.63 µs
+R= 8 T= 2 v3t 2,5,4,3      stream    10.12  kernel     8.41 µs
+R= 8 T= 2 v3t 4,5,4,3      stream    10.47  kernel     8.71 µs
+R= 8 T= 2 v3t 2,5,8,3      stream    12.86  kernel    11.16 µs
+R= 8 T= 2 v3t 4,5,8,1      stream    12.58  kernel    10.81 µs
+R= 8 T= 2 v3t 4,5,8,2      stream    12.38  kernel    10.59 µs
+R= 8 T= 2 v3t 4,5,8,3      stream    13.03  kernel    11.20 µs
+R= 8 T= 2 v3t 4,10,8,3     stream    15.92  kernel    14.23 µs
+R= 8 T= 2 v3t 5,5,8,3      stream    15.32  kernel    13.68 µs
+R= 8 T= 4 dense            stream    13.19  kernel     4.69 µs
+R= 8 T= 4 wmma             stream    25.56  kernel    23.87 µs
+R= 8 T= 4 v3t 2,5,4,1      stream    12.56  kernel    10.85 µs
+R= 8 T= 4 v3t 2,5,4,3      stream    13.05  kernel    11.44 µs
+R= 8 T= 4 v3t 4,5,4,3      stream    11.75  kernel    10.07 µs
+R= 8 T= 4 v3t 2,5,8,3      stream    14.23  kernel    12.51 µs
+R= 8 T= 4 v3t 4,5,8,1      stream    13.38  kernel    11.69 µs
+R= 8 T= 4 v3t 4,5,8,2      stream    13.50  kernel    11.83 µs
+R= 8 T= 4 v3t 4,5,8,3      stream    14.58  kernel    12.86 µs
+R= 8 T= 4 v3t 4,10,8,3     stream    17.64  kernel    15.94 µs
+R= 8 T= 4 v3t 5,5,8,3      stream    16.59  kernel    14.92 µs
+R= 8 T=16 dense            stream    13.19  kernel     4.76 µs
+R= 8 T=16 wmma             stream    43.00  kernel    41.19 µs
+R= 8 T=16 v3t 2,5,4,1      stream    25.26  kernel    23.46 µs
+R= 8 T=16 v3t 2,5,4,3      stream    27.62  kernel    25.81 µs
+R= 8 T=16 v3t 4,5,4,3      stream    19.13  kernel    17.43 µs
+R= 8 T=16 v3t 2,5,8,3      stream    26.10  kernel    24.40 µs
+R= 8 T=16 v3t 4,5,8,1      stream    26.06  kernel    24.56 µs
+R= 8 T=16 v3t 4,5,8,2      stream    26.52  kernel    24.91 µs
+R= 8 T=16 v3t 4,5,8,3      stream    27.90  kernel    26.11 µs
+R= 8 T=16 v3t 4,10,8,3     stream    22.40  kernel    20.61 µs
+R= 8 T=16 v3t 5,5,8,3      stream    20.90  kernel    19.23 µs
+R=16 T= 8 dense            stream    12.98  kernel     4.69 µs
+R=16 T= 8 wmma             stream    51.44  kernel    49.68 µs
+R=16 T= 8 v3t 2,10,4,1     stream    39.27  kernel    37.74 µs
+R=16 T= 8 v3t 2,10,4,3     stream    38.37  kernel    36.85 µs
+R=16 T= 8 v3t 2,5,4,3      stream    41.49  kernel    39.92 µs
+R=16 T= 8 v3t 4,10,4,3     stream    37.12  kernel    35.04 µs
+R=16 T= 8 v3t 2,10,8,3     stream    40.52  kernel    39.02 µs
+R=16 T= 8 v3t 2,10,8,2     stream    39.17  kernel    37.29 µs
+wrote results/h100/v3t/sweep_round2.json

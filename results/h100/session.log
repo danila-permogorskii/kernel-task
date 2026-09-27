@@ -1,77 +1,79 @@
-== session start Sat Sep 26 19:17:31 UTC 2026
+== session start Sun Sep 27 07:05:57 UTC 2026
 == 0. environment
-== 0b. correctness: V3 path (t = 1), both designs and every tail
+== 0b. correctness: V3 path (t = 1), both designs and every tail; V3T path (t > 1)
+ALL OK
+28 configurations
 ALL OK
 == 1. harness, the README's two commands, once per design
-USDT:2026-09-26 19:17:37 3550:3550 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:17:37 3550:3550 SyncActivityProfilerHandler.cpp:46] profiler_stop
-tokens=1 dense: host=0.0178 ms; CUDA stream=0.010142400115728378 ms; steady allocated peak=44623872 bytes
-USDT:2026-09-26 19:17:40 3633:3633 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:17:40 3633:3633 SyncActivityProfilerHandler.cpp:46] profiler_stop
-tokens=1 factorized_reference: host=0.1158 ms; CUDA stream=0.1123263955116272 ms; steady allocated peak=34707456 bytes
-USDT:2026-09-26 19:17:43 3676:3676 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:17:43 3676:3676 SyncActivityProfilerHandler.cpp:46] profiler_stop
-tokens=1 factorized_optimized: host=0.0207 ms; CUDA stream=0.014060799777507783 ms; steady allocated peak=317952 bytes
-tokens=8 dense: host=0.0299 ms; CUDA stream=0.02171040028333664 ms; steady allocated peak=44690432 bytes
-tokens=8 factorized_reference: host=0.1214 ms; CUDA stream=0.1200943946838379 ms; steady allocated peak=42045440 bytes
-tokens=8 factorized_optimized: host=0.0361 ms; CUDA stream=0.025510400533676147 ms; steady allocated peak=464896 bytes
-tokens=32 dense: host=0.0182 ms; CUDA stream=0.010665600001811982 ms; steady allocated peak=44920832 bytes
-tokens=32 factorized_reference: host=0.1202 ms; CUDA stream=0.11897920370101929 ms; steady allocated peak=68777984 bytes
-tokens=32 factorized_optimized: host=0.0618 ms; CUDA stream=0.05104320049285889 ms; steady allocated peak=971776 bytes
+USDT:2026-09-27 07:06:05 4253:4253 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:06:05 4253:4253 SyncActivityProfilerHandler.cpp:46] profiler_stop
+tokens=1 dense: host=0.0185 ms; CUDA stream=0.00989760011434555 ms; steady allocated peak=44623872 bytes
+USDT:2026-09-27 07:06:07 4297:4297 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:06:07 4297:4297 SyncActivityProfilerHandler.cpp:46] profiler_stop
+tokens=1 factorized_reference: host=0.1573 ms; CUDA stream=0.15169600248336793 ms; steady allocated peak=34707456 bytes
+USDT:2026-09-27 07:06:10 4341:4341 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:06:10 4341:4341 SyncActivityProfilerHandler.cpp:46] profiler_stop
+tokens=1 factorized_optimized: host=0.0198 ms; CUDA stream=0.011745599657297134 ms; steady allocated peak=317952 bytes
+tokens=8 dense: host=0.0183 ms; CUDA stream=0.009761600196361542 ms; steady allocated peak=44690432 bytes
+tokens=8 factorized_reference: host=0.1638 ms; CUDA stream=0.1586143970489502 ms; steady allocated peak=42045440 bytes
+tokens=8 factorized_optimized: host=0.0247 ms; CUDA stream=0.014267200231552124 ms; steady allocated peak=464896 bytes
+tokens=32 dense: host=0.0186 ms; CUDA stream=0.009916800260543823 ms; steady allocated peak=44920832 bytes
+tokens=32 factorized_reference: host=0.1676 ms; CUDA stream=0.16048959493637086 ms; steady allocated peak=68777984 bytes
+tokens=32 factorized_optimized: host=0.0392 ms; CUDA stream=0.0283376008272171 ms; steady allocated peak=971776 bytes
 Wrote results/h100/A/rank8.json
-USDT:2026-09-26 19:18:02 3993:3993 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:18:02 3993:3993 SyncActivityProfilerHandler.cpp:46] profiler_stop
-tokens=1 dense: host=0.0180 ms; CUDA stream=0.010318399965763092 ms; steady allocated peak=44623872 bytes
-USDT:2026-09-26 19:18:05 4035:4035 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:18:05 4035:4035 SyncActivityProfilerHandler.cpp:46] profiler_stop
-tokens=1 factorized_reference: host=0.1189 ms; CUDA stream=0.11564799547195434 ms; steady allocated peak=38154240 bytes
-USDT:2026-09-26 19:18:08 4077:4077 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:18:08 4077:4077 SyncActivityProfilerHandler.cpp:46] profiler_stop
-tokens=1 factorized_optimized: host=0.0238 ms; CUDA stream=0.01404000073671341 ms; steady allocated peak=816640 bytes
-tokens=32 dense: host=0.0183 ms; CUDA stream=0.010209599882364273 ms; steady allocated peak=44920832 bytes
-tokens=32 factorized_reference: host=0.2401 ms; CUDA stream=0.2129296064376831 ms; steady allocated peak=170409984 bytes
-tokens=32 factorized_optimized: host=0.1370 ms; CUDA stream=0.1260319948196411 ms; steady allocated peak=1470464 bytes
+USDT:2026-09-27 07:06:29 4674:4674 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:06:29 4674:4674 SyncActivityProfilerHandler.cpp:46] profiler_stop
+tokens=1 dense: host=0.0185 ms; CUDA stream=0.009771200269460678 ms; steady allocated peak=44623872 bytes
+USDT:2026-09-27 07:06:31 4718:4718 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:06:31 4718:4718 SyncActivityProfilerHandler.cpp:46] profiler_stop
+tokens=1 factorized_reference: host=0.1653 ms; CUDA stream=0.15853439569473265 ms; steady allocated peak=38154240 bytes
+USDT:2026-09-27 07:06:34 4762:4762 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:06:34 4762:4762 SyncActivityProfilerHandler.cpp:46] profiler_stop
+tokens=1 factorized_optimized: host=0.0232 ms; CUDA stream=0.013334399461746216 ms; steady allocated peak=816640 bytes
+tokens=32 dense: host=0.0185 ms; CUDA stream=0.00992320030927658 ms; steady allocated peak=44920832 bytes
+tokens=32 factorized_reference: host=0.2630 ms; CUDA stream=0.21384799480438232 ms; steady allocated peak=170409984 bytes
+tokens=32 factorized_optimized: host=0.0922 ms; CUDA stream=0.08106080293655396 ms; steady allocated peak=1470464 bytes
 Wrote results/h100/A/rank16.json
-USDT:2026-09-26 19:18:19 4274:4274 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:18:19 4274:4274 SyncActivityProfilerHandler.cpp:46] profiler_stop
-tokens=1 dense: host=0.0179 ms; CUDA stream=0.010279999673366546 ms; steady allocated peak=44623872 bytes
-USDT:2026-09-26 19:18:22 4316:4316 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:18:22 4316:4316 SyncActivityProfilerHandler.cpp:46] profiler_stop
-tokens=1 factorized_reference: host=0.1161 ms; CUDA stream=0.11382720470428467 ms; steady allocated peak=34707456 bytes
-USDT:2026-09-26 19:18:25 4360:4360 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:18:25 4360:4360 SyncActivityProfilerHandler.cpp:46] profiler_stop
-tokens=1 factorized_optimized: host=0.0162 ms; CUDA stream=0.007912000268697738 ms; steady allocated peak=318464 bytes
-tokens=8 dense: host=0.0178 ms; CUDA stream=0.01035040020942688 ms; steady allocated peak=44690432 bytes
-tokens=8 factorized_reference: host=0.1199 ms; CUDA stream=0.11582720279693604 ms; steady allocated peak=42045440 bytes
-tokens=8 factorized_optimized: host=0.0315 ms; CUDA stream=0.023321600258350374 ms; steady allocated peak=465408 bytes
-tokens=32 dense: host=0.0182 ms; CUDA stream=0.010627199709415436 ms; steady allocated peak=44920832 bytes
-tokens=32 factorized_reference: host=0.1217 ms; CUDA stream=0.11962399482727051 ms; steady allocated peak=68777984 bytes
-tokens=32 factorized_optimized: host=0.0577 ms; CUDA stream=0.049595201015472413 ms; steady allocated peak=972288 bytes
+USDT:2026-09-27 07:06:46 4970:4970 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:06:46 4970:4970 SyncActivityProfilerHandler.cpp:46] profiler_stop
+tokens=1 dense: host=0.0187 ms; CUDA stream=0.0098191998898983 ms; steady allocated peak=44623872 bytes
+USDT:2026-09-27 07:06:48 5014:5014 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:06:48 5014:5014 SyncActivityProfilerHandler.cpp:46] profiler_stop
+tokens=1 factorized_reference: host=0.1612 ms; CUDA stream=0.15450719594955445 ms; steady allocated peak=34707456 bytes
+USDT:2026-09-27 07:06:51 5058:5058 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:06:51 5058:5058 SyncActivityProfilerHandler.cpp:46] profiler_stop
+tokens=1 factorized_optimized: host=0.0168 ms; CUDA stream=0.008182399719953538 ms; steady allocated peak=318464 bytes
+tokens=8 dense: host=0.0185 ms; CUDA stream=0.009921599924564362 ms; steady allocated peak=44690432 bytes
+tokens=8 factorized_reference: host=0.1638 ms; CUDA stream=0.15435839891433717 ms; steady allocated peak=42045440 bytes
+tokens=8 factorized_optimized: host=0.0214 ms; CUDA stream=0.012345600128173827 ms; steady allocated peak=465408 bytes
+tokens=32 dense: host=0.0190 ms; CUDA stream=0.009915199875831605 ms; steady allocated peak=44920832 bytes
+tokens=32 factorized_reference: host=0.1606 ms; CUDA stream=0.15273760557174682 ms; steady allocated peak=68777984 bytes
+tokens=32 factorized_optimized: host=0.0376 ms; CUDA stream=0.02794399857521057 ms; steady allocated peak=972288 bytes
 Wrote results/h100/B/rank8.json
-USDT:2026-09-26 19:18:43 4682:4682 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:18:43 4682:4682 SyncActivityProfilerHandler.cpp:46] profiler_stop
-tokens=1 dense: host=0.0179 ms; CUDA stream=0.010420800000429154 ms; steady allocated peak=44623872 bytes
-USDT:2026-09-26 19:18:46 4724:4724 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:18:46 4724:4724 SyncActivityProfilerHandler.cpp:46] profiler_stop
-tokens=1 factorized_reference: host=0.1169 ms; CUDA stream=0.11533600091934204 ms; steady allocated peak=38154240 bytes
-USDT:2026-09-26 19:18:49 4766:4766 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:18:49 4766:4766 SyncActivityProfilerHandler.cpp:46] profiler_stop
-tokens=1 factorized_optimized: host=0.0186 ms; CUDA stream=0.010478399693965912 ms; steady allocated peak=817152 bytes
-tokens=32 dense: host=0.0180 ms; CUDA stream=0.010262399911880493 ms; steady allocated peak=44920832 bytes
-tokens=32 factorized_reference: host=0.2413 ms; CUDA stream=0.2117072105407715 ms; steady allocated peak=170409984 bytes
-tokens=32 factorized_optimized: host=0.1346 ms; CUDA stream=0.12619359493255616 ms; steady allocated peak=1470976 bytes
+USDT:2026-09-27 07:07:09 5391:5391 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:09 5391:5391 SyncActivityProfilerHandler.cpp:46] profiler_stop
+tokens=1 dense: host=0.0186 ms; CUDA stream=0.009864000231027603 ms; steady allocated peak=44623872 bytes
+USDT:2026-09-27 07:07:12 5435:5435 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:12 5435:5435 SyncActivityProfilerHandler.cpp:46] profiler_stop
+tokens=1 factorized_reference: host=0.1656 ms; CUDA stream=0.16015679836273194 ms; steady allocated peak=38154240 bytes
+USDT:2026-09-27 07:07:15 5480:5480 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:15 5480:5480 SyncActivityProfilerHandler.cpp:46] profiler_stop
+tokens=1 factorized_optimized: host=0.0192 ms; CUDA stream=0.010652799904346467 ms; steady allocated peak=817152 bytes
+tokens=32 dense: host=0.0186 ms; CUDA stream=0.009889599680900574 ms; steady allocated peak=44920832 bytes
+tokens=32 factorized_reference: host=0.2629 ms; CUDA stream=0.2133791923522949 ms; steady allocated peak=170409984 bytes
+tokens=32 factorized_optimized: host=0.0921 ms; CUDA stream=0.08241119980812073 ms; steady allocated peak=1470976 bytes
 Wrote results/h100/B/rank16.json
 == 2. floors, kernel-only time, % of ceilings (+ torch.compile bonus)
-USDT:2026-09-26 19:18:59 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:18:59 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:18:59 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:18:59 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:18:59 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:18:59 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:18:59 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:18:59 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:18:59 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:18:59 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:25 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:25 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:26 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:26 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:26 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:26 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:26 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:26 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:26 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:26 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
 In file included from /root/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/include/python3.12/Python.h:12,
                  from /root/kernel-task/.venv/lib/python3.12/site-packages/triton/backends/nvidia/driver.c:9:
 /root/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/include/python3.12/pyconfig.h:1877:9: warning: ‘_POSIX_C_SOURCE’ redefined
@@ -84,93 +86,188 @@ In file included from /usr/include/x86_64-linux-gnu/bits/libc-header-start.h:33,
 /usr/include/features.h:319:10: note: this is the location of the previous definition
   319 | # define _POSIX_C_SOURCE        202405L
       |          ^~~~~~~~~~~~~~~
-USDT:2026-09-26 19:19:04 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:19:04 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:19:04 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:19:04 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:19:04 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:19:04 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:19:04 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:19:04 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:19:04 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:19:04 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:19:05 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:19:05 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:19:05 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:19:05 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:19:05 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:19:05 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:19:05 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:19:05 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:19:05 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:19:05 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:19:05 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:19:05 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:19:05 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:19:05 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:19:05 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:19:05 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:19:06 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:19:06 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:19:06 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:19:06 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:19:09 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:19:09 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:19:09 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:19:09 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:19:09 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:19:09 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:19:09 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:19:09 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:19:09 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:19:09 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-USDT:2026-09-26 19:19:12 4931:4931 SyncActivityProfilerHandler.cpp:39] profiler_start
-USDT:2026-09-26 19:19:12 4931:4931 SyncActivityProfilerHandler.cpp:46] profiler_stop
-floors: {"host_empty_extension_call_us": 0.11, "host_empty_launch_call_us": 2.6, "stream_empty_kernel_us": 2.9, "kernel_empty_us": 0.87}
-R= 8 T= 1 ref stream   150.88 µs/call   kernels    20.39 µs (4 kinds)   fused    20.39 µs    0.2% TC   0.14% HBM
-R= 8 T= 1 dense stream    13.30 µs/call   kernels     4.98 µs (1 kinds)   fused     4.98 µs    0.2% TC   0.59% HBM
-R= 8 T= 1 A   stream    20.05 µs/call   kernels     6.71 µs (3 kinds)   fused     4.52 µs    0.9% TC   0.65% HBM
-R= 8 T= 1 B   stream     9.23 µs/call   kernels     6.66 µs (1 kinds)   fused     6.66 µs    0.6% TC   0.44% HBM
-R= 8 T= 1 compile stream   105.67 µs/call   kernels    15.48 µs (8 kinds)   fused    15.48 µs    0.3% TC   0.19% HBM
-R= 8 T= 8 ref stream   159.32 µs/call   kernels    30.73 µs (4 kinds)   fused    30.73 µs    1.0% TC   0.16% HBM
-R= 8 T= 8 dense stream    13.21 µs/call   kernels     4.76 µs (1 kinds)   fused     4.76 µs    1.9% TC   1.04% HBM
-R= 8 T= 8 A   stream    26.09 µs/call   kernels    22.04 µs (3 kinds)   fused    19.74 µs    1.6% TC   0.25% HBM
-R= 8 T= 8 B   stream    23.34 µs/call   kernels    21.78 µs (1 kinds)   fused    21.78 µs    1.5% TC   0.23% HBM
-R= 8 T= 8 compile stream   116.49 µs/call   kernels    21.80 µs (9 kinds)   fused    21.80 µs    1.5% TC   0.23% HBM
-R= 8 T=32 ref stream   172.83 µs/call   kernels    59.44 µs (4 kinds)   fused    59.44 µs    2.2% TC   0.20% HBM
-R= 8 T=32 dense stream    14.51 µs/call   kernels     4.97 µs (1 kinds)   fused     4.97 µs    7.2% TC   2.38% HBM
-R= 8 T=32 A   stream    50.60 µs/call   kernels    46.55 µs (3 kinds)   fused    44.14 µs    2.9% TC   0.27% HBM
-R= 8 T=32 B   stream    49.64 µs/call   kernels    47.89 µs (1 kinds)   fused    47.89 µs    2.7% TC   0.25% HBM
-R= 8 T=32 compile stream   116.98 µs/call   kernels    37.31 µs (9 kinds)   fused    37.31 µs    3.5% TC   0.32% HBM
-R=16 T= 1 ref stream   154.17 µs/call   kernels    26.20 µs (5 kinds)   fused    26.20 µs    1.1% TC   0.42% HBM
-R=16 T= 1 dense stream    13.32 µs/call   kernels     4.94 µs (1 kinds)   fused     4.94 µs    0.2% TC   2.21% HBM
-R=16 T= 1 A   stream    19.57 µs/call   kernels     9.93 µs (3 kinds)   fused     7.79 µs    3.6% TC   1.40% HBM
-R=16 T= 1 B   stream    11.05 µs/call   kernels     9.49 µs (1 kinds)   fused     9.49 µs    3.0% TC   1.15% HBM
-R=16 T= 1 compile stream   127.04 µs/call   kernels    26.93 µs (10 kinds)   fused    26.93 µs    1.0% TC   0.41% HBM
-R=16 T=32 ref stream   211.22 µs/call   kernels   197.54 µs (5 kinds)   fused   197.54 µs    4.5% TC   0.10% HBM
-R=16 T=32 dense stream    13.36 µs/call   kernels     4.93 µs (1 kinds)   fused     4.93 µs    7.3% TC   4.02% HBM
-R=16 T=32 A   stream   126.72 µs/call   kernels   122.63 µs (3 kinds)   fused   120.21 µs    7.5% TC   0.16% HBM
-R=16 T=32 B   stream   125.82 µs/call   kernels   124.01 µs (1 kinds)   fused   124.01 µs    7.2% TC   0.16% HBM
-R=16 T=32 compile stream   240.20 µs/call   kernels   223.31 µs (11 kinds)   fused   223.31 µs    4.0% TC   0.09% HBM
+USDT:2026-09-27 07:07:30 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:30 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:30 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:30 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:30 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:30 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:30 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:30 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:30 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:30 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:31 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:31 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:31 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:31 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:31 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:31 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:31 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:31 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:31 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:31 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:31 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:31 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:32 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:32 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:32 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:32 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:32 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:32 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:32 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:32 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:35 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:35 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:35 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:35 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:35 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:35 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:35 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:35 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:35 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:35 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+USDT:2026-09-27 07:07:38 5654:5654 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-27 07:07:38 5654:5654 SyncActivityProfilerHandler.cpp:46] profiler_stop
+floors: {"host_empty_extension_call_us": 0.1, "host_empty_launch_call_us": 2.06, "stream_empty_kernel_us": 2.31, "kernel_empty_us": 0.87}
+R= 8 T= 1 ref stream   221.20 µs/call   kernels    20.42 µs (4 kinds)   fused    20.42 µs    0.2% TC   0.14% HBM
+R= 8 T= 1 dense stream    13.03 µs/call   kernels     5.00 µs (1 kinds)   fused     5.00 µs    0.2% TC   0.59% HBM
+R= 8 T= 1 A   stream    17.13 µs/call   kernels     6.71 µs (3 kinds)   fused     4.52 µs    0.9% TC   0.65% HBM
+R= 8 T= 1 B   stream     8.54 µs/call   kernels     6.69 µs (1 kinds)   fused     6.69 µs    0.6% TC   0.44% HBM
+R= 8 T= 1 compile stream   111.56 µs/call   kernels    15.50 µs (8 kinds)   fused    15.50 µs    0.3% TC   0.19% HBM
+R= 8 T= 8 ref stream   225.13 µs/call   kernels    30.80 µs (4 kinds)   fused    30.80 µs    1.0% TC   0.16% HBM
+R= 8 T= 8 dense stream    12.86 µs/call   kernels     4.78 µs (1 kinds)   fused     4.78 µs    1.9% TC   1.04% HBM
+R= 8 T= 8 A   stream    17.72 µs/call   kernels    10.71 µs (3 kinds)   fused     8.45 µs    3.8% TC   0.59% HBM
+R= 8 T= 8 B   stream    12.62 µs/call   kernels    11.01 µs (1 kinds)   fused    11.01 µs    2.9% TC   0.45% HBM
+R= 8 T= 8 compile stream   125.94 µs/call   kernels    21.80 µs (9 kinds)   fused    21.80 µs    1.5% TC   0.23% HBM
+R= 8 T=32 ref stream   227.44 µs/call   kernels    59.80 µs (4 kinds)   fused    59.80 µs    2.2% TC   0.20% HBM
+R= 8 T=32 dense stream    12.80 µs/call   kernels     4.98 µs (1 kinds)   fused     4.98 µs    7.2% TC   2.37% HBM
+R= 8 T=32 A   stream    29.20 µs/call   kernels    25.22 µs (3 kinds)   fused    22.97 µs    5.6% TC   0.52% HBM
+R= 8 T=32 B   stream    28.35 µs/call   kernels    26.73 µs (1 kinds)   fused    26.73 µs    4.8% TC   0.44% HBM
+R= 8 T=32 compile stream   126.86 µs/call   kernels    37.44 µs (9 kinds)   fused    37.44 µs    3.4% TC   0.32% HBM
+R=16 T= 1 ref stream   222.89 µs/call   kernels    26.20 µs (5 kinds)   fused    26.20 µs    1.1% TC   0.42% HBM
+R=16 T= 1 dense stream    13.25 µs/call   kernels     4.99 µs (1 kinds)   fused     4.99 µs    0.2% TC   2.19% HBM
+R=16 T= 1 A   stream    17.57 µs/call   kernels     9.93 µs (3 kinds)   fused     7.78 µs    3.6% TC   1.40% HBM
+R=16 T= 1 B   stream    10.96 µs/call   kernels     9.43 µs (1 kinds)   fused     9.43 µs    3.0% TC   1.16% HBM
+R=16 T= 1 compile stream   136.09 µs/call   kernels    25.94 µs (10 kinds)   fused    25.94 µs    1.1% TC   0.42% HBM
+R=16 T=32 ref stream   241.81 µs/call   kernels   196.54 µs (5 kinds)   fused   196.54 µs    4.6% TC   0.10% HBM
+R=16 T=32 dense stream    13.36 µs/call   kernels     5.19 µs (1 kinds)   fused     5.19 µs    6.9% TC   3.82% HBM
+R=16 T=32 A   stream    81.62 µs/call   kernels    77.56 µs (3 kinds)   fused    75.29 µs   11.9% TC   0.26% HBM
+R=16 T=32 B   stream    82.60 µs/call   kernels    81.06 µs (1 kinds)   fused    81.06 µs   11.1% TC   0.24% HBM
+R=16 T=32 compile stream   240.87 µs/call   kernels   221.86 µs (11 kinds)   fused   221.86 µs    4.0% TC   0.09% HBM
 wrote results/h100/kernels.json
-== 4. Nsight Compute, design B (default): R=16 T=32 (WMMA kernel), R=8 T=1 (V3 kernel)
-==PROF== Connected to process 5201 (/root/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/bin/python3.12)
+== 4. Nsight Compute, design B (default): R=16 T=32 and R=8 T=8 (V3T kernel), R=8 T=1 (V3 kernel)
+==PROF== Connected to process 5925 (/root/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/bin/python3.12)
 ==WARNING== Unable to access the following 6 metrics: ctc__rx_bytes_data_user.sum, ctc__rx_bytes_data_user.sum.pct_of_peak_sustained_elapsed, ctc__rx_bytes_data_user.sum.per_second, ctc__tx_bytes_data_user.sum, ctc__tx_bytes_data_user.sum.pct_of_peak_sustained_elapsed, ctc__tx_bytes_data_user.sum.per_second.
 
 
-==PROF== Profiling "tr_ring_fused_kernel": 0%....50%....100% - 39 passes
+==PROF== Profiling "tr_ring_fused_v3t_kernel": 0%....50%....100% - 39 passes
 tiling (kc, tt): (20, 4, 10)
-==PROF== Disconnected from process 5201
+==PROF== Disconnected from process 5925
 ==PROF== Report: /root/kernel-task/profiles/h100/fused_R16_T32.ncu-rep
-==PROF== Connected to process 5310 (/root/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/bin/python3.12)
+==PROF== Connected to process 6036 (/root/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/bin/python3.12)
+==WARNING== Unable to access the following 6 metrics: ctc__rx_bytes_data_user.sum, ctc__rx_bytes_data_user.sum.pct_of_peak_sustained_elapsed, ctc__rx_bytes_data_user.sum.per_second, ctc__tx_bytes_data_user.sum, ctc__tx_bytes_data_user.sum.pct_of_peak_sustained_elapsed, ctc__tx_bytes_data_user.sum.per_second.
+
+
+==PROF== Profiling "tr_ring_fused_v3t_kernel": 0%....50%....100% - 39 passes
+tiling (kc, tt): (5, 1, 10)
+==PROF== Disconnected from process 6036
+==PROF== Report: /root/kernel-task/profiles/h100/fused_R8_T8.ncu-rep
+==PROF== Connected to process 6169 (/root/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/bin/python3.12)
 ==WARNING== Unable to access the following 6 metrics: ctc__rx_bytes_data_user.sum, ctc__rx_bytes_data_user.sum.pct_of_peak_sustained_elapsed, ctc__rx_bytes_data_user.sum.per_second, ctc__tx_bytes_data_user.sum, ctc__tx_bytes_data_user.sum.pct_of_peak_sustained_elapsed, ctc__tx_bytes_data_user.sum.per_second.
 
 
 ==PROF== Profiling "tr_ring_fused_v3_kernel": 0%....50%....100% - 39 passes
 tiling (kc, tt): (2, 1, 4)
-==PROF== Disconnected from process 5310
+==PROF== Disconnected from process 6169
 ==PROF== Report: /root/kernel-task/profiles/h100/fused_R8_T1.ncu-rep
-== session end Sat Sep 26 19:19:30 UTC 2026
+== 5. optional: CUDA graphs and a chain of distinct layers, final code (tools/graph_bench.py)
+single R= 8 T= 1 dense  eager     9.75  graph     5.23 µs/call   graph out max|err| 1.67e-03 ok
+single R= 8 T= 1 ref    eager   151.60  graph    21.19 µs/call   graph out max|err| 1.65e-03 ok
+single R= 8 T= 1 B      eager     7.94  graph     6.83 µs/call   graph out max|err| 1.65e-03 ok
+single R= 8 T= 1 A      eager    11.72  graph     7.18 µs/call   graph out max|err| 1.65e-03 ok
+single R= 8 T= 8 dense  eager     9.71  graph     5.08 µs/call   graph out max|err| 2.05e-03 ok
+single R= 8 T= 8 ref    eager   159.33  graph    31.56 µs/call   graph out max|err| 1.71e-03 ok
+single R= 8 T= 8 B      eager    12.39  graph    11.20 µs/call   graph out max|err| 1.71e-03 ok
+single R= 8 T= 8 A      eager    14.06  graph    11.29 µs/call   graph out max|err| 1.71e-03 ok
+single R= 8 T=32 dense  eager     9.61  graph     5.39 µs/call   graph out max|err| 2.06e-03 ok
+single R= 8 T=32 ref    eager   161.03  graph    60.69 µs/call   graph out max|err| 1.77e-03 ok
+single R= 8 T=32 B      eager    28.12  graph    26.88 µs/call   graph out max|err| 1.77e-03 ok
+single R= 8 T=32 A      eager    28.57  graph    25.67 µs/call   graph out max|err| 1.77e-03 ok
+single R=16 T= 1 dense  eager     9.99  graph     5.41 µs/call   graph out max|err| 1.36e-03 ok
+single R=16 T= 1 ref    eager   156.85  graph    26.93 µs/call   graph out max|err| 1.56e-03 ok
+single R=16 T= 1 B      eager    10.95  graph     9.78 µs/call   graph out max|err| 1.56e-03 ok
+single R=16 T= 1 A      eager    13.82  graph    10.79 µs/call   graph out max|err| 1.56e-03 ok
+single R=16 T=32 dense  eager     9.77  graph     5.63 µs/call   graph out max|err| 1.86e-03 ok
+single R=16 T=32 ref    eager   213.06  graph   201.35 µs/call   graph out max|err| 1.86e-03 ok
+single R=16 T=32 B      eager    82.74  graph    81.44 µs/call   graph out max|err| 1.86e-03 ok
+single R=16 T=32 A      eager    81.37  graph    77.36 µs/call   graph out max|err| 1.86e-03 ok
+wrote results/h100/graphs_final/single.json
+chain R= 8 T= 1 L=   1 dense  eager    20.86  graph     8.86 µs/layer   max|err| 1.71e-03 ok
+chain R= 8 T= 1 L=   8 dense  eager    11.28  graph     7.16 µs/layer   max|err| 1.71e-03 ok
+chain R= 8 T= 1 L=  32 dense  eager     9.55  graph     6.82 µs/layer   max|err| 1.71e-03 ok
+chain R= 8 T= 1 L= 128 dense  eager     9.39  graph     6.71 µs/layer   max|err| 1.71e-03 ok
+chain R= 8 T= 8 L=   1 dense  eager    19.78  graph     8.67 µs/layer   max|err| 1.63e-03 ok
+chain R= 8 T= 8 L=   8 dense  eager    10.48  graph     7.20 µs/layer   max|err| 1.63e-03 ok
+chain R= 8 T= 8 L=  32 dense  eager     9.91  graph     6.91 µs/layer   max|err| 1.81e-03 ok
+chain R= 8 T= 8 L= 128 dense  eager     9.58  graph     6.83 µs/layer   max|err| 1.71e-03 ok
+chain R= 8 T= 1 L=   1 B      eager    14.40  graph    10.34 µs/layer   max|err| 1.58e-03 ok
+chain R= 8 T= 1 L=   8 B      eager     9.00  graph     7.30 µs/layer   max|err| 1.58e-03 ok
+chain R= 8 T= 1 L=  32 B      eager     8.05  graph     6.94 µs/layer   max|err| 1.58e-03 ok
+chain R= 8 T= 1 L= 128 B      eager     8.13  graph     6.99 µs/layer   max|err| 1.58e-03 ok
+chain R= 8 T= 8 L=   1 B      eager    19.97  graph    14.27 µs/layer   max|err| 1.73e-03 ok
+chain R= 8 T= 8 L=   8 B      eager    12.88  graph    11.59 µs/layer   max|err| 2.02e-03 ok
+chain R= 8 T= 8 L=  32 B      eager    12.41  graph    11.29 µs/layer   max|err| 1.86e-03 ok
+chain R= 8 T= 8 L= 128 B      eager    12.80  graph    11.55 µs/layer   max|err| 1.73e-03 ok
+chain R= 8 T= 1 L=   1 A      eager    20.13  graph    10.98 µs/layer   max|err| 1.32e-03 ok
+chain R= 8 T= 1 L=   8 A      eager    12.82  graph     7.70 µs/layer   max|err| 1.32e-03 ok
+chain R= 8 T= 1 L=  32 A      eager    11.77  graph     7.25 µs/layer   max|err| 1.49e-03 ok
+chain R= 8 T= 1 L= 128 A      eager    11.59  graph     7.35 µs/layer   max|err| 1.66e-03 ok
+chain R= 8 T= 8 L=   1 A      eager    24.58  graph    15.10 µs/layer   max|err| 1.62e-03 ok
+chain R= 8 T= 8 L=   8 A      eager    15.17  graph    11.63 µs/layer   max|err| 1.76e-03 ok
+chain R= 8 T= 8 L=  32 A      eager    14.46  graph    11.38 µs/layer   max|err| 1.91e-03 ok
+chain R= 8 T= 8 L= 128 A      eager    14.46  graph    11.80 µs/layer   max|err| 1.72e-03 ok
+chain R= 8 T= 1 L=   1 ref    eager   197.09  graph    25.12 µs/layer   max|err| 1.45e-03 ok
+chain R= 8 T= 1 L=   8 ref    eager   158.96  graph    21.49 µs/layer   max|err| 1.52e-03 ok
+chain R= 8 T= 1 L=  32 ref    eager   155.57  graph    21.07 µs/layer   max|err| 1.57e-03 ok
+chain R= 8 T= 1 L= 128 ref    eager   153.28  graph    21.20 µs/layer   max|err| 1.52e-03 ok
+chain R= 8 T= 8 L=   1 ref    eager   195.62  graph    35.42 µs/layer   max|err| 1.62e-03 ok
+chain R= 8 T= 8 L=   8 ref    eager   162.96  graph    31.87 µs/layer   max|err| 1.69e-03 ok
+chain R= 8 T= 8 L=  32 ref    eager   158.07  graph    31.54 µs/layer   max|err| 2.05e-03 ok
+chain R= 8 T= 8 L= 128 ref    eager   157.19  graph    33.14 µs/layer   max|err| 2.01e-03 ok
+chain R=16 T= 1 L=   1 dense  eager    21.12  graph     8.83 µs/layer   max|err| 1.49e-03 ok
+chain R=16 T= 1 L=   8 dense  eager    10.40  graph     7.12 µs/layer   max|err| 1.57e-03 ok
+chain R=16 T= 1 L=  32 dense  eager     9.55  graph     6.79 µs/layer   max|err| 1.65e-03 ok
+chain R=16 T= 1 L= 128 dense  eager     9.30  graph     6.69 µs/layer   max|err| 1.49e-03 ok
+chain R=16 T= 8 L=   1 dense  eager    20.38  graph     8.29 µs/layer   max|err| 1.64e-03 ok
+chain R=16 T= 8 L=   8 dense  eager    10.48  graph     7.20 µs/layer   max|err| 1.83e-03 ok
+chain R=16 T= 8 L=  32 dense  eager     9.41  graph     6.91 µs/layer   max|err| 1.65e-03 ok
+chain R=16 T= 8 L= 128 dense  eager     9.32  graph     6.83 µs/layer   max|err| 1.80e-03 ok
+chain R=16 T= 1 L=   1 B      eager    17.02  graph    12.61 µs/layer   max|err| 1.46e-03 ok
+chain R=16 T= 1 L=   8 B      eager    11.24  graph     9.72 µs/layer   max|err| 1.46e-03 ok
+chain R=16 T= 1 L=  32 B      eager    10.69  graph     9.37 µs/layer   max|err| 1.46e-03 ok
+chain R=16 T= 1 L= 128 B      eager    10.84  graph     9.85 µs/layer   max|err| 1.64e-03 ok
+chain R=16 T= 8 L=   1 B      eager    30.75  graph    26.30 µs/layer   max|err| 1.81e-03 ok
+chain R=16 T= 8 L=   8 B      eager    24.94  graph    23.41 µs/layer   max|err| 1.81e-03 ok
+chain R=16 T= 8 L=  32 B      eager    24.35  graph    23.03 µs/layer   max|err| 1.81e-03 ok
+chain R=16 T= 8 L= 128 B      eager    24.57  graph    23.43 µs/layer   max|err| 1.88e-03 ok
+chain R=16 T= 1 L=   1 A      eager    21.18  graph    14.08 µs/layer   max|err| 1.49e-03 ok
+chain R=16 T= 1 L=   8 A      eager    14.72  graph    10.84 µs/layer   max|err| 1.55e-03 ok
+chain R=16 T= 1 L=  32 A      eager    13.67  graph    10.40 µs/layer   max|err| 1.49e-03 ok
+chain R=16 T= 1 L= 128 A      eager    13.79  graph    11.11 µs/layer   max|err| 1.73e-03 ok
+chain R=16 T= 8 L=   1 A      eager    33.76  graph    26.75 µs/layer   max|err| 2.02e-03 ok
+chain R=16 T= 8 L=   8 A      eager    26.59  graph    22.78 µs/layer   max|err| 2.02e-03 ok
+chain R=16 T= 8 L=  32 A      eager    26.01  graph    22.40 µs/layer   max|err| 2.02e-03 ok
+chain R=16 T= 8 L= 128 A      eager    25.95  graph    23.11 µs/layer   max|err| 2.02e-03 ok
+chain R=16 T= 1 L=   1 ref    eager   197.57  graph    30.11 µs/layer   max|err| 2.18e-03 ok
+chain R=16 T= 1 L=   8 ref    eager   159.78  graph    26.99 µs/layer   max|err| 2.18e-03 ok
+chain R=16 T= 1 L=  32 ref    eager   156.79  graph    26.79 µs/layer   max|err| 2.18e-03 ok
+chain R=16 T= 1 L= 128 ref    eager   155.97  graph    31.80 µs/layer   max|err| 2.18e-03 ok
+chain R=16 T= 8 L=   1 ref    eager   196.32  graph    69.76 µs/layer   max|err| 1.69e-03 ok
+chain R=16 T= 8 L=   8 ref    eager   167.57  graph    67.06 µs/layer   max|err| 1.70e-03 ok
+chain R=16 T= 8 L=  32 ref    eager   162.16  graph    66.82 µs/layer   max|err| 1.69e-03 ok
+chain R=16 T= 8 L= 128 ref    eager   161.42  graph    66.61 µs/layer   max|err| 1.72e-03 ok
+wrote results/h100/graphs_final/chain.json
+== session end Sun Sep 27 07:08:08 UTC 2026
 
 Evidence is in results/h100 traces/h100 profiles/h100.
 From the laptop:  bash tools/remote.sh pull   then commit and push there.

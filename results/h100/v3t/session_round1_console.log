@@ -1,0 +1,55 @@
+# V3T round 1 (MG = 1 only), first instance of 2026-09-27 (217.177.40.33, same as results/h100/graphs).
+# The instance was deleted before `remote.sh pull`, so the raw sweep JSON is lost. This is the
+# console output of `tools/v3t_sweep.py` as printed over SSH, copied verbatim from the terminal.
+# Tiling label: v3t kc,qc,tt (mg = 1). Design B. µs per call.
+# Correctness before the sweep on that instance: check_v3t 20 configurations ALL OK,
+# check_v3 ALL OK, check_kernel --quick ALL OK, pytest 21 passed.
+R= 8 T= 8 dense          stream    10.63  kernel     4.79 µs
+R= 8 T= 8 wmma           stream    23.62  kernel    21.94 µs
+R= 8 T= 8 v3t 1,5,4      stream    25.20  kernel    23.73 µs
+R= 8 T= 8 v3t 2,5,4      stream    16.87  kernel    15.03 µs
+R= 8 T= 8 v3t 1,5,8      stream    26.73  kernel    25.08 µs
+R= 8 T= 8 v3t 2,5,8      stream    18.68  kernel    17.05 µs
+R= 8 T= 8 v3t 4,5,8      stream    16.44  kernel    14.77 µs
+R= 8 T=32 dense          stream    13.57  kernel     4.96 µs
+R= 8 T=32 wmma           stream    49.74  kernel    48.05 µs
+R= 8 T=32 v3t 1,5,4      stream    63.70  kernel    61.91 µs
+R= 8 T=32 v3t 2,5,4      stream    38.65  kernel    36.96 µs
+R= 8 T=32 v3t 1,5,8      stream    57.54  kernel    55.87 µs
+R= 8 T=32 v3t 2,5,8      stream    37.55  kernel    36.24 µs
+R= 8 T=32 v3t 4,5,8      stream    37.46  kernel    35.92 µs
+R=16 T=32 dense          stream    13.23  kernel     5.01 µs
+R=16 T=32 wmma           stream   126.48  kernel   124.61 µs
+R=16 T=32 v3t 1,5,8      stream   135.38  kernel   133.03 µs
+R=16 T=32 v3t 2,5,8      stream   134.55  kernel   133.47 µs
+R=16 T=32 v3t 2,5,4      stream   112.73  kernel   111.11 µs
+R=16 T=32 v3t 4,5,4      stream   119.88  kernel   118.57 µs
+R=16 T=32 v3t 2,10,4     stream    95.95  kernel    94.34 µs
+R= 8 T= 2 dense          stream    13.53  kernel     4.80 µs
+R= 8 T= 2 wmma           stream    18.77  kernel    17.10 µs
+R= 8 T= 2 v3t 1,5,4      stream    11.70  kernel    10.03 µs
+R= 8 T= 2 v3t 2,5,4      stream    10.41  kernel     8.78 µs
+R= 8 T= 2 v3t 1,5,8      stream    13.34  kernel    11.72 µs
+R= 8 T= 2 v3t 2,5,8      stream    13.28  kernel    11.62 µs
+R= 8 T= 2 v3t 4,5,8      stream    12.74  kernel    11.03 µs
+R= 8 T= 4 dense          stream    13.57  kernel     4.79 µs
+R= 8 T= 4 wmma           stream    25.48  kernel    23.94 µs
+R= 8 T= 4 v3t 1,5,4      stream    15.69  kernel    14.08 µs
+R= 8 T= 4 v3t 2,5,4      stream    12.43  kernel    10.80 µs
+R= 8 T= 4 v3t 1,5,8      stream    16.84  kernel    15.10 µs
+R= 8 T= 4 v3t 2,5,8      stream    14.42  kernel    12.76 µs
+R= 8 T= 4 v3t 4,5,8      stream    13.57  kernel    11.84 µs
+R= 8 T=16 dense          stream    13.40  kernel     4.72 µs
+R= 8 T=16 wmma           stream    41.91  kernel    40.29 µs
+R= 8 T=16 v3t 1,5,4      stream    36.64  kernel    35.01 µs
+R= 8 T=16 v3t 2,5,4      stream    25.76  kernel    24.10 µs
+R= 8 T=16 v3t 1,5,8      stream    35.09  kernel    33.16 µs
+R= 8 T=16 v3t 2,5,8      stream    24.07  kernel    22.40 µs
+R= 8 T=16 v3t 4,5,8      stream    25.41  kernel    23.83 µs
+R=16 T= 8 dense          stream    13.60  kernel     4.63 µs
+R=16 T= 8 wmma           stream    50.56  kernel    49.57 µs
+R=16 T= 8 v3t 1,5,8      stream    43.24  kernel    41.08 µs
+R=16 T= 8 v3t 2,5,8      stream    44.35  kernel    42.82 µs
+R=16 T= 8 v3t 2,5,4      stream    40.52  kernel    38.67 µs
+R=16 T= 8 v3t 4,5,4      stream    39.06  kernel    37.49 µs
+R=16 T= 8 v3t 2,10,4     stream    37.53  kernel    36.09 µs

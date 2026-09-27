@@ -1,0 +1,39 @@
+== profiles/h100/fused_R8_T8.ncu-rep
+Rule Description | Estimated Speedup Type | Estimated Speedup
+% | 22.67 | 
+us | 13.41 | 
+% | 19.03 | 
+% | 19.03 | 
+Gbyte/s | 26.62 | 
+cycle | 6.94 | 
+inst | 2591388 | 
+ | 128 | 
+register/thread | 60 | 
+Kbyte/block | 82.43 | 
+% | 12.49 | 
+== profiles/h100/fused_R16_T32.ncu-rep
+Rule Description | Estimated Speedup Type | Estimated Speedup
+% | 48.25 | 
+us | 84.64 | 
+% | 35.63 | 
+% | 30.74 | 
+Gbyte/s | 11.30 | 
+cycle | 5.93 | 
+inst | 25441680 | 
+ | 512 | 
+register/thread | 95 | 
+Kbyte/block | 177.66 | 
+% | 12.49 | 
+== profiles/h100/fused_R8_T1.ncu-rep
+Rule Description | Estimated Speedup Type | Estimated Speedup
+% | 20.87 | 
+us | 8.67 | 
+% | 10.37 | 
+% | 10.37 | 
+Gbyte/s | 28.07 | 
+cycle | 19.32 | 
+inst | 923191 | 
+ | 240 | 
+register/thread | 40 | 
+Kbyte/block | 25.34 | 
+% | 22.78 | 

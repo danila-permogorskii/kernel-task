@@ -1,0 +1,287 @@
+{
+  "device": "NVIDIA H100 80GB HBM3",
+  "torch": "2.14.0+cu130",
+  "part": "single",
+  "rows": [
+    {
+      "rank": 8,
+      "tokens": 1,
+      "method": "dense",
+      "calls_per_graph": 20,
+      "eager_us_per_call": 9.911999851465225,
+      "graph_us_per_call": 5.22719994187355,
+      "graph_output_error": {
+        "max_abs": 0.0014506995229215391,
+        "rel_l2": 0.00036966206590957585,
+        "within_tol": true
+      },
+      "graph_output_ok": true
+    },
+    {
+      "rank": 8,
+      "tokens": 1,
+      "method": "ref",
+      "calls_per_graph": 20,
+      "eager_us_per_call": 140.0912046432495,
+      "graph_us_per_call": 21.2336003780365,
+      "graph_output_error": {
+        "max_abs": 0.0013257144221014983,
+        "rel_l2": 0.00036872012261398776,
+        "within_tol": true
+      },
+      "graph_output_ok": true
+    },
+    {
+      "rank": 8,
+      "tokens": 1,
+      "method": "B",
+      "calls_per_graph": 20,
+      "eager_us_per_call": 8.251199871301651,
+      "graph_us_per_call": 6.964799761772156,
+      "graph_output_error": {
+        "max_abs": 0.0013257144221014983,
+        "rel_l2": 0.0003691481629976165,
+        "within_tol": true
+      },
+      "graph_output_ok": true
+    },
+    {
+      "rank": 8,
+      "tokens": 1,
+      "method": "A",
+      "calls_per_graph": 20,
+      "eager_us_per_call": 11.723200231790543,
+      "graph_us_per_call": 7.286400347948074,
+      "graph_output_error": {
+        "max_abs": 0.0013257144221014983,
+        "rel_l2": 0.0003688069187179723,
+        "within_tol": true
+      },
+      "graph_output_ok": true
+    },
+    {
+      "rank": 8,
+      "tokens": 8,
+      "method": "dense",
+      "calls_per_graph": 20,
+      "eager_us_per_call": 9.831999987363815,
+      "graph_us_per_call": 5.089600011706352,
+      "graph_output_error": {
+        "max_abs": 0.001684520943061596,
+        "rel_l2": 0.00035504672217998376,
+        "within_tol": true
+      },
+      "graph_output_ok": true
+    },
+    {
+      "rank": 8,
+      "tokens": 8,
+      "method": "ref",
+      "calls_per_graph": 20,
+      "eager_us_per_call": 146.0319995880127,
+      "graph_us_per_call": 31.60800039768219,
+      "graph_output_error": {
+        "max_abs": 0.0018230354558776973,
+        "rel_l2": 0.0003597892587771724,
+        "within_tol": true
+      },
+      "graph_output_ok": true
+    },
+    {
+      "rank": 8,
+      "tokens": 8,
+      "method": "B",
+      "calls_per_graph": 20,
+      "eager_us_per_call": 23.609599471092224,
+      "graph_us_per_call": 22.033600509166718,
+      "graph_output_error": {
+        "max_abs": 0.0018230354558776973,
+        "rel_l2": 0.0003597376452222609,
+        "within_tol": true
+      },
+      "graph_output_ok": true
+    },
+    {
+      "rank": 8,
+      "tokens": 8,
+      "method": "A",
+      "calls_per_graph": 20,
+      "eager_us_per_call": 26.24480128288269,
+      "graph_us_per_call": 22.470399737358093,
+      "graph_output_error": {
+        "max_abs": 0.0018230354558776973,
+        "rel_l2": 0.0003597037202721445,
+        "within_tol": true
+      },
+      "graph_output_ok": true
+    },
+    {
+      "rank": 8,
+      "tokens": 32,
+      "method": "dense",
+      "calls_per_graph": 20,
+      "eager_us_per_call": 9.52640026807785,
+      "graph_us_per_call": 5.390400066971779,
+      "graph_output_error": {
+        "max_abs": 0.0017825664946951036,
+        "rel_l2": 0.0003586719672540376,
+        "within_tol": true
+      },
+      "graph_output_ok": true
+    },
+    {
+      "rank": 8,
+      "tokens": 32,
+      "method": "ref",
+      "calls_per_graph": 20,
+      "eager_us_per_call": 147.96960353851318,
+      "graph_us_per_call": 60.80160140991211,
+      "graph_output_error": {
+        "max_abs": 0.0019327671273755564,
+        "rel_l2": 0.0003584420468807474,
+        "within_tol": true
+      },
+      "graph_output_ok": true
+    },
+    {
+      "rank": 8,
+      "tokens": 32,
+      "method": "B",
+      "calls_per_graph": 20,
+      "eager_us_per_call": 49.36800003051758,
+      "graph_us_per_call": 47.886401414871216,
+      "graph_output_error": {
+        "max_abs": 0.0019327671273755564,
+        "rel_l2": 0.00035849445662340613,
+        "within_tol": true
+      },
+      "graph_output_ok": true
+    },
+    {
+      "rank": 8,
+      "tokens": 32,
+      "method": "A",
+      "calls_per_graph": 20,
+      "eager_us_per_call": 50.726401805877686,
+      "graph_us_per_call": 46.99679911136627,
+      "graph_output_error": {
+        "max_abs": 0.0019327671273755564,
+        "rel_l2": 0.0003584834631960213,
+        "within_tol": true
+      },
+      "graph_output_ok": true
+    },
+    {
+      "rank": 16,
+      "tokens": 1,
+      "method": "dense",
+      "calls_per_graph": 20,
+      "eager_us_per_call": 9.703999757766724,
+      "graph_us_per_call": 5.404800176620483,
+      "graph_output_error": {
+        "max_abs": 0.0017932589327211979,
+        "rel_l2": 0.00035989740226986675,
+        "within_tol": true
+      },
+      "graph_output_ok": true
+    },
+    {
+      "rank": 16,
+      "tokens": 1,
+      "method": "ref",
+      "calls_per_graph": 20,
+      "eager_us_per_call": 146.4687943458557,
+      "graph_us_per_call": 26.61759853363037,
+      "graph_output_error": {
+        "max_abs": 0.0014398325273035084,
+        "rel_l2": 0.00035674895001469966,
+        "within_tol": true
+      },
+      "graph_output_ok": true
+    },
+    {
+      "rank": 16,
+      "tokens": 1,
+      "method": "B",
+      "calls_per_graph": 20,
+      "eager_us_per_call": 11.007999628782272,
+      "graph_us_per_call": 9.804800152778625,
+      "graph_output_error": {
+        "max_abs": 0.0014398325273035084,
+        "rel_l2": 0.00035506735068738737,
+        "within_tol": true
+      },
+      "graph_output_ok": true
+    },
+    {
+      "rank": 16,
+      "tokens": 1,
+      "method": "A",
+      "calls_per_graph": 20,
+      "eager_us_per_call": 14.052799344062805,
+      "graph_us_per_call": 10.726399719715118,
+      "graph_output_error": {
+        "max_abs": 0.0014398325273035084,
+        "rel_l2": 0.00035506384549296473,
+        "within_tol": true
+      },
+      "graph_output_ok": true
+    },
+    {
+      "rank": 16,
+      "tokens": 32,
+      "method": "dense",
+      "calls_per_graph": 20,
+      "eager_us_per_call": 9.670399874448776,
+      "graph_us_per_call": 5.655999854207039,
+      "graph_output_error": {
+        "max_abs": 0.0018852258775416963,
+        "rel_l2": 0.0003579253913519155,
+        "within_tol": true
+      },
+      "graph_output_ok": true
+    },
+    {
+      "rank": 16,
+      "tokens": 32,
+      "method": "ref",
+      "calls_per_graph": 20,
+      "eager_us_per_call": 213.75999450683594,
+      "graph_us_per_call": 199.75680112838745,
+      "graph_output_error": {
+        "max_abs": 0.0017730059449276858,
+        "rel_l2": 0.00035957278012505966,
+        "within_tol": true
+      },
+      "graph_output_ok": true
+    },
+    {
+      "rank": 16,
+      "tokens": 32,
+      "method": "B",
+      "calls_per_graph": 20,
+      "eager_us_per_call": 124.98559951782227,
+      "graph_us_per_call": 121.9599962234497,
+      "graph_output_error": {
+        "max_abs": 0.0019219935533341115,
+        "rel_l2": 0.00035960670470339774,
+        "within_tol": true
+      },
+      "graph_output_ok": true
+    },
+    {
+      "rank": 16,
+      "tokens": 32,
+      "method": "A",
+      "calls_per_graph": 20,
+      "eager_us_per_call": 124.51039552688599,
+      "graph_us_per_call": 120.74240446090698,
+      "graph_output_error": {
+        "max_abs": 0.0019219935533341115,
+        "rel_l2": 0.0003596201936744759,
+        "within_tol": true
+      },
+      "graph_output_ok": true
+    }
+  ]
+}

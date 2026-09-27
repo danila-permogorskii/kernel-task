@@ -750,6 +750,313 @@ static bool dispatch_v3(int R, int kc, int qc, int tail, cudaStream_t s, const _
 #undef TR_V3_CASE
   return false;
 }
+
+// =============================================================================================
+// V3T (t > 1, the two real workloads): V3 with the tokens stacked into the mma M dimension.
+// One block = (link a, k chunk KC, q chunk QC, token tile TT). Rows of S1, S2 and Y are
+// m = t * P + p: TT * P rows (TT = 4, 8 -> 48, 96 rows = 3, 6 m16 tiles, no padding rows;
+// V3 at t = 1 wastes 4 of its 16). Stages 2 -> 3 as in V3, but the unit of warp work is an
+// item (q, MG m tiles): the block's QC * MT / MG items are spread over the 8 warps, and each
+// item keeps its MG Y tiles (16 rows x 24 r each) in registers over the block's k loop. MG > 1
+// gives each warp MG independent mma chains (one dependent mma ~24 cycles, 4 chains ~6.5 per
+// mma: kernel-design/WEIGHT_STATIONARY.md, Hopper floors), and the B and C fragments are loaded
+// once for all MG tiles.
+// =============================================================================================
+template <int R, int KC, int QC, int TT, int MG>
+struct CfgT {
+  static constexpr int Rc = round16(R), Rrp = round16(Rr), Rrs = Rrp + 8;
+  static constexpr int K2p = round16(nj * R), K2s = K2p + 8, N2c = Q * Rc;
+  static constexpr int Nb = QC * Rc, N2s = Nb + 8, PR = P * R;
+  static constexpr int M = round16(TT * P), MT = M / 16;
+  static constexpr int nkc = (nk + KC - 1) / KC, nqc = (Q + QC - 1) / QC;
+  static constexpr int kt_n = K2p / 16, NC8 = R / 8, RT = (Rr + 7) / 8;
+  static constexpr size_t b_off = 0;
+  static constexpr size_t a_off = a128(b_off + sizeof(__half) * K2p * N2s);
+  static constexpr size_t c_off = a128(a_off + sizeof(__half) * ni * PR);
+  static constexpr size_t x_off = a128(c_off + sizeof(__half) * KC * Rc * Rrs);
+  static constexpr size_t s1_off = a128(x_off + sizeof(float) * KC * TT * ni * nj);
+  static constexpr size_t smem = a128(s1_off + sizeof(__half) * KC * M * K2s);
+  static_assert(R == 8 || R == 16, "V3T: R = 8 or 16");
+  static_assert((TT * P) % 16 == 0, "V3T: TT * P must fill whole m16 tiles");
+  static_assert(MT % MG == 0, "V3T: MG must divide the m tiles");
+  static constexpr int NG = MT / MG;  // m-tile groups per q
+};
+
+template <bool kLastBlockFinishes, int R, int KC, int QC, int TT, int MG>
+__global__ void __launch_bounds__(kThreads)
+tr_ring_fused_v3t_kernel(const __half* __restrict__ x,    // [T, ni*nj*nk]
+                         const __half* __restrict__ A1,   // [R(a)][ni][P*R (p,b)]
+                         const __half* __restrict__ B2,   // [K2p (j,b)][N2c (q,c)]
+                         const __half* __restrict__ C3,   // [nk][R(a)][Rc (c)][Rrp (r)]
+                         float* __restrict__ ws,          // [T, P*Q*Rr] FP32 accumulator
+                         __half* __restrict__ y,          // [T, P*Q*Rr]   (design B only)
+                         unsigned int* __restrict__ tile_done,  // [ntt * nqc] (design B only)
+                         int T) {
+  using C = CfgT<R, KC, QC, TT, MG>;
+  constexpr int Rc = C::Rc, Rrs = C::Rrs, K2s = C::K2s, N2s = C::N2s, PR = C::PR;
+  constexpr int kt_n = C::kt_n, RT = C::RT, out_f = P * Q * Rr, in_f = ni * nj * nk;
+  extern __shared__ __align__(128) unsigned char smem[];
+  __half* sB = reinterpret_cast<__half*>(smem + C::b_off);
+  __half* sA = reinterpret_cast<__half*>(smem + C::a_off);
+  __half* sC = reinterpret_cast<__half*>(smem + C::c_off);
+  float* sX = reinterpret_cast<float*>(smem + C::x_off);
+  __half* sS1 = reinterpret_cast<__half*>(smem + C::s1_off);
+  const int tid = threadIdx.x, warp = tid / 32, lane = tid % 32, g = lane >> 2, t4 = lane & 3;
+  int u = blockIdx.x;
+  const int kci = u % C::nkc;
+  u /= C::nkc;
+  const int qci = u % C::nqc;
+  u /= C::nqc;
+  const int a = u % R, tti = u / R;
+  const int k0 = kci * KC, q0 = qci * QC, t0 = tti * TT;
+  const int qc_valid = min(QC, Q - q0), kc_valid = min(KC, nk - k0), tt_valid = min(TT, T - t0);
+
+  {  // ---- cores slice: cp.async into shared memory, zero-fill for padding (as V3)
+    constexpr int brow = C::Nb / 8, bstride = N2s / 8, grow = C::N2c / 8;
+    const int valid8 = qc_valid * Rc / 8, col0 = q0 * Rc / 8;
+    const int4* gB = reinterpret_cast<const int4*>(B2);
+    for (int e = tid; e < C::K2p * brow; e += kThreads) {
+      const int row = e / brow, col = e % brow;
+      const bool ok = col < valid8;
+      cp_async16(reinterpret_cast<int4*>(sB) + row * bstride + col,
+                 gB + row * grow + col0 + (ok ? col : 0), ok ? 16 : 0);
+    }
+    constexpr int crow = C::Rrp / 8, cstride = Rrs / 8, cvec = Rc * crow;
+    const int4* gC = reinterpret_cast<const int4*>(C3);
+    for (int e = tid; e < KC * cvec; e += kThreads) {
+      const int kk = e / cvec, c = (e % cvec) / crow, col = e % crow;
+      const bool ok = kk < kc_valid;
+      cp_async16(reinterpret_cast<int4*>(sC) + (kk * Rc + c) * cstride + col,
+                 gC + ((size_t)(k0 + (ok ? kk : 0)) * R + a) * cvec + e % cvec, ok ? 16 : 0);
+    }
+    const int4* gA = reinterpret_cast<const int4*>(A1 + (size_t)a * ni * PR);
+    for (int e = tid; e < ni * PR / 8; e += kThreads)
+      cp_async16(reinterpret_cast<int4*>(sA) + e, gA + e, 16);
+    asm volatile("cp.async.commit_group;" ::: "memory");
+  }
+  // ---- x slice: sX[kk][t][i][j] = x[t0 + t, i, j, k0 + kk] (FP32), zero for missing k / t.
+  // kk fastest in e: neighbouring threads read neighbouring k of x.
+  for (int e = tid; e < KC * TT * ni * nj; e += kThreads) {
+    const int kk = e % KC, ij = (e / KC) % (ni * nj), tl = e / (KC * ni * nj);
+    sX[(kk * TT + tl) * ni * nj + ij] =
+        kk < kc_valid && tl < tt_valid
+            ? __half2float(x[(size_t)(t0 + tl) * in_f + ij * nk + k0 + kk]) : 0.f;
+  }
+  asm volatile("cp.async.wait_all;" ::: "memory");
+  __syncthreads();
+
+  // ---- stage 1, every k and token at once: S1[kk][t*P + p][j*R + b] = sum_i x * A
+  {
+    constexpr int J4 = nj / 4, B4 = R / 4, tasks = TT * P * J4 * B4;
+    for (int e = tid; e < kc_valid * tasks; e += kThreads) {
+      const int kk = e / tasks, f = e % tasks;
+      const int b4 = f % B4, j4 = (f / B4) % J4, p = (f / (B4 * J4)) % P, tl = f / (B4 * J4 * P);
+      const float* xk = sX + (kk * TT + tl) * ni * nj;
+      float acc[4][4] = {};
+#pragma unroll
+      for (int i = 0; i < ni; ++i) {
+        const float4 xv = *reinterpret_cast<const float4*>(xk + i * nj + j4 * 4);
+        const uint2 au = *reinterpret_cast<const uint2*>(sA + i * PR + p * R + b4 * 4);
+        const float2 lo = __half22float2(*reinterpret_cast<const __half2*>(&au.x));
+        const float2 hi = __half22float2(*reinterpret_cast<const __half2*>(&au.y));
+        const float xs[4] = {xv.x, xv.y, xv.z, xv.w}, as[4] = {lo.x, lo.y, hi.x, hi.y};
+#pragma unroll
+        for (int uu = 0; uu < 4; ++uu)
+#pragma unroll
+          for (int v = 0; v < 4; ++v) acc[uu][v] += xs[uu] * as[v];
+      }
+      __half* s1 = sS1 + (size_t)kk * C::M * K2s + (tl * P + p) * K2s;
+#pragma unroll
+      for (int uu = 0; uu < 4; ++uu) {
+        __half2* dst = reinterpret_cast<__half2*>(s1 + (j4 * 4 + uu) * R + b4 * 4);
+        dst[0] = __floats2half2_rn(acc[uu][0], acc[uu][1]);
+        dst[1] = __floats2half2_rn(acc[uu][2], acc[uu][3]);
+      }
+    }
+  }
+  __syncthreads();
+
+  // ---- stages 2 -> 3 in registers, one item (q, MG m tiles) at a time per warp
+  for (int it = warp; it < qc_valid * C::NG; it += kWarps) {
+    const int ql = it / C::NG, mt0 = (it % C::NG) * MG;
+    float yv[MG][RT][4];
+#pragma unroll
+    for (int mg = 0; mg < MG; ++mg)
+#pragma unroll
+      for (int rt = 0; rt < RT; ++rt)
+        yv[mg][rt][0] = yv[mg][rt][1] = yv[mg][rt][2] = yv[mg][rt][3] = 0.f;
+    const int colq = ql * Rc;
+    constexpr bool kHoistB = (R == 8);  // R = 8: the item's B fragments stay in registers
+    unsigned bh[kHoistB ? kt_n : 1][2];
+    if constexpr (kHoistB) {
+#pragma unroll
+      for (int kt = 0; kt < kt_n; ++kt) {
+        const int kb = kt * 16 + 2 * t4, n = colq + g;
+        bh[kt][0] = pack_h2(sB[kb * N2s + n], sB[(kb + 1) * N2s + n]);
+        bh[kt][1] = pack_h2(sB[(kb + 8) * N2s + n], sB[(kb + 9) * N2s + n]);
+      }
+    }
+    for (int kk = 0; kk < kc_valid; ++kk) {
+      const __half* s1 = sS1 + (size_t)kk * C::M * K2s + mt0 * 16 * K2s;
+      float acc[MG][C::NC8][4];
+#pragma unroll
+      for (int mg = 0; mg < MG; ++mg)
+#pragma unroll
+        for (int nc = 0; nc < C::NC8; ++nc)
+          acc[mg][nc][0] = acc[mg][nc][1] = acc[mg][nc][2] = acc[mg][nc][3] = 0.f;
+#pragma unroll
+      for (int kt = 0; kt < kt_n; ++kt) {  // stage 2: MG independent chains over K = (j,b)
+        const int kb = kt * 16 + 2 * t4;
+        unsigned b0[C::NC8], b1[C::NC8];
+#pragma unroll
+        for (int nc = 0; nc < C::NC8; ++nc) {
+          if constexpr (kHoistB) {
+            b0[nc] = bh[kt][0];
+            b1[nc] = bh[kt][1];
+          } else {
+            const int n = colq + nc * 8 + g;
+            b0[nc] = pack_h2(sB[kb * N2s + n], sB[(kb + 1) * N2s + n]);
+            b1[nc] = pack_h2(sB[(kb + 8) * N2s + n], sB[(kb + 9) * N2s + n]);
+          }
+        }
+#pragma unroll
+        for (int mg = 0; mg < MG; ++mg) {
+          const __half* s1m = s1 + mg * 16 * K2s;
+          const unsigned a0 = lds_u32(s1m + g * K2s + kb), a1 = lds_u32(s1m + (g + 8) * K2s + kb);
+          const unsigned a2 = lds_u32(s1m + g * K2s + kb + 8);
+          const unsigned a3 = lds_u32(s1m + (g + 8) * K2s + kb + 8);
+#pragma unroll
+          for (int nc = 0; nc < C::NC8; ++nc) mma16816(acc[mg][nc], a0, a1, a2, a3, b0[nc], b1[nc]);
+        }
+      }
+      const __half* ck = sC + kk * Rc * Rrs;  // stage 3: Y += acc (as FP16 A) @ C[c, r]
+      unsigned sa[MG][4];
+#pragma unroll
+      for (int mg = 0; mg < MG; ++mg) {
+        sa[mg][0] = pack_f2(acc[mg][0][0], acc[mg][0][1]);
+        sa[mg][1] = pack_f2(acc[mg][0][2], acc[mg][0][3]);
+        if constexpr (R == 16) {
+          sa[mg][2] = pack_f2(acc[mg][1][0], acc[mg][1][1]);
+          sa[mg][3] = pack_f2(acc[mg][1][2], acc[mg][1][3]);
+        }
+      }
+#pragma unroll
+      for (int rt = 0; rt < RT; ++rt) {  // one C fragment per rt, shared by the MG tiles
+        const int r = rt * 8 + g;
+        const unsigned c0 = pack_h2(ck[(2 * t4) * Rrs + r], ck[(2 * t4 + 1) * Rrs + r]);
+        if constexpr (R == 8) {
+#pragma unroll
+          for (int mg = 0; mg < MG; ++mg) mma1688(yv[mg][rt], sa[mg][0], sa[mg][1], c0);
+        } else {
+          const unsigned c1 = pack_h2(ck[(2 * t4 + 8) * Rrs + r], ck[(2 * t4 + 9) * Rrs + r]);
+#pragma unroll
+          for (int mg = 0; mg < MG; ++mg)
+            mma16816(yv[mg][rt], sa[mg][0], sa[mg][1], sa[mg][2], sa[mg][3], c0, c1);
+        }
+      }
+    }
+    // Y rows g, g+8 of each m tile = rows m = t*P + p; columns r = 8 rt + 2 t4, +1
+    const int q = q0 + ql;
+#pragma unroll
+    for (int mg = 0; mg < MG; ++mg) {
+      const int m0 = (mt0 + mg) * 16 + g, m1 = m0 + 8;
+      const int tl0 = m0 / P, p0 = m0 % P, tl1 = m1 / P, p1 = m1 % P;
+      float* w0 = ws + (size_t)(t0 + tl0) * out_f + (p0 * Q + q) * Rr;
+      float* w1 = ws + (size_t)(t0 + tl1) * out_f + (p1 * Q + q) * Rr;
+#pragma unroll
+      for (int rt = 0; rt < RT; ++rt) {
+        const int r = rt * 8 + 2 * t4;
+        if (r < Rr) {
+          if (tl0 < tt_valid) red_add_v2(w0 + r, yv[mg][rt][0], yv[mg][rt][1]);
+          if (tl1 < tt_valid) red_add_v2(w1 + r, yv[mg][rt][2], yv[mg][rt][3]);
+        }
+      }
+    }
+  }
+
+  // ---- design B: one counter per (token tile, q chunk); the last of its R * nkc blocks
+  // converts those rows to FP16 and clears them, 8 float4 loads in flight before any store
+  if constexpr (kLastBlockFinishes) {
+    __shared__ bool is_last;
+    unsigned int* ctr = tile_done + tti * C::nqc + qci;
+    __threadfence();
+    __syncthreads();
+    if (tid == 0) is_last = atomicAdd(ctr, 1u) == unsigned(R * C::nkc) - 1;
+    __syncthreads();
+    if (is_last) {
+      __threadfence();
+      constexpr int R4 = Rr / 4, kIn = 8;
+      const int per_tp = qc_valid * R4, n4 = tt_valid * P * per_tp;
+      float4* ws4 = reinterpret_cast<float4*>(ws);
+      for (int base = 0; base < n4; base += kIn * kThreads) {
+        float4 v[kIn];
+        int idx[kIn];
+#pragma unroll
+        for (int s = 0; s < kIn; ++s) {
+          const int e = base + tid + s * kThreads;
+          if (e < n4) {
+            const int tp = e / per_tp, tl = tp / P, p = tp % P;
+            idx[s] = (t0 + tl) * (out_f / 4) + (p * Q + q0) * R4 + e % per_tp;
+            v[s] = __ldcg(ws4 + idx[s]);
+          } else {
+            idx[s] = -1;
+          }
+        }
+#pragma unroll
+        for (int s = 0; s < kIn; ++s) {
+          if (idx[s] >= 0) {
+            uint2 h;
+            h.x = pack_f2(v[s].x, v[s].y);
+            h.y = pack_f2(v[s].z, v[s].w);
+            reinterpret_cast<uint2*>(y)[idx[s]] = h;
+            ws4[idx[s]] = make_float4(0.f, 0.f, 0.f, 0.f);
+          }
+        }
+      }
+      if (tid == 0) *ctr = 0;
+    }
+  }
+}
+
+template <bool kB, int R, int KC, int QC, int TT, int MG>
+static void launch_v3t(cudaStream_t stream, int T, const __half* x, const __half* a1,
+                       const __half* b2, const __half* c3, float* ws, __half* y,
+                       unsigned int* tile_done) {
+  using C = CfgT<R, KC, QC, TT, MG>;
+  static bool attr = false;
+  if (!attr) {
+    C10_CUDA_CHECK(cudaFuncSetAttribute(tr_ring_fused_v3t_kernel<kB, R, KC, QC, TT, MG>,
+                                        cudaFuncAttributeMaxDynamicSharedMemorySize,
+                                        (int)C::smem));
+    attr = true;
+  }
+  const int ntt = (T + TT - 1) / TT;
+  tr_ring_fused_v3t_kernel<kB, R, KC, QC, TT, MG>
+      <<<R * C::nkc * C::nqc * ntt, kThreads, C::smem, stream>>>(x, a1, b2, c3, ws, y,
+                                                                 tile_done, T);
+  C10_CUDA_KERNEL_LAUNCH_CHECK();
+}
+
+// the compiled (R, kc, qc, tt, mg) tilings for t > 1; everything else runs the WMMA kernel
+#define TR_V3T_TILINGS(X)                                                               \
+  X(8, 2, 5, 4, 1) X(8, 2, 5, 4, 3) X(8, 4, 5, 4, 3) X(8, 4, 5, 8, 1) X(8, 5, 5, 4, 1)  \
+  X(8, 5, 5, 4, 3) X(8, 10, 5, 4, 3) X(8, 4, 10, 4, 3)                                  \
+  X(16, 2, 10, 4, 1) X(16, 2, 10, 4, 3) X(16, 4, 10, 4, 3) X(16, 4, 10, 4, 1)           \
+  X(16, 5, 10, 4, 1) X(16, 5, 10, 4, 3)
+
+template <bool kB>
+static bool dispatch_v3t(int R, int kc, int qc, int tt, int mg, int T, cudaStream_t s,
+                         const __half* x, const __half* a1, const __half* b2, const __half* c3,
+                         float* ws, __half* y, unsigned int* td) {
+#define TR_V3T_CASE(RR, KK, QQ, TTT, MM)                                        \
+  if (R == RR && kc == KK && qc == QQ && tt == TTT && mg == MM) {               \
+    launch_v3t<kB, RR, KK, QQ, TTT, MM>(s, T, x, a1, b2, c3, ws, y, td);        \
+    return true;                                                                \
+  }
+  TR_V3T_TILINGS(TR_V3T_CASE)
+#undef TR_V3T_CASE
+  return false;
+}
 }  // namespace v3
 
 bool v3_supported(int64_t R, int64_t kc, int64_t qc) {
@@ -796,6 +1103,57 @@ torch::Tensor tr_ring_forward_v3(torch::Tensor x, torch::Tensor A1, torch::Tenso
   return y;
 }
 
+// 0 = (R, kc, qc, tt, mg) not compiled for V3T; otherwise its dynamic shared memory per block
+int64_t v3t_smem(int64_t R, int64_t kc, int64_t qc, int64_t tt, int64_t mg) {
+#define TR_V3T_SMEM(RR, KK, QQ, TTT, MM)                        \
+  if (R == RR && kc == KK && qc == QQ && tt == TTT && mg == MM) \
+    return (int64_t)v3::CfgT<RR, KK, QQ, TTT, MM>::smem;
+  TR_V3T_TILINGS(TR_V3T_SMEM)
+#undef TR_V3T_SMEM
+  return 0;
+}
+
+// t > 1 on the real modes. Design A: zero-init workspace, kernel, convert (3 launches).
+// Design B: persistent workspace [>= T * out_f] and counters [>= ceil(T/tt) * ceil(Q/qc)], zero
+// between calls; the last block of each (token tile, q chunk) converts and clears (1 launch).
+torch::Tensor tr_ring_forward_v3t(torch::Tensor x, torch::Tensor A1, torch::Tensor B2,
+                                  torch::Tensor C3, int64_t R, int64_t kc, int64_t qc, int64_t tt,
+                                  int64_t mg, bool last_block_finishes, torch::Tensor ws_b,
+                                  torch::Tensor tile_done_b) {
+  TORCH_CHECK(x.is_cuda() && x.scalar_type() == torch::kHalf && x.dim() == 2 && x.is_contiguous(),
+              "x must be a contiguous 2D CUDA float16 tensor");
+  TORCH_CHECK(x.size(1) == v3::ni * v3::nj * v3::nk, "V3T is for the real modes (1920 inputs)");
+  TORCH_CHECK(v3t_smem(R, kc, qc, tt, mg) > 0, "V3T tiling not compiled");
+  const at::cuda::CUDAGuard guard(x.device());
+  auto stream = at::cuda::getCurrentCUDAStream();
+  constexpr int out_f = v3::P * v3::Q * v3::Rr;
+  const int T = (int)x.size(0);
+  auto y = torch::empty({x.size(0), out_f}, x.options());
+  if (T == 0) return y;
+  auto xp = reinterpret_cast<const __half*>(x.data_ptr<at::Half>());
+  auto a1 = reinterpret_cast<const __half*>(A1.data_ptr<at::Half>());
+  auto b2 = reinterpret_cast<const __half*>(B2.data_ptr<at::Half>());
+  auto c3 = reinterpret_cast<const __half*>(C3.data_ptr<at::Half>());
+  auto yp = reinterpret_cast<__half*>(y.data_ptr<at::Half>());
+  if (!last_block_finishes) {
+    auto ws = torch::zeros({x.size(0), out_f}, x.options().dtype(torch::kFloat));      // 1
+    v3::dispatch_v3t<false>((int)R, (int)kc, (int)qc, (int)tt, (int)mg, T, stream, xp, a1, b2,  // 2
+                            c3, ws.data_ptr<float>(), nullptr, nullptr);
+    const size_t n = (size_t)T * out_f;
+    tr_ring_convert_kernel<<<(unsigned)((n + 255) / 256), 256, 0, stream>>>(               // 3
+        ws.data_ptr<float>(), yp, n);
+    C10_CUDA_KERNEL_LAUNCH_CHECK();
+  } else {
+    const int64_t counters = ((T + tt - 1) / tt) * ((v3::Q + qc - 1) / qc);
+    TORCH_CHECK(ws_b.numel() >= (int64_t)T * out_f && tile_done_b.numel() >= counters,
+                "design B workspace too small");
+    v3::dispatch_v3t<true>((int)R, (int)kc, (int)qc, (int)tt, (int)mg, T, stream, xp, a1, b2, c3,
+                           ws_b.data_ptr<float>(), yp,
+                           reinterpret_cast<unsigned int*>(tile_done_b.data_ptr<int32_t>()));
+  }
+  return y;
+}
+
 // ---- floors: what one call costs when it does nothing (tools/measure_kernels.py) ----------
 __global__ void tr_ring_empty_kernel() {}
 
@@ -810,6 +1168,8 @@ PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
   m.def("forward", &tr_ring_forward, "fused tensor-ring forward (design A or B)");
   m.def("forward_v3", &tr_ring_forward_v3, "t = 1 real modes: stages 2 -> 3 in registers");
   m.def("v3_supported", &v3_supported, "(R, kc, qc) compiled for V3");
+  m.def("forward_v3t", &tr_ring_forward_v3t, "t > 1 real modes: V3 with tokens stacked in M");
+  m.def("v3t_smem", &v3t_smem, "(R, kc, qc, tt, mg) compiled for V3T: its smem bytes, else 0");
   m.def("smem_bytes", &smem_bytes, "dynamic shared memory per block for a tiling");
   m.def("y_tiles", &y_tiles, "Y accumulator tiles per block for a token tile");
   m.def("max_y_tiles", &max_y_tiles, "Y tiles a block can hold in registers");

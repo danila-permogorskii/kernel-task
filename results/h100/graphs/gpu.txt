@@ -1,4 +1,4 @@
-Sun Sep 27 07:05:57 2026       
+Sun Sep 27 06:45:28 2026       
 +-----------------------------------------------------------------------------------------+
 | NVIDIA-SMI 580.178.04             Driver Version: 580.178.04     CUDA Version: 13.0     |
 +-----------------------------------------+------------------------+----------------------+
@@ -7,7 +7,7 @@ Sun Sep 27 07:05:57 2026
 |                                         |                        |               MIG M. |
 |=========================================+========================+======================|
 |   0  NVIDIA H100 80GB HBM3          On  |   00000000:05:00.0 Off |                    0 |
-| N/A   28C    P0             69W /  700W |       0MiB /  81559MiB |      0%      Default |
+| N/A   31C    P0            122W /  700W |       0MiB /  81559MiB |      0%      Default |
 |                                         |                        |             Disabled |
 +-----------------------------------------+------------------------+----------------------+
 
@@ -18,21 +18,3 @@ Sun Sep 27 07:05:57 2026
 |=========================================================================================|
 |  No running processes found                                                             |
 +-----------------------------------------------------------------------------------------+
-Driver Version                                         : 580.178.04
-CUDA Version                                           : 13.0
---
-    Product Name                                       : NVIDIA H100 80GB HBM3
---
-        Current Power Limit                            : 700.00 W
-        Requested Power Limit                          : 700.00 W
-        Default Power Limit                            : 700.00 W
-        Min Power Limit                                : 200.00 W
-        Max Power Limit                                : 700.00 W
---
-        Current Power Limit                            : N/A
-        Requested Power Limit                          : N/A
-        Default Power Limit                            : N/A
-        Min Power Limit                                : N/A
-        Max Power Limit                                : N/A
---
-    Max Clocks

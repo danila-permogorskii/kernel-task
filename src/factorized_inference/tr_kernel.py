@@ -11,6 +11,9 @@ Environment switches (read at prepare time, inherited by the harness's worker pr
   TR_V3_TAIL = 0|1|2   design B, V3: how the last block finishes. 0 = one block converts all
                        of y, 1 = the same with float4 loads in flight together, 2 = one counter
                        per q chunk, its last block converts only those q's. Default 2
+  TR_V3T = 1 | 0       t > 1 on the real modes: V3 with tokens stacked into the mma M
+                       dimension (V3T) when its tiling is compiled and fits; 0 = WMMA kernel
+  TR_V3T_TILING=kc,qc,tt,mg  force the V3T tiling (one of TR_V3T_TILINGS in tr_ring.cu)
 """
 from __future__ import annotations
 
@@ -78,6 +81,13 @@ H100_TUNED = {
     (8, 1): (2, 1, 4), (8, 8): (5, 1, 10), (8, 32): (5, 4, 10),
     (16, 1): (4, 1, 4), (16, 32): (20, 4, 10),
 }
+
+
+# V3T (t > 1) tiling (kc, qc, tt, mg) per R, from the H100 sweeps (results/h100/v3t, rounds
+# 2-3): best or within noise of best for T = 2..32. kc = 5 and tt = 4 give R8 t8 and R16 t8
+# grids of 128 blocks, one wave on 132 SMs (kc = 4: 160 blocks, two waves); mg = 1 was not
+# worse than 2-3 anywhere, so the mma dependency chain is not the limit.
+V3T_TILING = {8: (5, 5, 4, 1), 16: (5, 10, 4, 1)}
 
 
 def choose_tiling(T: int, spec: TRSpec, smem_limit: int, num_sms: int):
@@ -156,6 +166,9 @@ class PreparedTRKernel:
         self.use_v3 = (os.environ.get("TR_V3", "1") != "0"
                        and spec.input_modes == (8, 12, 20) and spec.output_modes == (12, 10, 24))
         self.v3_tail = int(os.environ.get("TR_V3_TAIL", "2"))
+        self.use_v3t = self.use_v3 and os.environ.get("TR_V3T", "1") != "0"
+        forced = os.environ.get("TR_V3T_TILING")
+        self._v3t_forced = tuple(int(v) for v in forced.split(",")) if forced else None
         self.modes = [*spec.input_modes, *spec.output_modes, spec.rank]
         dev = cores[0].device
         props = torch.cuda.get_device_properties(dev)
@@ -172,6 +185,15 @@ class PreparedTRKernel:
             self._tiling[T] = choose_tiling(T, self.spec, self.smem_limit, self.num_sms)
         return self._tiling[T]
 
+    def v3t_tiling(self, T: int):
+        """(kc, qc, tt, mg) for the V3T kernel, or None (not compiled / does not fit this GPU)."""
+        R = self.spec.rank
+        t = self._v3t_forced or V3T_TILING.get(R)
+        if t is None:
+            return None
+        smem = self.ext.v3t_smem(R, *t)
+        return t if 0 < smem <= self.smem_limit else None
+
     def __call__(self, x: torch.Tensor) -> torch.Tensor:
         if not (x.is_cuda and x.dtype == torch.float16):
             return tr_forward_reference(x, self.cores, self.spec)
@@ -182,6 +204,21 @@ class PreparedTRKernel:
             warnings.warn("tr_ring: block does not fit in shared memory, using the reference")
             return tr_forward_reference(x, self.cores, self.spec)
         kc, tt, qc = tiling
+        v3t = self.v3t_tiling(T) if T > 1 and self.use_v3t else None
+        if v3t is not None:
+            # t > 1: V3 with the tokens stacked into the mma M dimension, csrc/tr_ring.cu "V3T"
+            vkc, vqc, vtt, vmg = v3t
+            if self.design == "A":
+                return self.ext.forward_v3t(x, self.A1, self.B2, self.C3, self.spec.rank,
+                                            vkc, vqc, vtt, vmg, False, self._empty, self._empty)
+            need = T * self.spec.out_features
+            counters = max(16, -(-T // vtt) * -(-self.spec.output_modes[1] // vqc))
+            if self.ws.numel() < need:
+                self.ws = torch.zeros(need, dtype=torch.float32, device=x.device)
+            if self.tile_done.numel() < counters:
+                self.tile_done = torch.zeros(counters, dtype=torch.int32, device=x.device)
+            return self.ext.forward_v3t(x, self.A1, self.B2, self.C3, self.spec.rank,
+                                        vkc, vqc, vtt, vmg, True, self.ws, self.tile_done)
         if T == 1 and self.use_v3 and self.ext.v3_supported(self.spec.rank, kc, qc):
             # t = 1: stages 2 -> 3 in registers (PTX mma.sync), csrc/tr_ring.cu "V3"
             if self.design == "A":

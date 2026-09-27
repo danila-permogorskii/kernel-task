@@ -25,8 +25,9 @@ nvidia-smi > results/h100/gpu.txt
 nvidia-smi -q | grep -iE "product name|driver version|cuda version|max clocks|power limit" -A0 >> results/h100/gpu.txt || true
 python -m pip freeze 2>/dev/null > results/h100/environment.txt || uv pip freeze > results/h100/environment.txt
 
-echo "== 0b. correctness: V3 path (t = 1), both designs and every tail"
+echo "== 0b. correctness: V3 path (t = 1), both designs and every tail; V3T path (t > 1)"
 python tools/check_v3.py 2>&1 | grep -E "FAIL|ALL OK|SOME" | tail -3
+python tools/check_v3t.py 2>&1 | grep -E "FAIL|ALL OK|SOME|configurations" | tail -3
 
 echo "== 1. harness, the README's two commands, once per design"
 # --device cuda:0 (not cuda): torch 2.14 rejects torch.cuda.set_device("cuda"); see report.
@@ -46,10 +47,10 @@ if [ -z "${SKIP_SWEEP:-}" ]; then
   python tools/measure_kernels.py --sweep --out results/h100/sweep.json
 fi
 
-echo "== 4. Nsight Compute, design B (default): R=16 T=32 (WMMA kernel), R=8 T=1 (V3 kernel)"
+echo "== 4. Nsight Compute, design B (default): R=16 T=32 and R=8 T=8 (V3T kernel), R=8 T=1 (V3 kernel)"
 NCU=$(command -v ncu || ls /usr/local/cuda*/bin/ncu 2>/dev/null | head -1 || true)
 if [ -n "$NCU" ]; then
-  for RT in "16 32" "8 1"; do
+  for RT in "16 32" "8 8" "8 1"; do
     set -- $RT
     TR_DESIGN=B "$NCU" --set full -k regex:tr_ring_fused -c 1 -f \
       -o profiles/h100/fused_R$1_T$2 \
@@ -57,6 +58,13 @@ if [ -n "$NCU" ]; then
   done
 else
   echo "ncu not found: skipped (kernel times and % of peak are still in kernels.json)"
+fi
+
+if [ -z "${SKIP_GRAPHS:-}" ]; then
+  echo "== 5. optional: CUDA graphs and a chain of distinct layers, final code (tools/graph_bench.py)"
+  mkdir -p results/h100/graphs_final
+  python tools/graph_bench.py --part single --out results/h100/graphs_final/single.json 2>&1 | grep -E "^single|wrote"
+  python tools/graph_bench.py --part chain --out results/h100/graphs_final/chain.json 2>&1 | grep -E "^chain|wrote"
 fi
 
 echo "== session end $(date -u)"

@@ -1,0 +1,69 @@
+28 configurations
+ALL OK
+R= 8 T= 8 dense            stream    10.13  kernel     4.81 µs
+R= 8 T= 8 wmma             stream    23.59  kernel    22.03 µs
+R= 8 T= 8 v3t 2,5,4,1      stream    18.55  kernel    16.98 µs
+R= 8 T= 8 v3t 2,5,4,3      stream    17.87  kernel    16.20 µs
+R= 8 T= 8 v3t 4,5,4,3      stream    15.47  kernel    13.83 µs
+R= 8 T= 8 v3t 4,5,8,1      stream    16.24  kernel    14.57 µs
+R= 8 T= 8 v3t 5,5,4,1      stream    12.91  kernel    11.34 µs
+R= 8 T= 8 v3t 5,5,4,3      stream    13.84  kernel    12.18 µs
+R= 8 T= 8 v3t 10,5,4,3     stream    16.53  kernel    14.97 µs
+R= 8 T= 8 v3t 4,10,4,3     stream    15.96  kernel    14.37 µs
+R= 8 T=32 dense            stream    12.98  kernel     5.16 µs
+R= 8 T=32 wmma             stream    49.77  kernel    48.16 µs
+R= 8 T=32 v3t 2,5,4,1      stream    39.97  kernel    38.27 µs
+R= 8 T=32 v3t 2,5,4,3      stream    41.93  kernel    40.34 µs
+R= 8 T=32 v3t 4,5,4,3      stream    31.71  kernel    30.20 µs
+R= 8 T=32 v3t 4,5,8,1      stream    37.57  kernel    36.09 µs
+R= 8 T=32 v3t 5,5,4,1      stream    27.70  kernel    26.20 µs
+R= 8 T=32 v3t 5,5,4,3      stream    28.88  kernel    27.23 µs
+R= 8 T=32 v3t 10,5,4,3     stream    30.73  kernel    29.10 µs
+R= 8 T=32 v3t 4,10,4,3     stream    34.32  kernel    32.76 µs
+R=16 T=32 dense            stream    12.77  kernel     5.06 µs
+R=16 T=32 wmma             stream   126.35  kernel   124.50 µs
+R=16 T=32 v3t 2,10,4,1     stream    97.59  kernel    95.68 µs
+R=16 T=32 v3t 2,10,4,3     stream    97.05  kernel    96.03 µs
+R=16 T=32 v3t 4,10,4,3     stream    87.56  kernel    86.03 µs
+R=16 T=32 v3t 4,10,4,1     stream    90.50  kernel    89.08 µs
+R=16 T=32 v3t 5,10,4,1     stream    82.78  kernel    81.17 µs
+R=16 T=32 v3t 5,10,4,3     stream    83.96  kernel    82.64 µs
+R= 8 T= 2 dense            stream    12.65  kernel     4.75 µs
+R= 8 T= 2 wmma             stream    18.53  kernel    16.98 µs
+R= 8 T= 2 v3t 2,5,4,1      stream    10.18  kernel     8.63 µs
+R= 8 T= 2 v3t 2,5,4,3      stream    10.84  kernel     9.22 µs
+R= 8 T= 2 v3t 4,5,4,3      stream    10.50  kernel     8.86 µs
+R= 8 T= 2 v3t 4,5,8,1      stream    12.66  kernel    10.97 µs
+R= 8 T= 2 v3t 5,5,4,1      stream    10.32  kernel     8.75 µs
+R= 8 T= 2 v3t 5,5,4,3      stream    10.93  kernel     9.23 µs
+R= 8 T= 2 v3t 10,5,4,3     stream    15.10  kernel    13.45 µs
+R= 8 T= 2 v3t 4,10,4,3     stream    12.73  kernel    11.12 µs
+R= 8 T= 4 dense            stream    12.91  kernel     4.99 µs
+R= 8 T= 4 wmma             stream    25.89  kernel    24.26 µs
+R= 8 T= 4 v3t 2,5,4,1      stream    12.45  kernel    10.92 µs
+R= 8 T= 4 v3t 2,5,4,3      stream    13.48  kernel    11.78 µs
+R= 8 T= 4 v3t 4,5,4,3      stream    11.91  kernel    10.30 µs
+R= 8 T= 4 v3t 4,5,8,1      stream    13.44  kernel    11.85 µs
+R= 8 T= 4 v3t 5,5,4,1      stream    11.41  kernel     9.77 µs
+R= 8 T= 4 v3t 5,5,4,3      stream    12.08  kernel    10.49 µs
+R= 8 T= 4 v3t 10,5,4,3     stream    16.07  kernel    14.33 µs
+R= 8 T= 4 v3t 4,10,4,3     stream    14.73  kernel    13.12 µs
+R= 8 T=16 dense            stream    13.00  kernel     4.73 µs
+R= 8 T=16 wmma             stream    42.53  kernel    40.84 µs
+R= 8 T=16 v3t 2,5,4,1      stream    25.68  kernel    24.09 µs
+R= 8 T=16 v3t 2,5,4,3      stream    27.79  kernel    25.91 µs
+R= 8 T=16 v3t 4,5,4,3      stream    18.95  kernel    17.31 µs
+R= 8 T=16 v3t 4,5,8,1      stream    25.82  kernel    24.23 µs
+R= 8 T=16 v3t 5,5,4,1      stream    17.04  kernel    15.35 µs
+R= 8 T=16 v3t 5,5,4,3      stream    17.72  kernel    16.05 µs
+R= 8 T=16 v3t 10,5,4,3     stream    17.51  kernel    15.87 µs
+R= 8 T=16 v3t 4,10,4,3     stream    20.88  kernel    19.21 µs
+R=16 T= 8 dense            stream    12.77  kernel     4.74 µs
+R=16 T= 8 wmma             stream    51.58  kernel    49.89 µs
+R=16 T= 8 v3t 2,10,4,1     stream    39.32  kernel    37.77 µs
+R=16 T= 8 v3t 2,10,4,3     stream    38.66  kernel    36.90 µs
+R=16 T= 8 v3t 4,10,4,3     stream    36.85  kernel    35.22 µs
+R=16 T= 8 v3t 4,10,4,1     stream    37.15  kernel    35.52 µs
+R=16 T= 8 v3t 5,10,4,1     stream    24.23  kernel    22.66 µs
+R=16 T= 8 v3t 5,10,4,3     stream    25.98  kernel    24.27 µs
+wrote results/h100/v3t/sweep_round3.json

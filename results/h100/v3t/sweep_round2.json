@@ -1,0 +1,502 @@
+{
+  "device": "NVIDIA H100 80GB HBM3",
+  "rows": [
+    {
+      "rank": 8,
+      "tokens": 8,
+      "variant": "dense",
+      "stream_us": 10.943999886512756,
+      "kernel_us": 4.8282499999999935
+    },
+    {
+      "rank": 8,
+      "tokens": 8,
+      "variant": "wmma",
+      "stream_us": 23.7296000123024,
+      "kernel_us": 22.0802
+    },
+    {
+      "rank": 8,
+      "tokens": 8,
+      "variant": "v3t 2,5,4,1",
+      "stream_us": 18.624000251293182,
+      "kernel_us": 17.060400000000016
+    },
+    {
+      "rank": 8,
+      "tokens": 8,
+      "variant": "v3t 2,5,4,3",
+      "stream_us": 17.849600315093994,
+      "kernel_us": 16.243550000000006
+    },
+    {
+      "rank": 8,
+      "tokens": 8,
+      "variant": "v3t 4,5,4,3",
+      "stream_us": 15.727999806404114,
+      "kernel_us": 13.924050000000058
+    },
+    {
+      "rank": 8,
+      "tokens": 8,
+      "variant": "v3t 2,5,8,3",
+      "stream_us": 19.724799692630768,
+      "kernel_us": 17.892299999999995
+    },
+    {
+      "rank": 8,
+      "tokens": 8,
+      "variant": "v3t 4,5,8,1",
+      "stream_us": 16.56000018119812,
+      "kernel_us": 14.83069999999998
+    },
+    {
+      "rank": 8,
+      "tokens": 8,
+      "variant": "v3t 4,5,8,2",
+      "stream_us": 17.046399414539337,
+      "kernel_us": 15.374049999999965
+    },
+    {
+      "rank": 8,
+      "tokens": 8,
+      "variant": "v3t 4,5,8,3",
+      "stream_us": 18.12639981508255,
+      "kernel_us": 16.354850000000035
+    },
+    {
+      "rank": 8,
+      "tokens": 8,
+      "variant": "v3t 4,10,8,3",
+      "stream_us": 21.820800006389618,
+      "kernel_us": 20.088949999999958
+    },
+    {
+      "rank": 8,
+      "tokens": 8,
+      "variant": "v3t 5,5,8,3",
+      "stream_us": 20.022399723529816,
+      "kernel_us": 18.279399999999995
+    },
+    {
+      "rank": 8,
+      "tokens": 32,
+      "variant": "dense",
+      "stream_us": 13.542400300502777,
+      "kernel_us": 4.956000000000046
+    },
+    {
+      "rank": 8,
+      "tokens": 32,
+      "variant": "wmma",
+      "stream_us": 49.697598814964294,
+      "kernel_us": 47.98919999999999
+    },
+    {
+      "rank": 8,
+      "tokens": 32,
+      "variant": "v3t 2,5,4,1",
+      "stream_us": 38.732799887657166,
+      "kernel_us": 37.108400000000024
+    },
+    {
+      "rank": 8,
+      "tokens": 32,
+      "variant": "v3t 2,5,4,3",
+      "stream_us": 42.476800084114075,
+      "kernel_us": 40.64050000000001
+    },
+    {
+      "rank": 8,
+      "tokens": 32,
+      "variant": "v3t 4,5,4,3",
+      "stream_us": 31.862398982048035,
+      "kernel_us": 29.985349999999997
+    },
+    {
+      "rank": 8,
+      "tokens": 32,
+      "variant": "v3t 2,5,8,3",
+      "stream_us": 42.292800545692444,
+      "kernel_us": 40.540350000000004
+    },
+    {
+      "rank": 8,
+      "tokens": 32,
+      "variant": "v3t 4,5,8,1",
+      "stream_us": 37.56000101566315,
+      "kernel_us": 36.00469999999999
+    },
+    {
+      "rank": 8,
+      "tokens": 32,
+      "variant": "v3t 4,5,8,2",
+      "stream_us": 38.42079937458038,
+      "kernel_us": 36.809149999999995
+    },
+    {
+      "rank": 8,
+      "tokens": 32,
+      "variant": "v3t 4,5,8,3",
+      "stream_us": 40.724799036979675,
+      "kernel_us": 39.10285
+    },
+    {
+      "rank": 8,
+      "tokens": 32,
+      "variant": "v3t 4,10,8,3",
+      "stream_us": 37.29279935359955,
+      "kernel_us": 35.54425000000003
+    },
+    {
+      "rank": 8,
+      "tokens": 32,
+      "variant": "v3t 5,5,8,3",
+      "stream_us": 35.96000075340271,
+      "kernel_us": 34.18899999999999
+    },
+    {
+      "rank": 16,
+      "tokens": 32,
+      "variant": "dense",
+      "stream_us": 12.995199859142303,
+      "kernel_us": 5.003799999999993
+    },
+    {
+      "rank": 16,
+      "tokens": 32,
+      "variant": "wmma",
+      "stream_us": 125.24479627609253,
+      "kernel_us": 123.31134999999999
+    },
+    {
+      "rank": 16,
+      "tokens": 32,
+      "variant": "v3t 2,10,4,1",
+      "stream_us": 95.3935980796814,
+      "kernel_us": 93.60364999999999
+    },
+    {
+      "rank": 16,
+      "tokens": 32,
+      "variant": "v3t 2,10,4,3",
+      "stream_us": 98.73600006103516,
+      "kernel_us": 97.3029
+    },
+    {
+      "rank": 16,
+      "tokens": 32,
+      "variant": "v3t 2,5,4,3",
+      "stream_us": 115.55839776992798,
+      "kernel_us": 114.40160000000004
+    },
+    {
+      "rank": 16,
+      "tokens": 32,
+      "variant": "v3t 4,10,4,3",
+      "stream_us": 90.63839912414551,
+      "kernel_us": 88.72270000000002
+    },
+    {
+      "rank": 16,
+      "tokens": 32,
+      "variant": "v3t 2,10,8,3",
+      "stream_us": 94.0559983253479,
+      "kernel_us": 93.66334999999995
+    },
+    {
+      "rank": 16,
+      "tokens": 32,
+      "variant": "v3t 2,10,8,2",
+      "stream_us": 92.38240122795105,
+      "kernel_us": 90.98545000000003
+    },
+    {
+      "rank": 8,
+      "tokens": 2,
+      "variant": "dense",
+      "stream_us": 13.040000200271606,
+      "kernel_us": 4.778399999999999
+    },
+    {
+      "rank": 8,
+      "tokens": 2,
+      "variant": "wmma",
+      "stream_us": 18.412800133228302,
+      "kernel_us": 16.81494999999999
+    },
+    {
+      "rank": 8,
+      "tokens": 2,
+      "variant": "v3t 2,5,4,1",
+      "stream_us": 10.307200253009796,
+      "kernel_us": 8.627899999999997
+    },
+    {
+      "rank": 8,
+      "tokens": 2,
+      "variant": "v3t 2,5,4,3",
+      "stream_us": 10.118400305509567,
+      "kernel_us": 8.409099999999999
+    },
+    {
+      "rank": 8,
+      "tokens": 2,
+      "variant": "v3t 4,5,4,3",
+      "stream_us": 10.468800365924835,
+      "kernel_us": 8.71395000000001
+    },
+    {
+      "rank": 8,
+      "tokens": 2,
+      "variant": "v3t 2,5,8,3",
+      "stream_us": 12.862400710582733,
+      "kernel_us": 11.163750000000004
+    },
+    {
+      "rank": 8,
+      "tokens": 2,
+      "variant": "v3t 4,5,8,1",
+      "stream_us": 12.577599287033081,
+      "kernel_us": 10.809199999999999
+    },
+    {
+      "rank": 8,
+      "tokens": 2,
+      "variant": "v3t 4,5,8,2",
+      "stream_us": 12.375999987125397,
+      "kernel_us": 10.594349999999999
+    },
+    {
+      "rank": 8,
+      "tokens": 2,
+      "variant": "v3t 4,5,8,3",
+      "stream_us": 13.03039938211441,
+      "kernel_us": 11.199400000000006
+    },
+    {
+      "rank": 8,
+      "tokens": 2,
+      "variant": "v3t 4,10,8,3",
+      "stream_us": 15.916800498962402,
+      "kernel_us": 14.230350000000001
+    },
+    {
+      "rank": 8,
+      "tokens": 2,
+      "variant": "v3t 5,5,8,3",
+      "stream_us": 15.321600437164307,
+      "kernel_us": 13.682949999999913
+    },
+    {
+      "rank": 8,
+      "tokens": 4,
+      "variant": "dense",
+      "stream_us": 13.185599446296692,
+      "kernel_us": 4.6851
+    },
+    {
+      "rank": 8,
+      "tokens": 4,
+      "variant": "wmma",
+      "stream_us": 25.55679976940155,
+      "kernel_us": 23.874499999999994
+    },
+    {
+      "rank": 8,
+      "tokens": 4,
+      "variant": "v3t 2,5,4,1",
+      "stream_us": 12.556800246238708,
+      "kernel_us": 10.850199999999996
+    },
+    {
+      "rank": 8,
+      "tokens": 4,
+      "variant": "v3t 2,5,4,3",
+      "stream_us": 13.052800297737122,
+      "kernel_us": 11.437000000000015
+    },
+    {
+      "rank": 8,
+      "tokens": 4,
+      "variant": "v3t 4,5,4,3",
+      "stream_us": 11.747200042009354,
+      "kernel_us": 10.073600000000006
+    },
+    {
+      "rank": 8,
+      "tokens": 4,
+      "variant": "v3t 2,5,8,3",
+      "stream_us": 14.228799939155579,
+      "kernel_us": 12.510300000000006
+    },
+    {
+      "rank": 8,
+      "tokens": 4,
+      "variant": "v3t 4,5,8,1",
+      "stream_us": 13.3760005235672,
+      "kernel_us": 11.688999999999993
+    },
+    {
+      "rank": 8,
+      "tokens": 4,
+      "variant": "v3t 4,5,8,2",
+      "stream_us": 13.500800728797913,
+      "kernel_us": 11.834700000000009
+    },
+    {
+      "rank": 8,
+      "tokens": 4,
+      "variant": "v3t 4,5,8,3",
+      "stream_us": 14.580799639225006,
+      "kernel_us": 12.861500000000003
+    },
+    {
+      "rank": 8,
+      "tokens": 4,
+      "variant": "v3t 4,10,8,3",
+      "stream_us": 17.636799812316895,
+      "kernel_us": 15.935150000000002
+    },
+    {
+      "rank": 8,
+      "tokens": 4,
+      "variant": "v3t 5,5,8,3",
+      "stream_us": 16.59040004014969,
+      "kernel_us": 14.917000000000012
+    },
+    {
+      "rank": 8,
+      "tokens": 16,
+      "variant": "dense",
+      "stream_us": 13.19199949502945,
+      "kernel_us": 4.759200000000002
+    },
+    {
+      "rank": 8,
+      "tokens": 16,
+      "variant": "wmma",
+      "stream_us": 43.00000071525574,
+      "kernel_us": 41.19435
+    },
+    {
+      "rank": 8,
+      "tokens": 16,
+      "variant": "v3t 2,5,4,1",
+      "stream_us": 25.259199738502502,
+      "kernel_us": 23.457799999999988
+    },
+    {
+      "rank": 8,
+      "tokens": 16,
+      "variant": "v3t 2,5,4,3",
+      "stream_us": 27.619200944900513,
+      "kernel_us": 25.806449999999966
+    },
+    {
+      "rank": 8,
+      "tokens": 16,
+      "variant": "v3t 4,5,4,3",
+      "stream_us": 19.13280040025711,
+      "kernel_us": 17.433400000000002
+    },
+    {
+      "rank": 8,
+      "tokens": 16,
+      "variant": "v3t 2,5,8,3",
+      "stream_us": 26.096001267433167,
+      "kernel_us": 24.4029
+    },
+    {
+      "rank": 8,
+      "tokens": 16,
+      "variant": "v3t 4,5,8,1",
+      "stream_us": 26.06079876422882,
+      "kernel_us": 24.559550000000012
+    },
+    {
+      "rank": 8,
+      "tokens": 16,
+      "variant": "v3t 4,5,8,2",
+      "stream_us": 26.519998908042908,
+      "kernel_us": 24.914199999999987
+    },
+    {
+      "rank": 8,
+      "tokens": 16,
+      "variant": "v3t 4,5,8,3",
+      "stream_us": 27.89599895477295,
+      "kernel_us": 26.11305000000001
+    },
+    {
+      "rank": 8,
+      "tokens": 16,
+      "variant": "v3t 4,10,8,3",
+      "stream_us": 22.404800355434418,
+      "kernel_us": 20.613449999999986
+    },
+    {
+      "rank": 8,
+      "tokens": 16,
+      "variant": "v3t 5,5,8,3",
+      "stream_us": 20.900799334049225,
+      "kernel_us": 19.22919999999998
+    },
+    {
+      "rank": 16,
+      "tokens": 8,
+      "variant": "dense",
+      "stream_us": 12.97920048236847,
+      "kernel_us": 4.6927999999999885
+    },
+    {
+      "rank": 16,
+      "tokens": 8,
+      "variant": "wmma",
+      "stream_us": 51.4352023601532,
+      "kernel_us": 49.68015
+    },
+    {
+      "rank": 16,
+      "tokens": 8,
+      "variant": "v3t 2,10,4,1",
+      "stream_us": 39.26880061626434,
+      "kernel_us": 37.74375
+    },
+    {
+      "rank": 16,
+      "tokens": 8,
+      "variant": "v3t 2,10,4,3",
+      "stream_us": 38.37440013885498,
+      "kernel_us": 36.85174999999999
+    },
+    {
+      "rank": 16,
+      "tokens": 8,
+      "variant": "v3t 2,5,4,3",
+      "stream_us": 41.489601135253906,
+      "kernel_us": 39.92449999999999
+    },
+    {
+      "rank": 16,
+      "tokens": 8,
+      "variant": "v3t 4,10,4,3",
+      "stream_us": 37.12480068206787,
+      "kernel_us": 35.04079999999999
+    },
+    {
+      "rank": 16,
+      "tokens": 8,
+      "variant": "v3t 2,10,8,3",
+      "stream_us": 40.52320122718811,
+      "kernel_us": 39.01625000000004
+    },
+    {
+      "rank": 16,
+      "tokens": 8,
+      "variant": "v3t 2,10,8,2",
+      "stream_us": 39.17439877986908,
+      "kernel_us": 37.28774999999998
+    }
+  ]
+}

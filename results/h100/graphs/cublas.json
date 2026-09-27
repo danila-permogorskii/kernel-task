@@ -1,0 +1,13 @@
+{
+  "device": "NVIDIA H100 80GB HBM3",
+  "torch": "2.14.0+cu130",
+  "part": "cublas",
+  "cublas": {
+    "CUBLAS_WORKSPACE_CONFIG": null,
+    "context_baseline_mib": 0.0,
+    "ours_B_first_call_growth_mib": 0.0120849609375,
+    "dense_first_call_growth_mib": 32.0003662109375,
+    "freed_by_clearCublasWorkspaces_mib": 32.0,
+    "reference_first_call_growth_mib": 32.0003662109375
+  }
+}
