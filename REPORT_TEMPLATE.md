@@ -360,8 +360,8 @@ Reading:
     `fused_R16_T32.ncu-rep` (V3T) — Nsight Compute; summary `results/h100/ncu_summary_final.txt`;
   - `results/h100/session.log`.
 - **GPU hours used and whether compute was stopped:** several short H100 SXM5 sessions on
-  2026-09-26 and 2026-09-27, each instance deleted afterwards. *(Exact figure: confirm from
-  Verda billing.)*
+  2026-09-26 and 2026-09-27, each instance deleted afterwards. GPU access was provided by the
+  project lead; usage is visible in that Verda account.
 - **AI tools used and what you independently verified:**
   - Claude Code (Anthropic, Claude Opus 5.5) wrote the CUDA kernels, the host glue, the
     tooling scripts and the guides, and drove the H100 sessions over SSH under my
@@ -372,4 +372,4 @@ Reading:
     - pursuing V3 and the finish;
     - design B as the default;
     - the optional graph and chain measurements, and V3T for t > 1.
-  - Independently verified by me: I followed every H100 session's output live, re-ran the correctnesses checks on my own GPU (RTX 3050 Ti: pytest, check_kernel, check_v3, check_v3t - everything is ok). Confirmed that the harness, reference and tests are unchanged from the starting commit and that preparation packs the cores without forming W. Regenerated results table from the raw JSON. Inspected the t = 1 traces in Perfetto (8 gpu kernels per reference call, one for ours). I did not audit the CUDA code line by line.
+  - Independently verified by me: I followed every H100 session's output live, re-ran the correctness checks on my own GPU (RTX 3050 Ti: pytest, check_kernel, check_v3, check_v3t - everything is ok). Confirmed that the harness, reference and tests are unchanged from the starting commit and that preparation packs the cores without forming W. Regenerated results table from the raw JSON. Inspected the t = 1 traces in Perfetto (8 gpu kernels per reference call, one for ours). I did not audit the CUDA code line by line.
