@@ -90,6 +90,8 @@ class Model:
         return run
 
     def step(self, h):
+        if self.variant.endswith("f"):
+            return self.step_fused(h)
         nw = self.norm_w
         for kind, ops, ba in self.layers:
             x = F.rms_norm(h, (H,), nw, 1e-6)
@@ -104,6 +106,32 @@ class Model:
             gate, up, down = ops[-3], ops[-2], ops[-1]
             h = h + down(F.silu(gate(x)) * up(x))
         return F.linear(F.rms_norm(h, (H,), nw, 1e-6), self.lm_head)
+
+
+def _step_fused(self, h):
+    """Ring with FP32 outputs where the next op is ours to fuse: o / out projections (residual
+    add) and the MLP (silu * mul, residual add). q/k/v/qkvz keep the BF16 tail: their
+    consumers (attention, DeltaNet) are not simulated."""
+    from factorized_inference.tr_kernel import load_v3g
+
+    ext = load_v3g()
+    nw = self.norm_w
+    for kind, ops, ba in self.layers:
+        x = F.rms_norm(h, (H,), nw, 1e-6)
+        if kind == "full_attention":
+            qg, _, _ = ops[0](x), ops[1](x), ops[2](x)
+            h = ext.consume_add(h, ops[3].accumulate(qg[:, :6144].contiguous()))
+        else:
+            qkvz = ops[0](x)
+            F.linear(x, ba)
+            h = ext.consume_add(h, ops[1].accumulate(qkvz[:, :6144].contiguous()))
+        x = F.rms_norm(h, (H,), nw, 1e-6)
+        act = ext.consume_silu_mul(ops[-3].accumulate(x), ops[-2].accumulate(x))
+        h = ext.consume_add(h, ops[-1].accumulate(act))
+    return F.linear(F.rms_norm(h, (H,), nw, 1e-6), self.lm_head)
+
+
+Model.step_fused = _step_fused
 
 
 def time_eager(model, h, steps=20, reps=5):
@@ -179,7 +207,7 @@ def main():
     rows = []
     result = {"device": torch.cuda.get_device_name(0), "tilings": str(a.tilings), "rows": rows}
     for variant in a.variants.split(","):
-        rank = int(variant[4:]) if variant.startswith("ring") else None
+        rank = int(variant[4:].rstrip("f")) if variant.startswith("ring") else None
         torch.cuda.empty_cache()
         base = torch.cuda.memory_allocated()
         model = Model(variant, rank, a.tilings, tokens)

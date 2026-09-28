@@ -227,6 +227,21 @@ class PreparedTRKernel:
                     if 0 < ext.smem(self.modes, *t, bf) <= self.smem_limit}
             self.v3g = fits or None
 
+    def accumulate(self, x: torch.Tensor) -> torch.Tensor:
+        """V3G without the design-B tail: returns the FP32 workspace holding y (a view, [T, out]).
+        The caller's consumer must clear it (load_v3g().consume_silu_mul / consume_add do) before
+        this layer is called again. For fusing the FP32 -> BF16 step into the next op."""
+        T = x.shape[0]
+        kc, qc, tt, mg, nt, ks, cl = self.v3g_tiling(T)
+        need = T * self.spec.out_features
+        counters = -(-T // tt) * -(-self.spec.output_modes[1] // qc)
+        if self.ws.numel() < need:
+            self.ws = torch.zeros(need, dtype=torch.float32, device=x.device)
+        if self.tile_done.numel() < counters:
+            self.tile_done = torch.zeros(counters, dtype=torch.int32, device=x.device)
+        return load_v3g().forward_fp32(x.contiguous(), self.A1, self.B2, self.C3, self.modes, kc,
+                                       qc, tt, mg, nt, ks, cl, self.ws, self.tile_done)
+
     def v3g_tiling(self, T: int):
         """(kc, qc, tt, mg, nt, ks, cl): the table's entry for the largest measured T <= T."""
         below = [t for t in self.v3g if t <= T]

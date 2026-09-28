@@ -148,7 +148,7 @@ v3g_kernel(const E* __restrict__ x,    // [T, ni*nj*nk]
            float* __restrict__ ws,     // [T, P*Q*Rr] FP32 accumulator, zero between calls
            E* __restrict__ y,          // [T, P*Q*Rr]
            unsigned int* __restrict__ tile_done,  // [ntt * nqc], zero between calls
-           int T, int ablate) {  // ablate: measurement only, 0 in use
+           int T, int ablate) {  // 0 normal; 1, 2 ablations (measurement); 3 FP32 out
   using C = Cfg<M, R, KC, QC, TT, MG, CL>;
   using O = Ops<E>;
   static_assert(KS >= 1 && KS <= KC, "V3G: 1 <= KS <= KC");
@@ -347,7 +347,7 @@ v3g_kernel(const E* __restrict__ x,    // [T, ni*nj*nk]
             *reinterpret_cast<float2*>(sy + m1 * C::Rrp + r) =
                 make_float2(yv[mg][rt][2], yv[mg][rt][3]);
           } else {
-            if (ablate) continue;
+            if (ablate == 1 || ablate == 2) continue;
             if (tl0 < tt_valid) red_add_v2(w0 + r, yv[mg][rt][0], yv[mg][rt][1]);
             if (tl1 < tt_valid) red_add_v2(w1 + r, yv[mg][rt][2], yv[mg][rt][3]);
           }
@@ -379,7 +379,7 @@ v3g_kernel(const E* __restrict__ x,    // [T, ni*nj*nk]
         v.y += w.y;
       }
       const int tl = m / P, p = m % P;
-      if (!ablate)
+      if (ablate != 1 && ablate != 2)
         red_add_v2(ws + (size_t)(t0 + tl) * out_f + (p * Q + q0 + ql) * Rr + r, v.x, v.y);
     }
     cluster.sync();  // no block leaves while a peer may still read its sY
@@ -388,7 +388,8 @@ v3g_kernel(const E* __restrict__ x,    // [T, ni*nj*nk]
 
   // ---- design B: one counter per (token tile, q chunk); the last of its R * nkc blocks
   // converts those rows and clears them, 8 float4 loads in flight before any store
-  if (ablate == 2) return;
+  // mode 3: the FP32 workspace IS the output; its consumer reads it and clears it (bind.cu)
+  if (ablate == 2 || ablate == 3) return;
   __shared__ bool is_last;
   unsigned int* ctr = tile_done + tti * C::nqc + qci;
   __threadfence();

@@ -7,7 +7,7 @@ Draft for the discussion on 29 September 2026 · Danila Permogorsky · updated o
 ## Summary in one slide
 
 - **Done:** a layer is computed from three small cores instead of a weight matrix, in a single CUDA kernel on H100. On the test layer at R = 8 and one token: **8.2 µs vs 9.8 µs for dense**, with 124× less weight memory.
-- **New, 28 September, measured on H100:** the kernel now runs every real layer shape of Qwen3.8-27B in BF16. A whole decode step at one token (all linear layers plus lm_head): **5.8 ms vs 19.6 for dense BF16, 12.6 for FP8 and 10.0 for INT4**. Energy: **1.75 J per token** vs 5.5–9.4. The R = 8 ring beats FP8 up to ~6–10 tokens per call.
+- **New, 28 September, measured on H100:** the kernel now runs every real layer shape of Qwen3.8-27B in BF16. A whole decode step at one token (all linear layers plus lm_head): **5.8 ms vs 19.6 for dense BF16, 12.6 for FP8 and 10.0 for INT4**. Energy: **1.75 J per token** vs 5.5–9.4. If the model's next operation reads the ring's result directly in FP32, the step takes **5.1 ms**, and the R = 8 ring beats FP8 at 8 tokens per call too (11.9 vs 13.0 ms).
 - **Quality, measured on the real Qwen weights:** pretrained weights cannot be compressed into an R = 8 / 16 ring. Less than 2% of each matrix survives, the same as for random noise. For pretrained weights the tensorization barely matters. **The ring has to be trained, not fitted onto a finished model.**
 - **How:** the method and a cost model were worked out in a Julia lab; all kernel debugging ran on a laptop GPU; the rented H100 was used only for measurements.
 - **What limits us:** not arithmetic but latency. Of a 6,700 ns call, arithmetic takes 40 ns. The engineering window is **2.7–3×** per call. The real shapes show the same picture: the kernel waits rather than computes.
@@ -232,7 +232,15 @@ The kernel still **waits rather than computes**. Two hypotheses were tested on t
 | R = 16, 8 tokens | 139.5 | 130.2 | 123.3 |
 
 - At R = 8, **35–40% of the call is assembling the result**: 32 partial sums per output go through L2 as atomics, and the last block converts FP32 → BF16.
-- **Tried and did not help: summing inside a thread-block cluster** through Hopper's distributed shared memory, 2–8 ring links per cluster. Every variant is correct but slower: mlp_gate_up R = 8, 1 token — 11.2 µs without a cluster, 12.2 with a cluster of 2 blocks, 14.5 with 8. The `red` atomics do not make a warp wait and overlap with the compute. A cluster adds two synchronisations in which every block waits for the slowest one, plus a reduction step that overlaps with nothing. What is left: the tail (FP32 → BF16, ~2 µs) goes away if the model's next operation reads FP32 itself — that is done when integrating into the engine.
+- **Tried and did not help: summing inside a thread-block cluster** through Hopper's distributed shared memory, 2–8 ring links per cluster. Every variant is correct but slower: mlp_gate_up R = 8, 1 token — 11.2 µs without a cluster, 12.2 with a cluster of 2 blocks, 14.5 with 8. The `red` atomics do not make a warp wait and overlap with the compute. A cluster adds two synchronisations in which every block waits for the slowest one, plus a reduction step that overlaps with nothing.
+- **Worked: FP32 output fused into the next operation.** The kernel leaves its result in the FP32 buffer and skips the tail (the last block no longer converts FP32 → BF16). The model's next operation reads FP32 itself and clears the buffer: for the MLP one kernel does `silu(gate) · up`, for the output projections the residual add. MLP block at R = 8, 1 token: 41.5 → 33.3 µs (1.25×), and more accurate, because the intermediate result stays in FP32. The whole model step:
+
+| | R = 8, 1 token | R = 8, 8 tokens | R = 16, 1 token |
+|---|---|---|---|
+| with the tail | 5.77 ms | 13.2 ms | 9.57 ms |
+| FP32 output + fusion | **5.11 ms** | **11.9 ms** | 8.73 ms |
+
+At 8 tokens the R = 8 ring now beats FP8 too (13.0 ms). Part of the gain is fusing elementwise operations, which dense can also get. By my estimate that is ~0.1–0.2 ms per step, which does not change the conclusion. q / k / v and qkvz still use the tail for now: their consumers are attention and DeltaNet, which the simulation does not run.
 - At R = 16 the time is almost all computation: that is the price of R³, and only a lower rank or a better tensorization removes it.
 
 ---
@@ -362,7 +370,7 @@ The example numbers (slides 8–12) show what each stage can give. For the targe
 
 ## 16. The main point
 
-> The kernel runs the real shapes. For a single user a decode step is **3.4× faster than BF16 and 2.2× faster than FP8**, with 3× less energy per token and ~18× less weight memory — that changes the economics of an instance. But a finished model cannot be squeezed into a ring: **the ring model has to be trained**.
+> The kernel runs the real shapes. For a single user a decode step is **3.4× faster than BF16 and 2.2× faster than FP8** (3.8× and 2.5× with the FP32 output fused into the next operation), with 3× less energy per token and ~18× less weight memory — that changes the economics of an instance. But a finished model cannot be squeezed into a ring: **the ring model has to be trained**.
 
 The first step is a question for the researchers: **how to train (or distil) a model in ring format so that quality holds at R = 8–16, and which tensorization matches the subspace of the data.**
 
@@ -376,7 +384,7 @@ The first step is a question for the researchers: **how to train (or distil) a m
 - Example, layer shapes: the model's `config.json` (`kernel-design/physics/qwen3.8-27b_config.json`).
 - Charts and estimates: `tools/physics_charts.py`, `tools/simple_charts.py`, `tools/qwen_estimate.py`, `tools/qwen_charts.py`, `tools/talk_charts_0928.py` (`--en` for English labels).
 - 28 September measurements on H100, all in `results/h100/qwen/`:
-  - V3G kernel and correctness — `v3g_sweep.json`, `v3g_sweep2.json` (NT / KS), `v3g_sweep3.json` (clusters), `check_bf16_v3g*.txt`; where the time goes — `v3g_ablate*.json`;
+  - V3G kernel and correctness — `v3g_sweep.json`, `v3g_sweep2.json` (NT / KS), `v3g_sweep3.json` (clusters), `check_bf16_v3g*.txt`; where the time goes — `v3g_ablate*.json`; FP32 output with fusion — `v3g_fp32out.json`, `model_chain_fp32out.json`;
   - per layer against BF16 / FP8 / INT4 — `lowbit.json`;
   - the whole model step with energy — `model_chain_lowbit.json`;
   - quality on the real weights — `quality.json`, walk-through in `quality_review.md`;
