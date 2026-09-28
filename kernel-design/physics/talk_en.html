@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Tensor-ring weight compression: what was done and where to go next</title>
+<title>Tensor-ring weight compression: what was done and where to go</title>
 <style>
 @page { size: A4; margin: 20mm 18mm; }
 :root { --ink:#1a1a1a; --muted:#5b6470; --rule:#d8dde3; --accent:#2c5aa0; }
@@ -34,7 +34,7 @@ a { color: var(--accent); }
 </style>
 </head><body>
 <h1>Tensor-ring weight compression: what was done and where to go next</h1>
-<p>Draft for the discussion on 29 September 2026 · Danila Permogorsky · updated on the evening of 28 September: measurements on the real layer shapes and the real weights of Qwen3.8-27B (slides 7a–7d)</p>
+<p>Draft for the discussion on 29 September 2026 · Danila Permogorsky · updated on the evening of 28 September: measurements on the real layer shapes and the real weights of Qwen3.8-27B (slides 6b–6c, 7a–7e)</p>
 <hr>
 <h2>Summary in one slide</h2>
 <ul>
@@ -217,6 +217,31 @@ a { color: var(--accent); }
 <li>The targets &quot;~1,200 ns of work&quot; and &quot;~400 ns of assembly&quot; are estimates from the microbenchmarks, not measurements.</li>
 </ul>
 <hr>
+<h2>6b. How the V3G kernel works: block diagram</h2>
+<p><img src="kernel_flow_en.png" alt="Block diagram of one kernel call"></p>
+<p>The example is the heaviest layer of the model, MLP 5120 → 17408, R = 8, one token. The dense matrix holds 89 M weights (178 MB in BF16). The ring holds three cores A, B, C with 88 k parameters in total, ~1000× fewer. One multiplication by a large matrix becomes three small ones in a row.</p>
+<ul>
+<li><strong>Grid.</strong> The work is cut three ways: by ring link a (8 links), by input chunks k (4 chunks of 4) and by output chunks q (4 chunks of up to 9). 8 × 4 × 4 = 128 blocks, almost one per each of the 132 SMs. The blocks do not wait for each other.</li>
+<li><strong>Stage 1 (x · A)</strong> runs on ordinary CUDA cores in FP32: at R = 8 it is too narrow for Tensor Cores.</li>
+<li><strong>Stages 2 and 3 (· B, · C)</strong> run on Tensor Cores (<code>mma.sync</code>). The result of stage 2 becomes the input of stage 3 right in registers and never goes to memory — the key idea of the kernel (V3T). Y accumulates in registers over 4 values of k.</li>
+<li><strong>Assembly.</strong> The slices from different blocks are parts of the same output. They are added with <code>red.add</code> atomics into a shared FP32 buffer: 8 links × 4 k chunks = 32 additions per output.</li>
+<li><strong>Hand-over.</strong> A per-chunk counter finds the last block: it converts the sum to BF16 and clears the buffer (the tail). Mode 3 has no tail: the next operation of the model (SiLU·up in the MLP or the residual add) reads the FP32 directly and clears the buffer itself.</li>
+<li>The tiling (how many k and q per block, 256 or 512 threads) is picked once per shape from a measured table. No search for modes is needed at run time.</li>
+</ul>
+<hr>
+<h2>6c. H100 memory: where the data lives and where it moves</h2>
+<p><img src="kernel_memory_en.png" alt="H100 memory and the kernel steps"></p>
+<p>Three &quot;floors&quot;: HBM is the big warehouse (80 GB, 3.35 TB/s), L2 is a shared shelf by the door (50 MB), shared memory and registers are each SM&#39;s workbench (228 KB of smem per SM).</p>
+<ol>
+<li><strong>Load.</strong> A block copies (<code>cp.async</code>) its slice into smem: B for its q (38 KB), A for its link (5 KB), C for its k (5 KB) and a piece of the input x in FP32 (5 KB). All cores of the layer take ~0.3 MB in memory (88 k parameters plus padding). 128 blocks read them, but they come from HBM once and then from L2.</li>
+<li><strong>Stage 1.</strong> CUDA cores compute x · A in FP32 and write S1 (17 KB) back to smem in BF16, in the layout the Tensor Cores want.</li>
+<li><strong>Stage 2.</strong> Tensor Cores compute S1 · B; the result acc stays in registers.</li>
+<li><strong>Stage 3.</strong> acc goes straight into a second <code>mma</code> with core C; Y accumulates in registers.</li>
+<li><strong>Assembly.</strong> Y is added with a <code>red.add.v2.f32</code> atomic into the FP32 buffer (68 KB per token), which lives in L2.</li>
+<li><strong>Tail.</strong> The last block of a chunk reads the sum from L2, writes y in BF16 and clears the buffer. In mode 3 the next kernel of the model does this.</li>
+</ol>
+<p><strong>The main difference from dense.</strong> A dense layer hauls all 178 MB of weights from HBM at every step, so its speed is HBM bandwidth: 62 µs ≈ 178 MB / 2.9 TB/s. The ring has almost nothing to haul: Nsight Compute shows HBM 1% busy. The kernel is limited not by memory but by latencies — loads, synchronisations, atomics. A block needs 70 KB of smem out of 228.</p>
+<hr>
 <h2>7. Honest checks</h2>
 <ul>
 <li><strong>One layer under CUDA graphs:</strong> dense is faster, 5.2 vs 6.8 µs.</li>
@@ -226,7 +251,7 @@ a { color: var(--accent); }
 <p>Conclusion: on the 1920 × 2880 test layer we are on par with dense in speed, and the main gain is memory. Real layers are tens of times larger, and the picture changes (slide 7a).</p>
 <hr>
 <h2>7a. The real layer shapes of Qwen3.8-27B on H100 (measured 28 September)</h2>
-<p>The V3T kernel now handles any shape: the mode sizes became template parameters, and BF16 was added (V3G). 107 variants were built for the model&#39;s 6 layer shapes, <strong>all checked against an FP64 oracle</strong>. The tiling for each shape comes from a measured table.</p>
+<p>The V3T kernel now handles any shape: the mode sizes became template parameters, and BF16 was added (V3G). 746 variants were built for the model&#39;s 6 layer shapes, <strong>all checked against an FP64 oracle</strong>. The tiling for each shape comes from a measured table.</p>
 <p>One MLP layer 5120 → 17408, µs per call:</p>
 <table>
 <thead>
@@ -357,7 +382,7 @@ a { color: var(--accent); }
 <ul>
 <li>The layer&#39;s inputs are close to low-rank: 50% of their energy lies in 20 directions out of 5120.</li>
 <li>Output error at the R = 8 budget: ring 0.97, SVD of the same size 0.53, activation-aware SVD 0.38.</li>
-<li>A ring fitted with the activations in mind reaches 0.35 at R = 32.</li>
+<li>A ring fitted with the activations in mind reaches 0.35 at R = 32. But an activation-aware SVD of the same size gives 0.22: at every budget SVD is better.</li>
 <li>The ring&#39;s rigid mode structure does not line up with the data subspace. A plain low-rank matrix adapts to it.</li>
 </ul>
 <p><strong>Conclusion:</strong> compressing pretrained weights into a ring after training does not work. A ring model has to be <strong>trained</strong> — directly in this format, or by activation-aware distillation. The question for the researchers is which tensorization (and possibly which change of basis) gives the ring a structure that matches the data.</p>
@@ -432,6 +457,17 @@ a { color: var(--accent); }
 <ul>
 <li>At R = 16 the time is almost all computation: that is the price of R³, and only a lower rank or a better tensorization removes it.</li>
 </ul>
+<hr>
+<h2>7e. The results in numbers</h2>
+<p><img src="kernel_results_en.png" alt="Speed, bottlenecks and quality"></p>
+<ul>
+<li><strong>Speed (top left).</strong> A model step at one token: ring R = 8 takes 5.82 ms, fused 5.11 ms (a separate run; the unfused ring was 5.77 in it). That compares with 19.59 for dense BF16 (×3.8), 12.60 for FP8 (×2.5) and 10.04 for INT4 (×2.0). Energy is 1.6–1.75 J per token against 9.4 for BF16 and 5.5 for FP8.</li>
+<li><strong>The limit (top right).</strong> The ring&#39;s time grows with the number of tokens; FP8&#39;s hardly does. At 8 tokens the unfused ring R = 8 is slightly slower than FP8 (14.1 vs 13.0 ms), the fused one is faster (11.9). From 16 tokens FP8 wins. The ring is a small-batch tool.</li>
+<li><strong>Bottlenecks (bottom left).</strong> At R = 8 a third of the call is assembling the result: atomics 14–21%, the tail 20%. Mode 3 removes the tail. At R = 16, 78–88% of the call is the compute itself, the price of R³.</li>
+<li><strong>Quality (bottom right), at the same parameter budget.</strong> Activation-aware SVD beats the ring at every R: 0.38 vs 0.92 at R = 8, 0.22 vs 0.35 at R = 32. Ready-made weights do not carry over into a ring of R = 8–16.</li>
+<li><strong>Weight memory.</strong> 2.6 GB against 47.7 for dense. Of that, 2.4 GB is the uncompressed lm_head; the ring layers themselves take ~0.2 GB instead of 45.3.</li>
+</ul>
+<p><strong>Conclusion:</strong> the kernel is ready and fast at small batch. The project&#39;s bottleneck is quality: a ring model has to be trained or distilled. That is a question for the researchers, not for the kernel.</p>
 <hr>
 <h2>8. What it could give: an example on our current inference</h2>
 <p>To estimate the effect on a real service rather than one operator, we take as a <strong>reference</strong> the inference we already run and have measurements for. This is an example, not the target: the roadmap below is not tied to a specific model.</p>
