@@ -1,0 +1,165 @@
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg=1,9,4,1  max|err|=1.82e-02  T1:26.8  T8:64.9  T32:205.6  T128:768.9
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg=1,17,4,1  max|err|=1.82e-02  T1:23.2  T8:72.6  T32:216.4  T128:754.4
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg=2,9,1,1  max|err|=1.82e-02  T1:13.4  T8:55.0  T32:192.8  T128:741.1
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg=2,9,4,1  max|err|=1.82e-02  T1:19.6  T8:46.0  T32:138.3  T128:490.5
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg=2,17,1,1  max|err|=1.82e-02  T1:13.9  T8:56.1  T32:180.4  T128:647.4
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg=2,17,4,1  max|err|=1.82e-02  T1:19.2  T8:51.5  T32:157.4  T128:533.4
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg=4,9,1,1  max|err|=1.82e-02  T1:11.3  T8:43.4  T32:122.6  T128:447.6
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg=4,9,4,1  max|err|=1.82e-02  T1:19.7  T8:42.0  T32:148.6  T128:562.8
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg=4,17,1,1  max|err|=1.82e-02  T1:13.7  T8:38.7  T32:127.3  T128:418.6
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg=4,17,4,1  max|err|=1.82e-02  T1:25.8  T8:35.4  T32:111.4  T128:410.3
+  BEST mlp_gate_up  R= 8 T=  1  v3g     11.3  dense     64.7  generic     30.7  (4, 9, 1, 1)
+  BEST mlp_gate_up  R= 8 T=  8  v3g     35.4  dense     65.3  generic    112.7  (4, 17, 4, 1)
+  BEST mlp_gate_up  R= 8 T= 32  v3g    111.4  dense     65.7  generic    391.0  (4, 17, 4, 1)
+  BEST mlp_gate_up  R= 8 T=128  v3g    410.3  dense     67.2  generic   1511.7  (4, 17, 4, 1)
+ok   mlp_gate_up  R=16 kc,qc,tt,mg=1,9,4,1  max|err|=1.76e-02  T1:98.2  T8:215.1  T32:806.4  T128:3169.0
+ok   mlp_gate_up  R=16 kc,qc,tt,mg=1,17,4,1  max|err|=1.76e-02  T1:82.1  T8:190.6  T32:686.0  T128:2651.0
+ok   mlp_gate_up  R=16 kc,qc,tt,mg=2,9,1,1  max|err|=1.76e-02  T1:30.9  T8:172.8  T32:638.9  T128:2502.4
+ok   mlp_gate_up  R=16 kc,qc,tt,mg=2,9,4,1  max|err|=1.76e-02  T1:75.1  T8:158.2  T32:595.1  T128:2334.5
+ok   mlp_gate_up  R=16 kc,qc,tt,mg=2,17,1,1  max|err|=1.76e-02  T1:31.2  T8:205.5  T32:763.4  T128:2946.9
+ok   mlp_gate_up  R=16 kc,qc,tt,mg=4,9,1,1  max|err|=1.76e-02  T1:26.9  T8:173.0  T32:659.2  T128:2604.1
+ok   mlp_gate_up  R=16 kc,qc,tt,mg=4,17,1,1  max|err|=1.76e-02  T1:21.8  T8:136.8  T32:503.5  T128:1932.4
+  BEST mlp_gate_up  R=16 T=  1  v3g     21.8  dense     62.9  generic     53.5  (4, 17, 1, 1)
+  BEST mlp_gate_up  R=16 T=  8  v3g    136.8  dense     63.5  generic    299.2  (4, 17, 1, 1)
+  BEST mlp_gate_up  R=16 T= 32  v3g    503.5  dense     63.6  generic   1076.2  (4, 17, 1, 1)
+  BEST mlp_gate_up  R=16 T=128  v3g   1932.4  dense     67.5  generic   4227.6  (4, 17, 1, 1)
+ok   mlp_down     R= 8 kc,qc,tt,mg=1,4,4,1  max|err|=1.50e-02  T1:34.3  T8:73.4  T32:266.5  T128:1039.9
+ok   mlp_down     R= 8 kc,qc,tt,mg=1,8,4,1  max|err|=1.50e-02  T1:29.1  T8:68.9  T32:255.9  T128:981.6
+ok   mlp_down     R= 8 kc,qc,tt,mg=2,4,1,1  max|err|=1.50e-02  T1:14.3  T8:70.3  T32:247.8  T128:942.8
+ok   mlp_down     R= 8 kc,qc,tt,mg=2,4,4,1  max|err|=1.50e-02  T1:36.8  T8:77.2  T32:296.1  T128:1148.4
+ok   mlp_down     R= 8 kc,qc,tt,mg=2,8,1,1  max|err|=1.50e-02  T1:12.7  T8:52.7  T32:175.8  T128:666.2
+ok   mlp_down     R= 8 kc,qc,tt,mg=2,8,4,1  max|err|=1.50e-02  T1:24.0  T8:51.2  T32:186.6  T128:722.2
+ok   mlp_down     R= 8 kc,qc,tt,mg=4,4,1,1  max|err|=1.50e-02  T1:13.8  T8:65.2  T32:235.0  T128:916.2
+ok   mlp_down     R= 8 kc,qc,tt,mg=4,8,1,1  max|err|=1.50e-02  T1:14.5  T8:53.7  T32:202.8  T128:766.6
+  BEST mlp_down     R= 8 T=  1  v3g     12.7  dense     65.2  generic     22.6  (2, 8, 1, 1)
+  BEST mlp_down     R= 8 T=  8  v3g     51.2  dense     65.9  generic     80.7  (2, 8, 4, 1)
+  BEST mlp_down     R= 8 T= 32  v3g    175.8  dense     67.4  generic    303.2  (2, 8, 1, 1)
+  BEST mlp_down     R= 8 T=128  v3g    666.2  dense     72.6  generic   1184.1  (2, 8, 1, 1)
+ok   mlp_down     R=16 kc,qc,tt,mg=1,4,4,1  max|err|=1.90e-02  T1:142.0  T8:308.0  T32:1186.4  T128:4707.4
+ok   mlp_down     R=16 kc,qc,tt,mg=2,4,1,1  max|err|=1.90e-02  T1:50.5  T8:374.4  T32:1476.4  T128:5896.5
+ok   mlp_down     R=16 kc,qc,tt,mg=2,8,1,1  max|err|=1.90e-02  T1:35.2  T8:257.5  T32:981.3  T128:3889.8
+ok   mlp_down     R=16 kc,qc,tt,mg=4,4,1,1  max|err|=1.90e-02  T1:42.3  T8:315.7  T32:1224.9  T128:4868.6
+  BEST mlp_down     R=16 T=  1  v3g     35.2  dense     65.7  generic     47.2  (2, 8, 1, 1)
+  BEST mlp_down     R=16 T=  8  v3g    257.5  dense     66.6  generic    347.3  (2, 8, 1, 1)
+  BEST mlp_down     R=16 T= 32  v3g    981.3  dense     67.9  generic   1327.2  (2, 8, 1, 1)
+  BEST mlp_down     R=16 T=128  v3g   3889.8  dense     73.1  generic   5285.0  (2, 8, 1, 1)
+ok   attn_q_gate  R= 8 kc,qc,tt,mg=1,6,4,1  max|err|=1.67e-02  T1:19.1  T8:52.8  T32:159.4  T128:582.3
+ok   attn_q_gate  R= 8 kc,qc,tt,mg=1,12,4,1  max|err|=1.67e-02  T1:18.3  T8:55.3  T32:164.0  T128:575.6
+ok   attn_q_gate  R= 8 kc,qc,tt,mg=2,6,1,1  max|err|=1.67e-02  T1:11.6  T8:43.8  T32:147.8  T128:568.1
+ok   attn_q_gate  R= 8 kc,qc,tt,mg=2,6,4,1  max|err|=1.67e-02  T1:17.0  T8:37.4  T32:117.4  T128:420.2
+ok   attn_q_gate  R= 8 kc,qc,tt,mg=2,12,1,1  max|err|=1.67e-02  T1:11.4  T8:39.5  T32:122.9  T128:453.3
+ok   attn_q_gate  R= 8 kc,qc,tt,mg=2,12,4,1  max|err|=1.67e-02  T1:15.9  T8:35.3  T32:100.4  T128:324.9
+ok   attn_q_gate  R= 8 kc,qc,tt,mg=4,6,1,1  max|err|=1.67e-02  T1:9.8  T8:33.1  T32:103.9  T128:383.7
+ok   attn_q_gate  R= 8 kc,qc,tt,mg=4,6,4,1  max|err|=1.67e-02  T1:17.0  T8:35.7  T32:126.2  T128:477.9
+ok   attn_q_gate  R= 8 kc,qc,tt,mg=4,12,1,1  max|err|=1.67e-02  T1:11.2  T8:30.5  T32:95.4  T128:318.2
+ok   attn_q_gate  R= 8 kc,qc,tt,mg=4,12,4,1  max|err|=1.67e-02  T1:21.1  T8:28.3  T32:89.8  T128:332.4
+  BEST attn_q_gate  R= 8 T=  1  v3g      9.8  dense     46.2  generic     23.8  (4, 6, 1, 1)
+  BEST attn_q_gate  R= 8 T=  8  v3g     28.3  dense     46.3  generic     73.8  (4, 12, 4, 1)
+  BEST attn_q_gate  R= 8 T= 32  v3g     89.8  dense     48.8  generic    246.6  (4, 12, 4, 1)
+  BEST attn_q_gate  R= 8 T=128  v3g    318.2  dense     48.6  generic    946.7  (4, 12, 1, 1)
+ok   attn_q_gate  R=16 kc,qc,tt,mg=1,6,4,1  max|err|=1.78e-02  T1:60.9  T8:132.9  T32:478.9  T128:1860.6
+ok   attn_q_gate  R=16 kc,qc,tt,mg=1,12,4,1  max|err|=1.78e-02  T1:65.3  T8:149.5  T32:532.9  T128:2066.4
+ok   attn_q_gate  R=16 kc,qc,tt,mg=2,6,1,1  max|err|=1.78e-02  T1:26.1  T8:143.0  T32:542.4  T128:2137.0
+ok   attn_q_gate  R=16 kc,qc,tt,mg=2,6,4,1  max|err|=1.78e-02  T1:63.0  T8:136.3  T32:514.9  T128:1995.3
+ok   attn_q_gate  R=16 kc,qc,tt,mg=2,12,1,1  max|err|=1.78e-02  T1:24.8  T8:165.3  T32:631.3  T128:2490.3
+ok   attn_q_gate  R=16 kc,qc,tt,mg=2,12,4,1  max|err|=1.78e-02  T1:47.5  T8:102.1  T32:387.4  T128:1490.6
+ok   attn_q_gate  R=16 kc,qc,tt,mg=4,6,1,1  max|err|=1.78e-02  T1:19.0  T8:104.5  T32:378.1  T128:1470.4
+ok   attn_q_gate  R=16 kc,qc,tt,mg=4,6,4,1  max|err|=1.78e-02  T1:50.5  T8:105.9  T32:403.5  T128:1561.1
+ok   attn_q_gate  R=16 kc,qc,tt,mg=4,12,1,1  max|err|=1.78e-02  T1:17.4  T8:105.8  T32:392.6  T128:1524.6
+  BEST attn_q_gate  R=16 T=  1  v3g     17.4  dense     46.2  generic     39.5  (4, 12, 1, 1)
+  BEST attn_q_gate  R=16 T=  8  v3g    102.1  dense     46.1  generic    191.0  (2, 12, 4, 1)
+  BEST attn_q_gate  R=16 T= 32  v3g    378.1  dense     48.7  generic    725.1  (4, 6, 1, 1)
+  BEST attn_q_gate  R=16 T=128  v3g   1470.4  dense     48.0  generic   2834.7  (4, 6, 1, 1)
+ok   attn_kv      R= 8 kc,qc,tt,mg=1,2,4,1  max|err|=1.36e-02  T1:10.3  T8:18.3  T32:56.5  T128:205.7
+ok   attn_kv      R= 8 kc,qc,tt,mg=1,4,4,1  max|err|=1.36e-02  T1:9.6  T8:15.0  T32:39.6  T128:134.0
+ok   attn_kv      R= 8 kc,qc,tt,mg=2,2,2,1  max|err|=1.36e-02  T1:8.9  T8:17.5  T32:52.8  T128:191.1
+ok   attn_kv      R= 8 kc,qc,tt,mg=2,2,4,1  max|err|=1.36e-02  T1:10.2  T8:14.6  T32:44.5  T128:153.6
+ok   attn_kv      R= 8 kc,qc,tt,mg=2,4,2,1  max|err|=1.36e-02  T1:7.3  T8:12.5  T32:35.3  T128:117.5
+ok   attn_kv      R= 8 kc,qc,tt,mg=2,4,4,1  max|err|=1.36e-02  T1:8.8  T8:12.1  T32:30.1  T128:91.6
+ok   attn_kv      R= 8 kc,qc,tt,mg=4,2,2,1  max|err|=1.36e-02  T1:8.1  T8:15.1  T32:45.5  T128:160.0
+ok   attn_kv      R= 8 kc,qc,tt,mg=4,2,4,1  max|err|=1.36e-02  T1:9.9  T8:14.3  T32:41.0  T128:145.3
+ok   attn_kv      R= 8 kc,qc,tt,mg=4,4,2,1  max|err|=1.36e-02  T1:8.0  T8:11.6  T32:27.8  T128:88.7
+ok   attn_kv      R= 8 kc,qc,tt,mg=4,4,4,1  max|err|=1.36e-02  T1:10.1  T8:11.3  T32:27.5  T128:92.9
+  BEST attn_kv      R= 8 T=  1  v3g      7.3  dense     12.8  generic     12.7  (2, 4, 2, 1)
+  BEST attn_kv      R= 8 T=  8  v3g     11.3  dense     12.8  generic     21.8  (4, 4, 4, 1)
+  BEST attn_kv      R= 8 T= 32  v3g     27.5  dense     12.6  generic     53.0  (4, 4, 4, 1)
+  BEST attn_kv      R= 8 T=128  v3g     88.7  dense     12.9  generic    182.3  (4, 4, 2, 1)
+ok   attn_kv      R=16 kc,qc,tt,mg=1,2,4,1  max|err|=1.31e-02  T1:24.6  T8:45.5  T32:158.5  T128:601.2
+ok   attn_kv      R=16 kc,qc,tt,mg=1,4,4,1  max|err|=1.31e-02  T1:19.8  T8:35.3  T32:108.2  T128:397.9
+ok   attn_kv      R=16 kc,qc,tt,mg=2,2,2,1  max|err|=1.31e-02  T1:18.0  T8:59.7  T32:204.2  T128:768.4
+ok   attn_kv      R=16 kc,qc,tt,mg=2,2,4,1  max|err|=1.31e-02  T1:24.5  T8:46.8  T32:160.2  T128:601.7
+ok   attn_kv      R=16 kc,qc,tt,mg=2,4,2,1  max|err|=1.31e-02  T1:12.6  T8:40.5  T32:120.0  T128:441.6
+ok   attn_kv      R=16 kc,qc,tt,mg=2,4,4,1  max|err|=1.31e-02  T1:16.6  T8:30.2  T32:97.0  T128:355.5
+ok   attn_kv      R=16 kc,qc,tt,mg=4,2,2,1  max|err|=1.31e-02  T1:14.7  T8:47.6  T32:166.1  T128:627.4
+ok   attn_kv      R=16 kc,qc,tt,mg=4,2,4,1  max|err|=1.31e-02  T1:24.5  T8:47.2  T32:175.8  T128:695.1
+ok   attn_kv      R=16 kc,qc,tt,mg=4,4,2,1  max|err|=1.31e-02  T1:11.2  T8:29.7  T32:98.1  T128:337.4
+ok   attn_kv      R=16 kc,qc,tt,mg=4,4,4,1  max|err|=1.31e-02  T1:15.4  T8:29.6  T32:104.9  T128:395.7
+  BEST attn_kv      R=16 T=  1  v3g     11.2  dense     12.9  generic     17.6  (4, 4, 2, 1)
+  BEST attn_kv      R=16 T=  8  v3g     29.6  dense     12.4  generic     42.8  (4, 4, 4, 1)
+  BEST attn_kv      R=16 T= 32  v3g     97.0  dense     12.4  generic    144.3  (2, 4, 4, 1)
+  BEST attn_kv      R=16 T=128  v3g    337.4  dense     12.5  generic    552.0  (4, 4, 2, 1)
+ok   o_proj       R= 8 kc,qc,tt,mg=1,4,4,1  max|err|=1.86e-02  T1:17.0  T8:40.2  T32:123.6  T128:453.3
+ok   o_proj       R= 8 kc,qc,tt,mg=1,8,4,1  max|err|=1.86e-02  T1:15.5  T8:38.8  T32:110.8  T128:390.8
+ok   o_proj       R= 8 kc,qc,tt,mg=2,4,1,1  max|err|=1.86e-02  T1:10.1  T8:36.4  T32:125.4  T128:473.4
+ok   o_proj       R= 8 kc,qc,tt,mg=2,4,4,1  max|err|=1.86e-02  T1:15.8  T8:29.9  T32:94.1  T128:341.2
+ok   o_proj       R= 8 kc,qc,tt,mg=2,8,1,1  max|err|=1.86e-02  T1:9.5  T8:29.3  T32:89.6  T128:327.7
+ok   o_proj       R= 8 kc,qc,tt,mg=2,8,4,1  max|err|=1.86e-02  T1:13.0  T8:26.0  T32:77.9  T128:254.8
+ok   o_proj       R= 8 kc,qc,tt,mg=4,4,1,1  max|err|=1.86e-02  T1:9.1  T8:29.2  T32:96.6  T128:354.9
+ok   o_proj       R= 8 kc,qc,tt,mg=4,4,4,1  max|err|=1.86e-02  T1:16.2  T8:32.7  T32:118.2  T128:451.8
+ok   o_proj       R= 8 kc,qc,tt,mg=4,8,1,1  max|err|=1.86e-02  T1:9.6  T8:23.9  T32:65.2  T128:224.4
+ok   o_proj       R= 8 kc,qc,tt,mg=4,8,4,1  max|err|=1.86e-02  T1:18.6  T8:22.8  T32:76.7  T128:285.1
+  BEST o_proj       R= 8 T=  1  v3g      9.1  dense     25.2  generic     18.0  (4, 4, 1, 1)
+  BEST o_proj       R= 8 T=  8  v3g     22.8  dense     25.6  generic     54.5  (4, 8, 4, 1)
+  BEST o_proj       R= 8 T= 32  v3g     65.2  dense     26.0  generic    165.8  (4, 8, 1, 1)
+  BEST o_proj       R= 8 T=128  v3g    224.4  dense     27.3  generic    638.7  (4, 8, 1, 1)
+ok   o_proj       R=16 kc,qc,tt,mg=1,4,4,1  max|err|=1.56e-02  T1:55.5  T8:117.0  T32:435.0  T128:1693.9
+ok   o_proj       R=16 kc,qc,tt,mg=1,8,4,1  max|err|=1.56e-02  T1:52.4  T8:120.1  T32:451.4  T128:1765.2
+ok   o_proj       R=16 kc,qc,tt,mg=2,4,1,1  max|err|=1.56e-02  T1:23.0  T8:135.9  T32:488.4  T128:1871.9
+ok   o_proj       R=16 kc,qc,tt,mg=2,4,4,1  max|err|=1.56e-02  T1:56.4  T8:121.1  T32:457.8  T128:1798.6
+ok   o_proj       R=16 kc,qc,tt,mg=2,8,1,1  max|err|=1.56e-02  T1:17.2  T8:90.9  T32:321.8  T128:1237.2
+ok   o_proj       R=16 kc,qc,tt,mg=2,8,4,1  max|err|=1.56e-02  T1:38.5  T8:81.9  T32:316.6  T128:1203.0
+ok   o_proj       R=16 kc,qc,tt,mg=4,4,1,1  max|err|=1.56e-02  T1:17.3  T8:104.4  T32:371.4  T128:1443.9
+ok   o_proj       R=16 kc,qc,tt,mg=4,4,4,1  max|err|=1.56e-02  T1:48.2  T8:99.5  T32:382.1  T128:1494.6
+ok   o_proj       R=16 kc,qc,tt,mg=4,8,1,1  max|err|=1.56e-02  T1:14.8  T8:96.6  T32:359.9  T128:1407.9
+  BEST o_proj       R=16 T=  1  v3g     14.8  dense     25.6  generic     29.4  (4, 8, 1, 1)
+  BEST o_proj       R=16 T=  8  v3g     81.9  dense     25.3  generic    135.3  (2, 8, 4, 1)
+  BEST o_proj       R=16 T= 32  v3g    316.6  dense     26.0  generic    522.0  (2, 8, 4, 1)
+  BEST o_proj       R=16 T=128  v3g   1203.0  dense     27.2  generic   2028.0  (2, 8, 4, 1)
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg=1,8,4,1  max|err|=1.76e-02  T1:24.2  T8:61.1  T32:192.9  T128:713.0
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg=1,16,4,1  max|err|=1.76e-02  T1:21.8  T8:67.7  T32:200.5  T128:707.6
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg=2,8,1,1  max|err|=1.76e-02  T1:12.5  T8:49.0  T32:164.7  T128:623.3
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg=2,8,4,1  max|err|=1.76e-02  T1:18.9  T8:43.6  T32:134.5  T128:480.3
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg=2,16,1,1  max|err|=1.76e-02  T1:13.2  T8:51.8  T32:168.0  T128:611.4
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg=2,16,4,1  max|err|=1.76e-02  T1:18.3  T8:50.1  T32:159.3  T128:563.3
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg=4,8,1,1  max|err|=1.76e-02  T1:10.5  T8:36.8  T32:113.8  T128:421.2
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg=4,8,4,1  max|err|=1.76e-02  T1:18.5  T8:39.9  T32:139.3  T128:527.8
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg=4,16,1,1  max|err|=1.76e-02  T1:12.7  T8:36.5  T32:106.4  T128:357.3
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg=4,16,4,1  max|err|=1.76e-02  T1:24.4  T8:33.4  T32:106.4  T128:394.2
+  BEST gdn_qkvz     R= 8 T=  1  v3g     10.5  dense     58.4  generic     26.6  (4, 8, 1, 1)
+  BEST gdn_qkvz     R= 8 T=  8  v3g     33.4  dense     58.8  generic     92.5  (4, 16, 4, 1)
+  BEST gdn_qkvz     R= 8 T= 32  v3g    106.4  dense     59.9  generic    313.7  (4, 16, 1, 1)
+  BEST gdn_qkvz     R= 8 T=128  v3g    357.3  dense     62.6  generic   1205.2  (4, 16, 1, 1)
+ok   gdn_qkvz     R=16 kc,qc,tt,mg=1,8,4,1  max|err|=1.78e-02  T1:99.2  T8:215.5  T32:817.2  T128:3233.3
+ok   gdn_qkvz     R=16 kc,qc,tt,mg=1,16,4,1  max|err|=1.78e-02  T1:79.1  T8:190.2  T32:688.8  T128:2658.7
+ok   gdn_qkvz     R=16 kc,qc,tt,mg=2,8,1,1  max|err|=1.78e-02  T1:28.7  T8:161.3  T32:607.4  T128:2385.1
+ok   gdn_qkvz     R=16 kc,qc,tt,mg=2,8,4,1  max|err|=1.78e-02  T1:72.0  T8:157.2  T32:595.6  T128:2331.6
+ok   gdn_qkvz     R=16 kc,qc,tt,mg=2,16,1,1  max|err|=1.78e-02  T1:29.9  T8:191.5  T32:709.8  T128:2762.3
+ok   gdn_qkvz     R=16 kc,qc,tt,mg=2,16,4,1  max|err|=1.78e-02  T1:56.1  T8:122.4  T32:464.5  T128:1786.2
+ok   gdn_qkvz     R=16 kc,qc,tt,mg=4,8,1,1  max|err|=1.78e-02  T1:24.6  T8:167.1  T32:620.4  T128:2370.7
+ok   gdn_qkvz     R=16 kc,qc,tt,mg=4,16,1,1  max|err|=1.78e-02  T1:20.4  T8:126.2  T32:451.2  T128:1730.6
+  BEST gdn_qkvz     R=16 T=  1  v3g     20.4  dense     58.4  generic     44.6  (4, 16, 1, 1)
+  BEST gdn_qkvz     R=16 T=  8  v3g    122.4  dense     59.0  generic    239.2  (2, 16, 4, 1)
+  BEST gdn_qkvz     R=16 T= 32  v3g    451.2  dense     60.2  generic    927.1  (4, 16, 1, 1)
+  BEST gdn_qkvz     R=16 T=128  v3g   1730.6  dense     63.4  generic   3616.6  (4, 16, 1, 1)
+ok   assign       R= 8 kc,qc,tt,mg=5,5,4,1  max|err|=1.83e-03  T1:9.8  T8:12.3  T32:28.9  T128:91.1
+  BEST assign       R= 8 T=  1  v3g      9.8  dense     10.6  v3t      7.8  (5, 5, 4, 1)
+  BEST assign       R= 8 T=  8  v3g     12.3  dense     10.3  v3t     11.9  (5, 5, 4, 1)
+  BEST assign       R= 8 T= 32  v3g     28.9  dense     10.5  v3t     26.9  (5, 5, 4, 1)
+  BEST assign       R= 8 T=128  v3g     91.1  dense     10.5  v3t     84.8  (5, 5, 4, 1)
+ok   assign       R=16 kc,qc,tt,mg=5,10,4,1  max|err|=1.89e-03  T1:21.0  T8:24.8  T32:84.7  T128:319.7
+  BEST assign       R=16 T=  1  v3g     21.0  dense     10.5  v3t     10.9  (5, 10, 4, 1)
+  BEST assign       R=16 T=  8  v3g     24.8  dense     10.3  v3t     24.2  (5, 10, 4, 1)
+  BEST assign       R=16 T= 32  v3g     84.7  dense     10.2  v3t     82.6  (5, 10, 4, 1)
+  BEST assign       R=16 T=128  v3g    319.7  dense     10.2  v3t    312.5  (5, 10, 4, 1)
+ALL OK
+wrote results/h100/qwen/v3g_sweep.json

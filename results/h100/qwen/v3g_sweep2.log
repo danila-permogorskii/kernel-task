@@ -1,0 +1,494 @@
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=1,9,4,1,256,1  max|err|=1.82e-02  T1:26.9  T8:65.2  T32:205.6
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=1,9,4,1,512,1  max|err|=1.82e-02  T1:25.3  T8:69.9  T32:229.0
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=1,17,4,1,256,1  max|err|=1.82e-02  T1:23.7  T8:73.5  T32:216.9
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=1,17,4,1,512,1  max|err|=1.82e-02  T1:21.5  T8:71.8  T32:215.3
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=2,9,1,1,256,1  max|err|=1.82e-02  T1:13.5  T8:55.4  T32:193.7
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=2,9,1,1,256,2  max|err|=1.82e-02  T1:17.7  T8:74.8  T32:261.8
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=2,9,1,1,512,1  max|err|=1.82e-02  T1:12.7  T8:61.3  T32:225.2
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=2,9,1,1,512,2  max|err|=1.82e-02  T1:19.1  T8:102.7  T32:371.6
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=2,9,4,1,256,1  max|err|=1.82e-02  T1:19.6  T8:46.0  T32:138.3
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=2,9,4,1,256,2  max|err|=1.82e-02  T1:22.4  T8:69.4  T32:215.3
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=2,9,4,1,512,1  max|err|=1.82e-02  T1:19.3  T8:45.5  T32:146.0
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=2,9,4,1,512,2  max|err|=1.82e-02  T1:21.9  T8:65.0  T32:201.5
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=2,17,1,1,256,1  max|err|=1.82e-02  T1:13.9  T8:56.0  T32:180.5
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=2,17,1,1,256,2  max|err|=1.82e-02  T1:18.4  T8:81.6  T32:262.3
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=2,17,1,1,512,1  max|err|=1.82e-02  T1:13.4  T8:53.8  T32:176.1
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=2,17,1,1,512,2  max|err|=1.82e-02  T1:17.8  T8:92.1  T32:311.7
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=2,17,4,1,256,1  max|err|=1.82e-02  T1:19.1  T8:51.4  T32:157.4
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=2,17,4,1,256,2  max|err|=1.82e-02  T1:23.2  T8:81.1  T32:247.2
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=2,17,4,1,512,1  max|err|=1.82e-02  T1:17.3  T8:48.9  T32:148.7
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=2,17,4,1,512,2  max|err|=1.82e-02  T1:20.7  T8:77.6  T32:237.8
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,9,1,1,256,1  max|err|=1.82e-02  T1:11.3  T8:43.3  T32:122.3
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,9,1,1,256,2  max|err|=1.82e-02  T1:12.1  T8:48.8  T32:144.7
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,9,1,1,256,4  max|err|=1.82e-02  T1:15.7  T8:68.9  T32:230.5
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,9,1,1,512,1  max|err|=1.82e-02  T1:10.9  T8:42.3  T32:133.4
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,9,1,1,512,2  max|err|=1.82e-02  T1:12.6  T8:68.3  T32:233.8
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,9,1,1,512,4  max|err|=1.82e-02  T1:16.0  T8:89.0  T32:308.8
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,9,4,1,256,1  max|err|=1.82e-02  T1:19.6  T8:42.0  T32:148.1
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,9,4,1,256,2  max|err|=1.82e-02  T1:20.6  T8:50.3  T32:169.8
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,9,4,1,256,4  max|err|=1.82e-02  T1:24.0  T8:74.5  T32:242.8
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,9,4,1,512,1  max|err|=1.82e-02  T1:17.7  T8:39.8  T32:133.8
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,9,4,1,512,2  max|err|=1.82e-02  T1:18.8  T8:48.6  T32:161.3
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,9,4,1,512,4  max|err|=1.82e-02  T1:21.4  T8:71.8  T32:234.4
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,17,1,1,256,1  max|err|=1.82e-02  T1:13.7  T8:38.8  T32:126.9
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,17,1,1,256,2  max|err|=1.82e-02  T1:14.7  T8:48.3  T32:147.8
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,17,1,1,256,4  max|err|=1.82e-02  T1:19.7  T8:71.6  T32:233.5
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,17,1,1,512,1  max|err|=1.82e-02  T1:12.8  T8:36.6  T32:110.6
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,17,1,1,512,2  max|err|=1.82e-02  T1:14.4  T8:56.8  T32:189.1
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,17,1,1,512,4  max|err|=1.82e-02  T1:19.2  T8:82.7  T32:272.1
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,17,4,1,256,1  max|err|=1.82e-02  T1:25.7  T8:35.0  T32:110.9
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,17,4,1,256,2  max|err|=1.82e-02  T1:28.2  T8:46.9  T32:148.0
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,17,4,1,256,4  max|err|=1.82e-02  T1:34.5  T8:74.2  T32:236.5
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,17,4,1,512,1  max|err|=1.82e-02  T1:22.2  T8:33.2  T32:102.1
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,17,4,1,512,2  max|err|=1.82e-02  T1:24.1  T8:45.3  T32:139.8
+ok   mlp_gate_up  R= 8 kc,qc,tt,mg,nt,ks=4,17,4,1,512,4  max|err|=1.82e-02  T1:28.9  T8:73.7  T32:232.7
+  BEST mlp_gate_up  R= 8 T=  1  v3g     10.9  dense     64.4  generic     30.7  (4, 9, 1, 1, 512, 1)
+  BEST mlp_gate_up  R= 8 T=  8  v3g     33.2  dense     64.8  generic    112.7  (4, 17, 4, 1, 512, 1)
+  BEST mlp_gate_up  R= 8 T= 32  v3g    102.1  dense     65.1  generic    391.0  (4, 17, 4, 1, 512, 1)
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=1,9,4,1,256,1  max|err|=1.76e-02  T1:98.0  T8:214.3  T32:801.3
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=1,9,4,1,512,1  max|err|=1.76e-02  T1:92.5  T8:216.5  T32:803.8
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=1,17,4,1,256,1  max|err|=1.76e-02  T1:81.9  T8:189.9  T32:682.5
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=1,17,4,1,512,1  max|err|=1.76e-02  T1:77.7  T8:182.5  T32:663.4
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=2,9,1,1,256,1  max|err|=1.76e-02  T1:30.9  T8:171.7  T32:635.8
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=2,9,1,1,256,2  max|err|=1.76e-02  T1:36.8  T8:201.0  T32:754.1
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=2,9,1,1,512,1  max|err|=1.76e-02  T1:36.3  T8:241.7  T32:876.0
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=2,9,1,1,512,2  max|err|=1.76e-02  T1:43.8  T8:273.4  T32:1051.4
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=2,9,4,1,256,1  max|err|=1.76e-02  T1:75.2  T8:158.4  T32:596.7
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=2,9,4,1,256,2  max|err|=1.76e-02  T1:86.9  T8:192.8  T32:725.1
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=2,9,4,1,512,1  max|err|=1.76e-02  T1:69.4  T8:148.0  T32:555.4
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=2,9,4,1,512,2  max|err|=1.76e-02  T1:80.1  T8:181.8  T32:677.2
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=2,17,1,1,256,1  max|err|=1.76e-02  T1:31.2  T8:205.5  T32:765.0
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=2,17,1,1,256,2  max|err|=1.76e-02  T1:38.8  T8:248.8  T32:936.1
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=2,17,1,1,512,1  max|err|=1.76e-02  T1:31.7  T8:199.5  T32:738.7
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=2,17,1,1,512,2  max|err|=1.76e-02  T1:39.4  T8:226.6  T32:837.3
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=4,9,1,1,256,1  max|err|=1.76e-02  T1:26.9  T8:173.2  T32:660.3
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=4,9,1,1,256,2  max|err|=1.76e-02  T1:29.5  T8:193.8  T32:740.5
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=4,9,1,1,256,4  max|err|=1.76e-02  T1:35.0  T8:231.3  T32:875.5
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=4,9,1,1,512,1  max|err|=1.76e-02  T1:25.1  T8:169.1  T32:622.3
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=4,9,1,1,512,2  max|err|=1.76e-02  T1:29.8  T8:187.8  T32:711.1
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=4,9,1,1,512,4  max|err|=1.76e-02  T1:35.4  T8:224.5  T32:838.5
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=4,17,1,1,256,1  max|err|=1.76e-02  T1:21.8  T8:136.8  T32:503.4
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=4,17,1,1,256,2  max|err|=1.76e-02  T1:25.1  T8:160.8  T32:590.4
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=4,17,1,1,256,4  max|err|=1.76e-02  T1:34.1  T8:204.0  T32:728.9
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=4,17,1,1,512,1  max|err|=1.76e-02  T1:21.6  T8:136.9  T32:499.4
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=4,17,1,1,512,2  max|err|=1.76e-02  T1:25.4  T8:155.4  T32:551.7
+ok   mlp_gate_up  R=16 kc,qc,tt,mg,nt,ks=4,17,1,1,512,4  max|err|=1.76e-02  T1:34.2  T8:194.1  T32:679.5
+  BEST mlp_gate_up  R=16 T=  1  v3g     21.6  dense     62.3  generic     53.5  (4, 17, 1, 1, 512, 1)
+  BEST mlp_gate_up  R=16 T=  8  v3g    136.8  dense     62.8  generic    299.2  (4, 17, 1, 1, 256, 1)
+  BEST mlp_gate_up  R=16 T= 32  v3g    499.4  dense     63.1  generic   1076.2  (4, 17, 1, 1, 512, 1)
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=1,4,4,1,256,1  max|err|=1.50e-02  T1:34.3  T8:74.0  T32:266.8
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=1,4,4,1,512,1  max|err|=1.50e-02  T1:35.1  T8:80.9  T32:294.4
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=1,8,4,1,256,1  max|err|=1.50e-02  T1:29.1  T8:69.4  T32:258.0
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=1,8,4,1,512,1  max|err|=1.50e-02  T1:28.5  T8:68.6  T32:236.8
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=2,4,1,1,256,1  max|err|=1.50e-02  T1:14.2  T8:70.4  T32:246.7
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=2,4,1,1,256,2  max|err|=1.50e-02  T1:15.7  T8:72.1  T32:252.1
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=2,4,1,1,512,1  max|err|=1.50e-02  T1:16.9  T8:111.7  T32:406.0
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=2,4,1,1,512,2  max|err|=1.50e-02  T1:19.0  T8:125.4  T32:466.0
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=2,4,4,1,256,1  max|err|=1.50e-02  T1:36.9  T8:77.8  T32:296.7
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=2,4,4,1,256,2  max|err|=1.50e-02  T1:38.8  T8:86.6  T32:330.6
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=2,4,4,1,512,1  max|err|=1.50e-02  T1:33.8  T8:73.2  T32:275.8
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=2,4,4,1,512,2  max|err|=1.50e-02  T1:35.4  T8:81.0  T32:301.4
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=2,8,1,1,256,1  max|err|=1.50e-02  T1:12.6  T8:53.4  T32:178.7
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=2,8,1,1,256,2  max|err|=1.50e-02  T1:14.7  T8:63.7  T32:201.4
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=2,8,1,1,512,1  max|err|=1.50e-02  T1:12.6  T8:75.1  T32:269.8
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=2,8,1,1,512,2  max|err|=1.50e-02  T1:14.6  T8:89.3  T32:322.2
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=2,8,4,1,256,1  max|err|=1.50e-02  T1:24.0  T8:51.0  T32:187.2
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=2,8,4,1,256,2  max|err|=1.50e-02  T1:25.7  T8:63.7  T32:224.0
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=2,8,4,1,512,1  max|err|=1.50e-02  T1:22.2  T8:49.2  T32:170.9
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=2,8,4,1,512,2  max|err|=1.50e-02  T1:23.9  T8:60.3  T32:207.9
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=4,4,1,1,256,1  max|err|=1.50e-02  T1:13.7  T8:65.9  T32:235.1
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=4,4,1,1,256,2  max|err|=1.50e-02  T1:14.3  T8:66.6  T32:241.0
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=4,4,1,1,256,4  max|err|=1.50e-02  T1:15.8  T8:74.8  T32:266.3
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=4,4,1,1,512,1  max|err|=1.50e-02  T1:13.2  T8:81.0  T32:304.0
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=4,4,1,1,512,2  max|err|=1.50e-02  T1:14.1  T8:87.4  T32:321.1
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=4,4,1,1,512,4  max|err|=1.50e-02  T1:16.1  T8:102.0  T32:362.2
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=4,8,1,1,256,1  max|err|=1.50e-02  T1:14.4  T8:54.3  T32:203.6
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=4,8,1,1,256,2  max|err|=1.50e-02  T1:15.5  T8:59.3  T32:220.3
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=4,8,1,1,256,4  max|err|=1.50e-02  T1:17.8  T8:71.2  T32:248.4
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=4,8,1,1,512,1  max|err|=1.50e-02  T1:14.0  T8:51.9  T32:192.0
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=4,8,1,1,512,2  max|err|=1.50e-02  T1:15.0  T8:58.7  T32:215.5
+ok   mlp_down     R= 8 kc,qc,tt,mg,nt,ks=4,8,1,1,512,4  max|err|=1.50e-02  T1:17.9  T8:69.3  T32:229.6
+  BEST mlp_down     R= 8 T=  1  v3g     12.6  dense     65.1  generic     22.6  (2, 8, 1, 1, 512, 1)
+  BEST mlp_down     R= 8 T=  8  v3g     49.2  dense     66.0  generic     80.7  (2, 8, 4, 1, 512, 1)
+  BEST mlp_down     R= 8 T= 32  v3g    170.9  dense     67.5  generic    303.2  (2, 8, 4, 1, 512, 1)
+ok   mlp_down     R=16 kc,qc,tt,mg,nt,ks=1,4,4,1,256,1  max|err|=1.90e-02  T1:142.2  T8:308.3  T32:1185.1
+ok   mlp_down     R=16 kc,qc,tt,mg,nt,ks=1,4,4,1,512,1  max|err|=1.90e-02  T1:139.4  T8:313.7  T32:1180.9
+ok   mlp_down     R=16 kc,qc,tt,mg,nt,ks=2,4,1,1,256,1  max|err|=1.90e-02  T1:50.9  T8:371.9  T32:1467.0
+ok   mlp_down     R=16 kc,qc,tt,mg,nt,ks=2,4,1,1,256,2  max|err|=1.90e-02  T1:52.8  T8:386.3  T32:1503.6
+ok   mlp_down     R=16 kc,qc,tt,mg,nt,ks=2,4,1,1,512,1  max|err|=1.90e-02  T1:48.8  T8:352.5  T32:1390.1
+ok   mlp_down     R=16 kc,qc,tt,mg,nt,ks=2,4,1,1,512,2  max|err|=1.90e-02  T1:51.5  T8:371.4  T32:1447.9
+ok   mlp_down     R=16 kc,qc,tt,mg,nt,ks=2,8,1,1,256,1  max|err|=1.90e-02  T1:35.4  T8:255.9  T32:977.6
+ok   mlp_down     R=16 kc,qc,tt,mg,nt,ks=2,8,1,1,256,2  max|err|=1.90e-02  T1:37.8  T8:259.4  T32:976.7
+ok   mlp_down     R=16 kc,qc,tt,mg,nt,ks=2,8,1,1,512,1  max|err|=1.90e-02  T1:34.5  T8:242.1  T32:907.6
+ok   mlp_down     R=16 kc,qc,tt,mg,nt,ks=2,8,1,1,512,2  max|err|=1.90e-02  T1:38.8  T8:256.8  T32:963.8
+ok   mlp_down     R=16 kc,qc,tt,mg,nt,ks=4,4,1,1,256,1  max|err|=1.90e-02  T1:42.3  T8:313.1  T32:1220.1
+ok   mlp_down     R=16 kc,qc,tt,mg,nt,ks=4,4,1,1,256,2  max|err|=1.90e-02  T1:41.9  T8:306.9  T32:1172.8
+ok   mlp_down     R=16 kc,qc,tt,mg,nt,ks=4,4,1,1,256,4  max|err|=1.90e-02  T1:42.9  T8:316.0  T32:1196.2
+ok   mlp_down     R=16 kc,qc,tt,mg,nt,ks=4,4,1,1,512,1  max|err|=1.90e-02  T1:47.9  T8:358.0  T32:1382.7
+ok   mlp_down     R=16 kc,qc,tt,mg,nt,ks=4,4,1,1,512,2  max|err|=1.90e-02  T1:40.4  T8:293.2  T32:1118.3
+ok   mlp_down     R=16 kc,qc,tt,mg,nt,ks=4,4,1,1,512,4  max|err|=1.90e-02  T1:44.1  T8:312.4  T32:1153.5
+  BEST mlp_down     R=16 T=  1  v3g     34.5  dense     66.1  generic     47.2  (2, 8, 1, 1, 512, 1)
+  BEST mlp_down     R=16 T=  8  v3g    242.1  dense     66.5  generic    347.3  (2, 8, 1, 1, 512, 1)
+  BEST mlp_down     R=16 T= 32  v3g    907.6  dense     68.1  generic   1327.2  (2, 8, 1, 1, 512, 1)
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=1,6,4,1,256,1  max|err|=1.67e-02  T1:19.0  T8:53.0  T32:158.4
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=1,6,4,1,512,1  max|err|=1.67e-02  T1:21.5  T8:60.3  T32:204.5
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=1,12,4,1,256,1  max|err|=1.67e-02  T1:18.3  T8:56.6  T32:163.6
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=1,12,4,1,512,1  max|err|=1.67e-02  T1:16.6  T8:55.0  T32:168.4
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=2,6,1,1,256,1  max|err|=1.67e-02  T1:11.9  T8:42.4  T32:143.7
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=2,6,1,1,256,2  max|err|=1.67e-02  T1:15.9  T8:61.6  T32:210.9
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=2,6,1,1,512,1  max|err|=1.67e-02  T1:11.1  T8:53.8  T32:197.4
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=2,6,1,1,512,2  max|err|=1.67e-02  T1:16.4  T8:93.4  T32:337.1
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=2,6,4,1,256,1  max|err|=1.67e-02  T1:16.8  T8:37.5  T32:118.3
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=2,6,4,1,256,2  max|err|=1.67e-02  T1:19.8  T8:56.3  T32:174.9
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=2,6,4,1,512,1  max|err|=1.67e-02  T1:16.6  T8:39.1  T32:128.5
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=2,6,4,1,512,2  max|err|=1.67e-02  T1:18.5  T8:53.9  T32:163.8
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=2,12,1,1,256,1  max|err|=1.67e-02  T1:11.4  T8:39.8  T32:119.0
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=2,12,1,1,256,2  max|err|=1.67e-02  T1:14.7  T8:56.6  T32:176.1
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=2,12,1,1,512,1  max|err|=1.67e-02  T1:11.3  T8:42.7  T32:143.6
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=2,12,1,1,512,2  max|err|=1.67e-02  T1:14.6  T8:73.1  T32:247.9
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=2,12,4,1,256,1  max|err|=1.67e-02  T1:15.8  T8:36.5  T32:100.1
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=2,12,4,1,256,2  max|err|=1.67e-02  T1:18.8  T8:51.6  T32:159.1
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=2,12,4,1,512,1  max|err|=1.67e-02  T1:14.7  T8:36.9  T32:108.1
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=2,12,4,1,512,2  max|err|=1.67e-02  T1:17.6  T8:56.2  T32:155.0
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,6,1,1,256,1  max|err|=1.67e-02  T1:9.8  T8:33.7  T32:104.0
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,6,1,1,256,2  max|err|=1.67e-02  T1:11.1  T8:40.0  T32:122.0
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,6,1,1,256,4  max|err|=1.67e-02  T1:13.9  T8:55.4  T32:178.7
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,6,1,1,512,1  max|err|=1.67e-02  T1:9.9  T8:38.1  T32:120.4
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,6,1,1,512,2  max|err|=1.67e-02  T1:11.3  T8:61.1  T32:209.4
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,6,1,1,512,4  max|err|=1.67e-02  T1:15.3  T8:76.0  T32:267.4
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,6,4,1,256,1  max|err|=1.67e-02  T1:16.9  T8:36.0  T32:126.2
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,6,4,1,256,2  max|err|=1.67e-02  T1:17.8  T8:42.4  T32:146.3
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,6,4,1,256,4  max|err|=1.67e-02  T1:20.3  T8:60.9  T32:205.8
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,6,4,1,512,1  max|err|=1.67e-02  T1:15.8  T8:34.3  T32:116.6
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,6,4,1,512,2  max|err|=1.67e-02  T1:16.9  T8:41.4  T32:140.3
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,6,4,1,512,4  max|err|=1.67e-02  T1:18.8  T8:58.7  T32:198.1
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,12,1,1,256,1  max|err|=1.67e-02  T1:11.1  T8:31.0  T32:96.0
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,12,1,1,256,2  max|err|=1.67e-02  T1:12.0  T8:37.7  T32:109.4
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,12,1,1,256,4  max|err|=1.67e-02  T1:16.5  T8:58.4  T32:176.4
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,12,1,1,512,1  max|err|=1.67e-02  T1:10.7  T8:28.9  T32:84.1
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,12,1,1,512,2  max|err|=1.67e-02  T1:12.3  T8:44.5  T32:148.9
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,12,1,1,512,4  max|err|=1.67e-02  T1:15.4  T8:61.0  T32:201.4
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,12,4,1,256,1  max|err|=1.67e-02  T1:21.1  T8:28.6  T32:89.6
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,12,4,1,256,2  max|err|=1.67e-02  T1:22.8  T8:36.3  T32:111.4
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,12,4,1,256,4  max|err|=1.67e-02  T1:27.5  T8:51.9  T32:173.6
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,12,4,1,512,1  max|err|=1.67e-02  T1:18.6  T8:26.8  T32:83.0
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,12,4,1,512,2  max|err|=1.67e-02  T1:20.5  T8:35.6  T32:107.2
+ok   attn_q_gate  R= 8 kc,qc,tt,mg,nt,ks=4,12,4,1,512,4  max|err|=1.67e-02  T1:24.0  T8:54.4  T32:169.3
+  BEST attn_q_gate  R= 8 T=  1  v3g      9.8  dense     45.2  generic     23.8  (4, 6, 1, 1, 256, 1)
+  BEST attn_q_gate  R= 8 T=  8  v3g     26.8  dense     45.3  generic     73.8  (4, 12, 4, 1, 512, 1)
+  BEST attn_q_gate  R= 8 T= 32  v3g     83.0  dense     49.2  generic    246.6  (4, 12, 4, 1, 512, 1)
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=1,6,4,1,256,1  max|err|=1.78e-02  T1:61.3  T8:132.5  T32:478.7
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=1,6,4,1,512,1  max|err|=1.78e-02  T1:64.7  T8:155.0  T32:561.9
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=1,12,4,1,256,1  max|err|=1.78e-02  T1:66.1  T8:148.9  T32:534.2
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=1,12,4,1,512,1  max|err|=1.78e-02  T1:63.0  T8:149.0  T32:523.5
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=2,6,1,1,256,1  max|err|=1.78e-02  T1:26.2  T8:143.3  T32:543.1
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=2,6,1,1,256,2  max|err|=1.78e-02  T1:31.1  T8:168.1  T32:616.0
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=2,6,1,1,512,1  max|err|=1.78e-02  T1:31.5  T8:205.0  T32:800.7
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=2,6,1,1,512,2  max|err|=1.78e-02  T1:38.2  T8:232.9  T32:892.1
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=2,6,4,1,256,1  max|err|=1.78e-02  T1:63.1  T8:137.3  T32:514.0
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=2,6,4,1,256,2  max|err|=1.78e-02  T1:71.8  T8:162.8  T32:615.5
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=2,6,4,1,512,1  max|err|=1.78e-02  T1:58.6  T8:128.7  T32:475.3
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=2,6,4,1,512,2  max|err|=1.78e-02  T1:67.4  T8:153.1  T32:565.7
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=2,12,1,1,256,1  max|err|=1.78e-02  T1:25.0  T8:165.7  T32:635.3
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=2,12,1,1,256,2  max|err|=1.78e-02  T1:31.1  T8:195.1  T32:742.0
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=2,12,1,1,512,1  max|err|=1.78e-02  T1:25.4  T8:153.0  T32:584.0
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=2,12,1,1,512,2  max|err|=1.78e-02  T1:32.8  T8:177.7  T32:658.7
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=2,12,4,1,256,1  max|err|=1.78e-02  T1:47.6  T8:102.8  T32:388.3
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=2,12,4,1,256,2  max|err|=1.78e-02  T1:55.5  T8:133.0  T32:484.3
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=2,12,4,1,512,1  max|err|=1.78e-02  T1:43.8  T8:100.0  T32:351.2
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=2,12,4,1,512,2  max|err|=1.78e-02  T1:53.5  T8:127.8  T32:446.2
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=4,6,1,1,256,1  max|err|=1.78e-02  T1:19.0  T8:106.0  T32:379.0
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=4,6,1,1,256,2  max|err|=1.78e-02  T1:21.9  T8:121.7  T32:438.4
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=4,6,1,1,256,4  max|err|=1.78e-02  T1:27.8  T8:146.2  T32:523.2
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=4,6,1,1,512,1  max|err|=1.78e-02  T1:22.2  T8:148.0  T32:554.8
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=4,6,1,1,512,2  max|err|=1.78e-02  T1:25.5  T8:163.0  T32:597.1
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=4,6,1,1,512,4  max|err|=1.78e-02  T1:32.3  T8:196.7  T32:728.5
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=4,6,4,1,256,1  max|err|=1.78e-02  T1:50.8  T8:106.2  T32:404.2
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=4,6,4,1,256,2  max|err|=1.78e-02  T1:55.2  T8:118.4  T32:453.7
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=4,6,4,1,256,4  max|err|=1.78e-02  T1:64.4  T8:146.2  T32:555.5
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=4,6,4,1,512,1  max|err|=1.78e-02  T1:47.6  T8:100.9  T32:375.7
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=4,6,4,1,512,2  max|err|=1.78e-02  T1:52.0  T8:114.0  T32:421.1
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=4,6,4,1,512,4  max|err|=1.78e-02  T1:59.8  T8:140.7  T32:522.4
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=4,12,1,1,256,1  max|err|=1.78e-02  T1:17.4  T8:107.4  T32:395.6
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=4,12,1,1,256,2  max|err|=1.78e-02  T1:20.0  T8:125.2  T32:449.2
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=4,12,1,1,256,4  max|err|=1.78e-02  T1:28.8  T8:156.0  T32:558.1
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=4,12,1,1,512,1  max|err|=1.78e-02  T1:17.4  T8:108.7  T32:390.3
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=4,12,1,1,512,2  max|err|=1.78e-02  T1:20.9  T8:120.9  T32:426.1
+ok   attn_q_gate  R=16 kc,qc,tt,mg,nt,ks=4,12,1,1,512,4  max|err|=1.78e-02  T1:27.4  T8:151.7  T32:528.9
+  BEST attn_q_gate  R=16 T=  1  v3g     17.4  dense     46.5  generic     39.5  (4, 12, 1, 1, 512, 1)
+  BEST attn_q_gate  R=16 T=  8  v3g    100.0  dense     46.2  generic    191.0  (2, 12, 4, 1, 512, 1)
+  BEST attn_q_gate  R=16 T= 32  v3g    351.2  dense     48.7  generic    725.1  (2, 12, 4, 1, 512, 1)
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=1,2,4,1,256,1  max|err|=1.36e-02  T1:11.0  T8:18.6  T32:57.9
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=1,2,4,1,512,1  max|err|=1.36e-02  T1:12.7  T8:24.1  T32:77.3
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=1,4,4,1,256,1  max|err|=1.36e-02  T1:10.3  T8:14.6  T32:39.6
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=1,4,4,1,512,1  max|err|=1.36e-02  T1:10.2  T8:17.3  T32:50.9
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=2,2,2,1,256,1  max|err|=1.36e-02  T1:8.4  T8:17.9  T32:53.8
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=2,2,2,1,256,2  max|err|=1.36e-02  T1:9.8  T8:20.6  T32:61.4
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=2,2,2,1,512,1  max|err|=1.36e-02  T1:9.1  T8:23.1  T32:74.2
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=2,2,2,1,512,2  max|err|=1.36e-02  T1:10.7  T8:26.0  T32:80.3
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=2,2,4,1,256,1  max|err|=1.36e-02  T1:10.2  T8:14.6  T32:44.4
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=2,2,4,1,256,2  max|err|=1.36e-02  T1:11.3  T8:16.4  T32:48.9
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=2,2,4,1,512,1  max|err|=1.36e-02  T1:9.6  T8:16.5  T32:54.0
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=2,2,4,1,512,2  max|err|=1.36e-02  T1:11.5  T8:18.5  T32:60.7
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=2,4,2,1,256,1  max|err|=1.36e-02  T1:7.3  T8:12.3  T32:34.3
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=2,4,2,1,256,2  max|err|=1.36e-02  T1:8.9  T8:15.1  T32:40.7
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=2,4,2,1,512,1  max|err|=1.36e-02  T1:7.7  T8:15.6  T32:46.3
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=2,4,2,1,512,2  max|err|=1.36e-02  T1:9.1  T8:18.0  T32:55.2
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=2,4,4,1,256,1  max|err|=1.36e-02  T1:8.8  T8:12.0  T32:29.7
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=2,4,4,1,256,2  max|err|=1.36e-02  T1:10.1  T8:14.5  T32:36.0
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=2,4,4,1,512,1  max|err|=1.36e-02  T1:8.6  T8:11.6  T32:35.7
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=2,4,4,1,512,2  max|err|=1.36e-02  T1:10.0  T8:13.8  T32:42.4
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,2,2,1,256,1  max|err|=1.36e-02  T1:8.1  T8:15.1  T32:45.5
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,2,2,1,256,2  max|err|=1.36e-02  T1:8.4  T8:15.5  T32:46.1
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,2,2,1,256,4  max|err|=1.36e-02  T1:10.0  T8:17.2  T32:50.7
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,2,2,1,512,1  max|err|=1.36e-02  T1:8.1  T8:17.4  T32:54.4
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,2,2,1,512,2  max|err|=1.36e-02  T1:8.4  T8:17.7  T32:55.0
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,2,2,1,512,4  max|err|=1.36e-02  T1:9.7  T8:20.0  T32:61.7
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,2,4,1,256,1  max|err|=1.36e-02  T1:9.9  T8:14.2  T32:41.1
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,2,4,1,256,2  max|err|=1.36e-02  T1:10.5  T8:15.2  T32:43.7
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,2,4,1,256,4  max|err|=1.36e-02  T1:11.7  T8:16.8  T32:48.4
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,2,4,1,512,1  max|err|=1.36e-02  T1:10.2  T8:14.7  T32:45.2
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,2,4,1,512,2  max|err|=1.36e-02  T1:10.5  T8:15.1  T32:47.9
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,2,4,1,512,4  max|err|=1.36e-02  T1:11.6  T8:17.1  T32:54.3
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,4,2,1,256,1  max|err|=1.36e-02  T1:7.9  T8:11.5  T32:27.5
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,4,2,1,256,2  max|err|=1.36e-02  T1:8.7  T8:12.4  T32:29.8
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,4,2,1,256,4  max|err|=1.36e-02  T1:9.7  T8:15.4  T32:35.4
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,4,2,1,512,1  max|err|=1.36e-02  T1:8.1  T8:11.2  T32:32.5
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,4,2,1,512,2  max|err|=1.36e-02  T1:8.6  T8:11.9  T32:34.9
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,4,2,1,512,4  max|err|=1.36e-02  T1:9.9  T8:15.4  T32:42.8
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,4,4,1,256,1  max|err|=1.36e-02  T1:10.1  T8:11.6  T32:27.7
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,4,4,1,256,2  max|err|=1.36e-02  T1:10.5  T8:12.6  T32:29.6
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,4,4,1,256,4  max|err|=1.36e-02  T1:11.6  T8:15.2  T32:35.5
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,4,4,1,512,1  max|err|=1.36e-02  T1:10.3  T8:11.4  T32:27.6
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,4,4,1,512,2  max|err|=1.36e-02  T1:10.5  T8:12.5  T32:31.0
+ok   attn_kv      R= 8 kc,qc,tt,mg,nt,ks=4,4,4,1,512,4  max|err|=1.36e-02  T1:11.4  T8:14.9  T32:37.6
+  BEST attn_kv      R= 8 T=  1  v3g      7.3  dense     13.0  generic     12.7  (2, 4, 2, 1, 256, 1)
+  BEST attn_kv      R= 8 T=  8  v3g     11.2  dense     13.4  generic     21.8  (4, 4, 2, 1, 512, 1)
+  BEST attn_kv      R= 8 T= 32  v3g     27.5  dense     14.6  generic     53.0  (4, 4, 2, 1, 256, 1)
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=1,2,4,1,256,1  max|err|=1.31e-02  T1:24.0  T8:45.6  T32:159.0
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=1,2,4,1,512,1  max|err|=1.31e-02  T1:29.0  T8:58.8  T32:215.9
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=1,4,4,1,256,1  max|err|=1.31e-02  T1:19.2  T8:35.3  T32:108.1
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=1,4,4,1,512,1  max|err|=1.31e-02  T1:21.3  T8:43.1  T32:152.1
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=2,2,2,1,256,1  max|err|=1.31e-02  T1:17.8  T8:60.4  T32:204.9
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=2,2,2,1,256,2  max|err|=1.31e-02  T1:18.5  T8:62.1  T32:201.6
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=2,2,2,1,512,1  max|err|=1.31e-02  T1:22.9  T8:84.9  T32:318.9
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=2,2,2,1,512,2  max|err|=1.31e-02  T1:22.3  T8:82.5  T32:304.9
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=2,2,4,1,256,1  max|err|=1.31e-02  T1:24.1  T8:46.9  T32:160.7
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=2,2,4,1,256,2  max|err|=1.31e-02  T1:25.5  T8:49.0  T32:172.2
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=2,2,4,1,512,1  max|err|=1.31e-02  T1:28.3  T8:54.2  T32:202.3
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=2,2,4,1,512,2  max|err|=1.31e-02  T1:30.1  T8:60.6  T32:222.2
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=2,4,2,1,256,1  max|err|=1.31e-02  T1:12.4  T8:41.2  T32:122.8
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=2,4,2,1,256,2  max|err|=1.31e-02  T1:13.7  T8:44.7  T32:133.7
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=2,4,2,1,512,1  max|err|=1.31e-02  T1:15.1  T8:51.9  T32:176.0
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=2,4,2,1,512,2  max|err|=1.31e-02  T1:16.8  T8:61.0  T32:205.2
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=2,4,4,1,256,1  max|err|=1.31e-02  T1:16.5  T8:30.4  T32:97.4
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=2,4,4,1,256,2  max|err|=1.31e-02  T1:17.8  T8:34.0  T32:110.2
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=2,4,4,1,512,1  max|err|=1.31e-02  T1:18.9  T8:37.2  T32:129.4
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=2,4,4,1,512,2  max|err|=1.31e-02  T1:20.9  T8:43.1  T32:145.1
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,2,2,1,256,1  max|err|=1.31e-02  T1:14.8  T8:47.6  T32:166.6
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,2,2,1,256,2  max|err|=1.31e-02  T1:14.7  T8:49.9  T32:163.1
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,2,2,1,256,4  max|err|=1.31e-02  T1:15.7  T8:54.3  T32:177.8
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,2,2,1,512,1  max|err|=1.31e-02  T1:17.3  T8:58.8  T32:219.1
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,2,2,1,512,2  max|err|=1.31e-02  T1:16.8  T8:56.9  T32:208.5
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,2,2,1,512,4  max|err|=1.31e-02  T1:18.5  T8:65.1  T32:228.8
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,2,4,1,256,1  max|err|=1.31e-02  T1:24.4  T8:47.1  T32:175.5
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,2,4,1,256,2  max|err|=1.31e-02  T1:25.2  T8:50.3  T32:184.4
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,2,4,1,256,4  max|err|=1.31e-02  T1:26.6  T8:53.8  T32:199.7
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,2,4,1,512,1  max|err|=1.31e-02  T1:23.4  T8:44.4  T32:163.0
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,2,4,1,512,2  max|err|=1.31e-02  T1:24.2  T8:47.5  T32:172.3
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,2,4,1,512,4  max|err|=1.31e-02  T1:26.0  T8:53.4  T32:189.6
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,4,2,1,256,1  max|err|=1.31e-02  T1:11.3  T8:30.0  T32:98.4
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,4,2,1,256,2  max|err|=1.31e-02  T1:12.2  T8:32.1  T32:99.2
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,4,2,1,256,4  max|err|=1.31e-02  T1:13.4  T8:37.3  T32:113.6
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,4,2,1,512,1  max|err|=1.31e-02  T1:11.2  T8:35.2  T32:121.2
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,4,2,1,512,2  max|err|=1.31e-02  T1:12.0  T8:39.7  T32:131.5
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,4,2,1,512,4  max|err|=1.31e-02  T1:13.6  T8:47.7  T32:150.6
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,4,4,1,256,1  max|err|=1.31e-02  T1:15.4  T8:29.6  T32:105.1
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,4,4,1,256,2  max|err|=1.31e-02  T1:16.2  T8:31.3  T32:111.7
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,4,4,1,256,4  max|err|=1.31e-02  T1:17.7  T8:34.9  T32:124.8
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,4,4,1,512,1  max|err|=1.31e-02  T1:15.1  T8:28.5  T32:100.1
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,4,4,1,512,2  max|err|=1.31e-02  T1:16.0  T8:31.6  T32:109.2
+ok   attn_kv      R=16 kc,qc,tt,mg,nt,ks=4,4,4,1,512,4  max|err|=1.31e-02  T1:17.4  T8:35.1  T32:119.6
+  BEST attn_kv      R=16 T=  1  v3g     11.2  dense     13.1  generic     17.6  (4, 4, 2, 1, 512, 1)
+  BEST attn_kv      R=16 T=  8  v3g     28.5  dense     13.7  generic     42.8  (4, 4, 4, 1, 512, 1)
+  BEST attn_kv      R=16 T= 32  v3g     97.4  dense     13.7  generic    144.3  (2, 4, 4, 1, 256, 1)
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=1,4,4,1,256,1  max|err|=1.86e-02  T1:16.9  T8:41.1  T32:122.9
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=1,4,4,1,512,1  max|err|=1.86e-02  T1:19.6  T8:49.8  T32:173.3
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=1,8,4,1,256,1  max|err|=1.86e-02  T1:15.0  T8:39.3  T32:110.2
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=1,8,4,1,512,1  max|err|=1.86e-02  T1:14.7  T8:40.9  T32:129.2
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=2,4,1,1,256,1  max|err|=1.86e-02  T1:9.7  T8:37.5  T32:121.7
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=2,4,1,1,256,2  max|err|=1.86e-02  T1:12.0  T8:48.9  T32:160.8
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=2,4,1,1,512,1  max|err|=1.86e-02  T1:9.8  T8:45.4  T32:156.6
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=2,4,1,1,512,2  max|err|=1.86e-02  T1:12.3  T8:58.3  T32:205.1
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=2,4,4,1,256,1  max|err|=1.86e-02  T1:15.8  T8:29.5  T32:93.6
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=2,4,4,1,256,2  max|err|=1.86e-02  T1:17.6  T8:40.2  T32:117.1
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=2,4,4,1,512,1  max|err|=1.86e-02  T1:15.7  T8:34.8  T32:119.9
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=2,4,4,1,512,2  max|err|=1.86e-02  T1:16.6  T8:43.7  T32:150.5
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=2,8,1,1,256,1  max|err|=1.86e-02  T1:9.4  T8:30.7  T32:87.8
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=2,8,1,1,256,2  max|err|=1.86e-02  T1:11.8  T8:44.3  T32:127.8
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=2,8,1,1,512,1  max|err|=1.86e-02  T1:9.4  T8:35.5  T32:116.1
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=2,8,1,1,512,2  max|err|=1.86e-02  T1:11.7  T8:47.9  T32:155.5
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=2,8,4,1,256,1  max|err|=1.86e-02  T1:12.9  T8:26.2  T32:77.0
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=2,8,4,1,256,2  max|err|=1.86e-02  T1:15.4  T8:40.1  T32:117.9
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=2,8,4,1,512,1  max|err|=1.86e-02  T1:12.8  T8:28.3  T32:85.6
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=2,8,4,1,512,2  max|err|=1.86e-02  T1:14.7  T8:37.9  T32:114.2
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,4,1,1,256,1  max|err|=1.86e-02  T1:9.1  T8:29.4  T32:96.0
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,4,1,1,256,2  max|err|=1.86e-02  T1:10.0  T8:33.5  T32:101.0
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,4,1,1,256,4  max|err|=1.86e-02  T1:11.5  T8:43.3  T32:134.8
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,4,1,1,512,1  max|err|=1.86e-02  T1:9.0  T8:35.3  T32:115.9
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,4,1,1,512,2  max|err|=1.86e-02  T1:9.8  T8:39.4  T32:132.7
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,4,1,1,512,4  max|err|=1.86e-02  T1:11.8  T8:51.5  T32:169.2
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,4,4,1,256,1  max|err|=1.86e-02  T1:16.0  T8:32.8  T32:118.0
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,4,4,1,256,2  max|err|=1.86e-02  T1:17.0  T8:38.1  T32:134.9
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,4,4,1,256,4  max|err|=1.86e-02  T1:18.4  T8:49.9  T32:171.6
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,4,4,1,512,1  max|err|=1.86e-02  T1:14.7  T8:30.8  T32:107.8
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,4,4,1,512,2  max|err|=1.86e-02  T1:15.4  T8:35.5  T32:122.4
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,4,4,1,512,4  max|err|=1.86e-02  T1:16.7  T8:47.2  T32:159.5
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,8,1,1,256,1  max|err|=1.86e-02  T1:9.5  T8:24.1  T32:64.7
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,8,1,1,256,2  max|err|=1.86e-02  T1:10.7  T8:30.9  T32:77.7
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,8,1,1,256,4  max|err|=1.86e-02  T1:12.8  T8:43.0  T32:118.9
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,8,1,1,512,1  max|err|=1.86e-02  T1:9.6  T8:25.0  T32:73.7
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,8,1,1,512,2  max|err|=1.86e-02  T1:10.4  T8:31.1  T32:94.5
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,8,1,1,512,4  max|err|=1.86e-02  T1:13.2  T8:42.9  T32:127.4
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,8,4,1,256,1  max|err|=1.86e-02  T1:18.6  T8:23.0  T32:76.1
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,8,4,1,256,2  max|err|=1.86e-02  T1:20.1  T8:28.5  T32:93.0
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,8,4,1,256,4  max|err|=1.86e-02  T1:23.0  T8:40.3  T32:135.3
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,8,4,1,512,1  max|err|=1.86e-02  T1:16.5  T8:21.3  T32:70.6
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,8,4,1,512,2  max|err|=1.86e-02  T1:17.6  T8:26.0  T32:87.0
+ok   o_proj       R= 8 kc,qc,tt,mg,nt,ks=4,8,4,1,512,4  max|err|=1.86e-02  T1:19.9  T8:39.6  T32:130.3
+  BEST o_proj       R= 8 T=  1  v3g      9.0  dense     24.9  generic     18.0  (4, 4, 1, 1, 512, 1)
+  BEST o_proj       R= 8 T=  8  v3g     21.3  dense     25.2  generic     54.5  (4, 8, 4, 1, 512, 1)
+  BEST o_proj       R= 8 T= 32  v3g     64.7  dense     25.6  generic    165.8  (4, 8, 1, 1, 256, 1)
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=1,4,4,1,256,1  max|err|=1.56e-02  T1:55.7  T8:116.9  T32:434.6
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=1,4,4,1,512,1  max|err|=1.56e-02  T1:59.7  T8:138.9  T32:518.2
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=1,8,4,1,256,1  max|err|=1.56e-02  T1:52.8  T8:121.0  T32:450.8
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=1,8,4,1,512,1  max|err|=1.56e-02  T1:51.8  T8:122.4  T32:427.4
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=2,4,1,1,256,1  max|err|=1.56e-02  T1:23.3  T8:138.6  T32:493.4
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=2,4,1,1,256,2  max|err|=1.56e-02  T1:26.0  T8:145.9  T32:537.0
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=2,4,1,1,512,1  max|err|=1.56e-02  T1:28.7  T8:191.6  T32:719.7
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=2,4,1,1,512,2  max|err|=1.56e-02  T1:32.8  T8:222.8  T32:827.6
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=2,4,4,1,256,1  max|err|=1.56e-02  T1:56.5  T8:120.1  T32:458.3
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=2,4,4,1,256,2  max|err|=1.56e-02  T1:62.8  T8:137.0  T32:525.0
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=2,4,4,1,512,1  max|err|=1.56e-02  T1:54.7  T8:121.4  T32:445.8
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=2,4,4,1,512,2  max|err|=1.56e-02  T1:60.5  T8:133.1  T32:497.4
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=2,8,1,1,256,1  max|err|=1.56e-02  T1:17.5  T8:94.7  T32:325.5
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=2,8,1,1,256,2  max|err|=1.56e-02  T1:21.2  T8:112.1  T32:375.0
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=2,8,1,1,512,1  max|err|=1.56e-02  T1:21.0  T8:140.3  T32:521.9
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=2,8,1,1,512,2  max|err|=1.56e-02  T1:25.5  T8:159.8  T32:577.7
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=2,8,4,1,256,1  max|err|=1.56e-02  T1:38.7  T8:83.2  T32:316.8
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=2,8,4,1,256,2  max|err|=1.56e-02  T1:44.4  T8:104.4  T32:381.0
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=2,8,4,1,512,1  max|err|=1.56e-02  T1:37.4  T8:84.3  T32:304.2
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=2,8,4,1,512,2  max|err|=1.56e-02  T1:43.0  T8:102.5  T32:359.5
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=4,4,1,1,256,1  max|err|=1.56e-02  T1:17.3  T8:105.9  T32:373.0
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=4,4,1,1,256,2  max|err|=1.56e-02  T1:18.9  T8:105.7  T32:387.1
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=4,4,1,1,256,4  max|err|=1.56e-02  T1:21.8  T8:123.6  T32:446.9
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=4,4,1,1,512,1  max|err|=1.56e-02  T1:20.6  T8:139.3  T32:518.4
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=4,4,1,1,512,2  max|err|=1.56e-02  T1:22.7  T8:154.2  T32:560.9
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=4,4,1,1,512,4  max|err|=1.56e-02  T1:27.2  T8:175.7  T32:625.4
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=4,4,4,1,256,1  max|err|=1.56e-02  T1:48.4  T8:99.5  T32:381.6
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=4,4,4,1,256,2  max|err|=1.56e-02  T1:51.5  T8:107.5  T32:414.2
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=4,4,4,1,256,4  max|err|=1.56e-02  T1:57.0  T8:124.6  T32:480.1
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=4,4,4,1,512,1  max|err|=1.56e-02  T1:45.1  T8:94.4  T32:360.9
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=4,4,4,1,512,2  max|err|=1.56e-02  T1:47.9  T8:102.7  T32:385.5
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=4,4,4,1,512,4  max|err|=1.56e-02  T1:53.4  T8:119.2  T32:449.8
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=4,8,1,1,256,1  max|err|=1.56e-02  T1:14.9  T8:96.0  T32:363.6
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=4,8,1,1,256,2  max|err|=1.56e-02  T1:17.1  T8:107.0  T32:387.5
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=4,8,1,1,256,4  max|err|=1.56e-02  T1:22.0  T8:129.0  T32:449.7
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=4,8,1,1,512,1  max|err|=1.56e-02  T1:14.8  T8:94.1  T32:353.0
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=4,8,1,1,512,2  max|err|=1.56e-02  T1:17.2  T8:109.0  T32:387.0
+ok   o_proj       R=16 kc,qc,tt,mg,nt,ks=4,8,1,1,512,4  max|err|=1.56e-02  T1:22.2  T8:127.2  T32:431.7
+  BEST o_proj       R=16 T=  1  v3g     14.8  dense     25.2  generic     29.4  (4, 8, 1, 1, 512, 1)
+  BEST o_proj       R=16 T=  8  v3g     83.2  dense     25.4  generic    135.3  (2, 8, 4, 1, 256, 1)
+  BEST o_proj       R=16 T= 32  v3g    304.2  dense     25.9  generic    522.0  (2, 8, 4, 1, 512, 1)
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=1,8,4,1,256,1  max|err|=1.76e-02  T1:24.8  T8:58.7  T32:192.4
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=1,8,4,1,512,1  max|err|=1.76e-02  T1:23.4  T8:67.9  T32:228.9
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=1,16,4,1,256,1  max|err|=1.76e-02  T1:21.6  T8:67.1  T32:202.9
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=1,16,4,1,512,1  max|err|=1.76e-02  T1:19.8  T8:66.1  T32:202.5
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=2,8,1,1,256,1  max|err|=1.76e-02  T1:12.5  T8:47.8  T32:158.8
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=2,8,1,1,256,2  max|err|=1.76e-02  T1:15.1  T8:67.8  T32:228.8
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=2,8,1,1,512,1  max|err|=1.76e-02  T1:12.3  T8:60.9  T32:222.9
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=2,8,1,1,512,2  max|err|=1.76e-02  T1:18.0  T8:107.8  T32:372.6
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=2,8,4,1,256,1  max|err|=1.76e-02  T1:18.8  T8:41.9  T32:133.5
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=2,8,4,1,256,2  max|err|=1.76e-02  T1:22.0  T8:63.0  T32:208.0
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=2,8,4,1,512,1  max|err|=1.76e-02  T1:18.9  T8:44.3  T32:151.6
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=2,8,4,1,512,2  max|err|=1.76e-02  T1:20.9  T8:60.7  T32:192.6
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=2,16,1,1,256,1  max|err|=1.76e-02  T1:13.0  T8:52.1  T32:162.7
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=2,16,1,1,256,2  max|err|=1.76e-02  T1:17.4  T8:72.2  T32:216.9
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=2,16,1,1,512,1  max|err|=1.76e-02  T1:12.1  T8:51.1  T32:170.9
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=2,16,1,1,512,2  max|err|=1.76e-02  T1:17.8  T8:93.7  T32:297.5
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=2,16,4,1,256,1  max|err|=1.76e-02  T1:18.0  T8:49.8  T32:160.4
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=2,16,4,1,256,2  max|err|=1.76e-02  T1:22.3  T8:77.4  T32:251.7
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=2,16,4,1,512,1  max|err|=1.76e-02  T1:16.9  T8:48.5  T32:156.9
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=2,16,4,1,512,2  max|err|=1.76e-02  T1:20.5  T8:73.9  T32:244.4
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,8,1,1,256,1  max|err|=1.76e-02  T1:10.4  T8:36.5  T32:113.2
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,8,1,1,256,2  max|err|=1.76e-02  T1:11.3  T8:42.7  T32:129.7
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,8,1,1,256,4  max|err|=1.76e-02  T1:16.5  T8:64.6  T32:212.7
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,8,1,1,512,1  max|err|=1.76e-02  T1:10.6  T8:42.6  T32:131.2
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,8,1,1,512,2  max|err|=1.76e-02  T1:12.0  T8:68.4  T32:232.2
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,8,1,1,512,4  max|err|=1.76e-02  T1:15.0  T8:85.7  T32:290.5
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,8,4,1,256,1  max|err|=1.76e-02  T1:18.5  T8:39.4  T32:138.1
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,8,4,1,256,2  max|err|=1.76e-02  T1:19.9  T8:46.9  T32:165.1
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,8,4,1,256,4  max|err|=1.76e-02  T1:23.1  T8:67.5  T32:236.6
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,8,4,1,512,1  max|err|=1.76e-02  T1:17.0  T8:38.4  T32:129.7
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,8,4,1,512,2  max|err|=1.76e-02  T1:18.6  T8:45.4  T32:158.1
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,8,4,1,512,4  max|err|=1.76e-02  T1:21.8  T8:65.0  T32:231.9
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,16,1,1,256,1  max|err|=1.76e-02  T1:12.7  T8:35.3  T32:104.2
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,16,1,1,256,2  max|err|=1.76e-02  T1:13.9  T8:44.1  T32:128.9
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,16,1,1,256,4  max|err|=1.76e-02  T1:18.6  T8:69.9  T32:206.1
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,16,1,1,512,1  max|err|=1.76e-02  T1:11.7  T8:34.6  T32:100.3
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,16,1,1,512,2  max|err|=1.76e-02  T1:14.0  T8:58.0  T32:179.4
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,16,1,1,512,4  max|err|=1.76e-02  T1:18.0  T8:86.0  T32:254.2
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,16,4,1,256,1  max|err|=1.76e-02  T1:24.3  T8:33.1  T32:106.1
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,16,4,1,256,2  max|err|=1.76e-02  T1:27.0  T8:47.3  T32:148.8
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,16,4,1,256,4  max|err|=1.76e-02  T1:32.9  T8:72.7  T32:239.4
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,16,4,1,512,1  max|err|=1.76e-02  T1:21.2  T8:31.8  T32:98.7
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,16,4,1,512,2  max|err|=1.76e-02  T1:23.8  T8:44.4  T32:143.1
+ok   gdn_qkvz     R= 8 kc,qc,tt,mg,nt,ks=4,16,4,1,512,4  max|err|=1.76e-02  T1:28.6  T8:71.2  T32:233.7
+  BEST gdn_qkvz     R= 8 T=  1  v3g     10.4  dense     58.6  generic     26.6  (4, 8, 1, 1, 256, 1)
+  BEST gdn_qkvz     R= 8 T=  8  v3g     31.8  dense     58.8  generic     92.5  (4, 16, 4, 1, 512, 1)
+  BEST gdn_qkvz     R= 8 T= 32  v3g     98.7  dense     59.8  generic    313.7  (4, 16, 4, 1, 512, 1)
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=1,8,4,1,256,1  max|err|=1.78e-02  T1:99.1  T8:213.6  T32:816.3
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=1,8,4,1,512,1  max|err|=1.78e-02  T1:92.3  T8:216.4  T32:807.3
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=1,16,4,1,256,1  max|err|=1.78e-02  T1:78.6  T8:186.6  T32:680.7
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=1,16,4,1,512,1  max|err|=1.78e-02  T1:74.8  T8:183.3  T32:659.1
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=2,8,1,1,256,1  max|err|=1.78e-02  T1:28.0  T8:157.1  T32:604.0
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=2,8,1,1,256,2  max|err|=1.78e-02  T1:33.7  T8:184.0  T32:705.4
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=2,8,1,1,512,1  max|err|=1.78e-02  T1:35.8  T8:240.3  T32:907.6
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=2,8,1,1,512,2  max|err|=1.78e-02  T1:43.1  T8:269.8  T32:1020.3
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=2,8,4,1,256,1  max|err|=1.78e-02  T1:71.9  T8:155.1  T32:589.5
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=2,8,4,1,256,2  max|err|=1.78e-02  T1:83.3  T8:184.9  T32:710.5
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=2,8,4,1,512,1  max|err|=1.78e-02  T1:66.5  T8:148.8  T32:543.6
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=2,8,4,1,512,2  max|err|=1.78e-02  T1:78.2  T8:173.0  T32:648.9
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=2,16,1,1,256,1  max|err|=1.78e-02  T1:29.7  T8:182.0  T32:682.3
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=2,16,1,1,256,2  max|err|=1.78e-02  T1:36.7  T8:237.5  T32:876.1
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=2,16,1,1,512,1  max|err|=1.78e-02  T1:29.7  T8:177.4  T32:665.3
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=2,16,1,1,512,2  max|err|=1.78e-02  T1:38.1  T8:211.1  T32:782.3
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=2,16,4,1,256,1  max|err|=1.78e-02  T1:56.2  T8:121.5  T32:458.7
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=2,16,4,1,256,2  max|err|=1.78e-02  T1:66.9  T8:166.2  T32:633.8
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=2,16,4,1,512,1  max|err|=1.78e-02  T1:52.0  T8:117.6  T32:426.2
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=2,16,4,1,512,2  max|err|=1.78e-02  T1:63.8  T8:162.1  T32:610.5
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=4,8,1,1,256,1  max|err|=1.78e-02  T1:24.7  T8:167.0  T32:622.6
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=4,8,1,1,256,2  max|err|=1.78e-02  T1:27.6  T8:185.5  T32:696.8
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=4,8,1,1,256,4  max|err|=1.78e-02  T1:33.6  T8:215.9  T32:820.8
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=4,8,1,1,512,1  max|err|=1.78e-02  T1:24.6  T8:166.4  T32:623.4
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=4,8,1,1,512,2  max|err|=1.78e-02  T1:28.4  T8:185.2  T32:677.5
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=4,8,1,1,512,4  max|err|=1.78e-02  T1:34.6  T8:211.8  T32:787.5
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=4,16,1,1,256,1  max|err|=1.78e-02  T1:20.5  T8:124.5  T32:442.7
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=4,16,1,1,256,2  max|err|=1.78e-02  T1:23.8  T8:148.1  T32:535.0
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=4,16,1,1,256,4  max|err|=1.78e-02  T1:32.9  T8:189.5  T32:674.7
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=4,16,1,1,512,1  max|err|=1.78e-02  T1:20.3  T8:127.1  T32:448.0
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=4,16,1,1,512,2  max|err|=1.78e-02  T1:24.7  T8:143.9  T32:507.6
+ok   gdn_qkvz     R=16 kc,qc,tt,mg,nt,ks=4,16,1,1,512,4  max|err|=1.78e-02  T1:33.5  T8:184.0  T32:632.3
+  BEST gdn_qkvz     R=16 T=  1  v3g     20.3  dense     58.6  generic     44.6  (4, 16, 1, 1, 512, 1)
+  BEST gdn_qkvz     R=16 T=  8  v3g    117.6  dense     59.0  generic    239.2  (2, 16, 4, 1, 512, 1)
+  BEST gdn_qkvz     R=16 T= 32  v3g    426.2  dense     59.8  generic    927.1  (2, 16, 4, 1, 512, 1)
+ok   assign       R= 8 kc,qc,tt,mg,nt,ks=5,5,4,1,256,1  max|err|=1.83e-03  T1:9.8  T8:12.1  T32:28.8
+  BEST assign       R= 8 T=  1  v3g      9.8  dense     10.9  v3t      7.8  (5, 5, 4, 1, 256, 1)
+  BEST assign       R= 8 T=  8  v3g     12.1  dense     10.5  v3t     12.1  (5, 5, 4, 1, 256, 1)
+  BEST assign       R= 8 T= 32  v3g     28.8  dense     10.7  v3t     27.0  (5, 5, 4, 1, 256, 1)
+ok   assign       R=16 kc,qc,tt,mg,nt,ks=5,10,4,1,256,1  max|err|=1.89e-03  T1:21.2  T8:24.8  T32:84.8
+  BEST assign       R=16 T=  1  v3g     21.2  dense     11.2  v3t     10.4  (5, 10, 4, 1, 256, 1)
+  BEST assign       R=16 T=  8  v3g     24.8  dense     10.5  v3t     23.9  (5, 10, 4, 1, 256, 1)
+  BEST assign       R=16 T= 32  v3g     84.8  dense     10.4  v3t     81.2  (5, 10, 4, 1, 256, 1)
+ALL OK
+wrote results/h100/qwen/v3g_sweep2.json

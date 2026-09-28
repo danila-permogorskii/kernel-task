@@ -1,0 +1,13 @@
+ring8   T=  1 weights   2.56 GiB  eager    6.82 ms  graph    5.77 ms  ->      173 tok/s   1724.4 mJ/token    300 W (linear+lm_head only)
+ring8   T=  2 weights   2.56 GiB  eager    8.23 ms  graph    7.41 ms  ->      270 tok/s   1258.7 mJ/token    340 W (linear+lm_head only)
+ring8   T=  4 weights   2.56 GiB  eager   11.80 ms  graph   11.00 ms  ->      364 tok/s   1042.9 mJ/token    379 W (linear+lm_head only)
+ring8   T=  8 weights   2.56 GiB  eager   14.16 ms  graph   13.35 ms  ->      599 tok/s    656.2 mJ/token    393 W (linear+lm_head only)
+ring8   T= 16 weights   2.56 GiB  eager   22.68 ms  graph   21.86 ms  ->      732 tok/s    598.8 mJ/token    438 W (linear+lm_head only)
+ring8   T= 32 weights   2.56 GiB  eager   38.65 ms  graph   37.74 ms  ->      848 tok/s    579.1 mJ/token    491 W (linear+lm_head only)
+ring16  T=  1 weights   2.83 GiB  eager   10.30 ms  graph    9.56 ms  ->      105 tok/s   3580.4 mJ/token    375 W (linear+lm_head only)
+ring16  T=  2 weights   2.83 GiB  eager   16.46 ms  graph   15.65 ms  ->      128 tok/s   3141.3 mJ/token    401 W (linear+lm_head only)
+ring16  T=  4 weights   2.83 GiB  eager   28.38 ms  graph   27.54 ms  ->      145 tok/s   2933.6 mJ/token    426 W (linear+lm_head only)
+ring16  T=  8 weights   2.83 GiB  eager   49.57 ms  graph   48.71 ms  ->      164 tok/s   2787.3 mJ/token    458 W (linear+lm_head only)
+ring16  T= 16 weights   2.83 GiB  eager   92.63 ms  graph   91.76 ms  ->      174 tok/s   2720.9 mJ/token    474 W (linear+lm_head only)
+ring16  T= 32 weights   2.83 GiB  eager  175.21 ms  graph  174.35 ms  ->      184 tok/s   2725.6 mJ/token    498 W (linear+lm_head only)
+wrote results/h100/qwen/model_chain_v3g2.json

@@ -1,0 +1,69 @@
+{
+  "device": "NVIDIA H100 80GB HBM3",
+  "tilings": "results/h100/qwen/sweep.json",
+  "rows": [
+    {
+      "variant": "dense",
+      "tokens": 1,
+      "weights_bytes": 51244967936,
+      "eager_ms": 20.803208923339845,
+      "graph_ms": 19.592288208007812
+    },
+    {
+      "variant": "dense",
+      "tokens": 8,
+      "weights_bytes": 51244967936,
+      "eager_ms": 21.321774291992188,
+      "graph_ms": 20.401443481445312
+    },
+    {
+      "variant": "dense",
+      "tokens": 32,
+      "weights_bytes": 51244967936,
+      "eager_ms": 21.88507995605469,
+      "graph_ms": 20.829513549804688
+    },
+    {
+      "variant": "ring8",
+      "tokens": 1,
+      "weights_bytes": 2745182208,
+      "eager_ms": 6.700457763671875,
+      "graph_ms": 5.8185279846191404
+    },
+    {
+      "variant": "ring8",
+      "tokens": 8,
+      "weights_bytes": 2745182208,
+      "eager_ms": 14.89257354736328,
+      "graph_ms": 14.044439697265625
+    },
+    {
+      "variant": "ring8",
+      "tokens": 32,
+      "weights_bytes": 2745182208,
+      "eager_ms": 40.51576538085938,
+      "graph_ms": 39.57486572265625
+    },
+    {
+      "variant": "ring16",
+      "tokens": 1,
+      "weights_bytes": 3040880640,
+      "eager_ms": 10.492411041259766,
+      "graph_ms": 9.674614715576173
+    },
+    {
+      "variant": "ring16",
+      "tokens": 8,
+      "weights_bytes": 3040880640,
+      "eager_ms": 50.79298400878906,
+      "graph_ms": 49.944821166992185
+    },
+    {
+      "variant": "ring16",
+      "tokens": 32,
+      "weights_bytes": 3040880640,
+      "eager_ms": 182.27935791015625,
+      "graph_ms": 181.315869140625
+    }
+  ]
+}

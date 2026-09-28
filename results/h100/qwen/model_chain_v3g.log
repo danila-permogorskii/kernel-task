@@ -1,0 +1,10 @@
+dense   T=  1 weights  47.73 GiB  eager   20.80 ms  graph   19.59 ms  ->       51 tok/s (linear+lm_head only)
+dense   T=  8 weights  47.73 GiB  eager   21.32 ms  graph   20.40 ms  ->      392 tok/s (linear+lm_head only)
+dense   T= 32 weights  47.73 GiB  eager   21.89 ms  graph   20.83 ms  ->     1536 tok/s (linear+lm_head only)
+ring8   T=  1 weights   2.56 GiB  eager    6.70 ms  graph    5.82 ms  ->      172 tok/s (linear+lm_head only)
+ring8   T=  8 weights   2.56 GiB  eager   14.89 ms  graph   14.04 ms  ->      570 tok/s (linear+lm_head only)
+ring8   T= 32 weights   2.56 GiB  eager   40.52 ms  graph   39.57 ms  ->      809 tok/s (linear+lm_head only)
+ring16  T=  1 weights   2.83 GiB  eager   10.49 ms  graph    9.67 ms  ->      103 tok/s (linear+lm_head only)
+ring16  T=  8 weights   2.83 GiB  eager   50.79 ms  graph   49.94 ms  ->      160 tok/s (linear+lm_head only)
+ring16  T= 32 weights   2.83 GiB  eager  182.28 ms  graph  181.32 ms  ->      176 tok/s (linear+lm_head only)
+wrote results/h100/qwen/model_chain_v3g.json

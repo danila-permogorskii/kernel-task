@@ -1,0 +1,420 @@
+== session start Mon Sep 28 16:17:10 UTC 2026   GPU: NVIDIA H100 80GB HBM3   tag: h100
+== 0. environment
+mlp_gate_up    5120 ->  17408  x128   modes (20, 16, 16) -> (16, 34, 32)
+mlp_down      17408 ->   5120  x 64   modes (34, 32, 16) -> (16, 16, 20)
+attn_q_gate    5120 ->  12288  x 16   modes (20, 16, 16) -> (16, 24, 32)
+attn_kv        5120 ->   1024  x 32   modes (20, 16, 16) -> (8, 8, 16)
+o_proj         6144 ->   5120  x 64   modes (24, 16, 16) -> (16, 16, 20)
+gdn_qkvz       5120 ->  16384  x 48   modes (20, 16, 16) -> (16, 32, 32)
+== 1. correctness: FP16 on the assignment (all kernels), BF16 on every Qwen shape
+.....................                                                    [100%]
+21 passed in 7.97s
+ALL OK
+ALL OK
+ALL OK
+ALL OK
+== 2. Qwen shapes, BF16, harness protocol, the chooser's tilings
+mlp_gate_up  R= 8 T=  1 dense                 stream=     65.2 us  host=     77.7 us  relL2=2.86e-03 ok
+mlp_gate_up  R= 8 T=  1 factorized_reference  stream=    147.6 us  host=    154.9 us  relL2=2.86e-03 ok
+mlp_gate_up  R= 8 T=  1 factorized_optimized  stream=     43.3 us  host=     52.2 us  relL2=2.86e-03 ok  tiling=[1, 1, 17] (chooser)
+mlp_gate_up  R= 8 T=  8 dense                 stream=     66.3 us  host=     78.8 us  relL2=2.88e-03 ok
+mlp_gate_up  R= 8 T=  8 factorized_reference  stream=    151.9 us  host=    161.2 us  relL2=2.88e-03 ok
+mlp_gate_up  R= 8 T=  8 factorized_optimized  stream=    177.9 us  host=    187.3 us  relL2=2.88e-03 ok  tiling=[4, 4, 7] (chooser)
+mlp_gate_up  R= 8 T= 32 dense                 stream=     67.3 us  host=     79.5 us  relL2=2.88e-03 ok
+mlp_gate_up  R= 8 T= 32 factorized_reference  stream=    160.3 us  host=    218.4 us  relL2=2.87e-03 ok
+mlp_gate_up  R= 8 T= 32 factorized_optimized  stream=    550.7 us  host=    568.2 us  relL2=2.87e-03 ok  tiling=[4, 4, 7] (chooser)
+mlp_gate_up  R= 8 T=128 dense                 stream=     68.1 us  host=     80.5 us  relL2=2.88e-03 ok
+mlp_gate_up  R= 8 T=128 factorized_reference  stream=    515.3 us  host=    567.1 us  relL2=2.87e-03 ok
+mlp_gate_up  R= 8 T=128 factorized_optimized  stream=   2115.7 us  host=   2130.1 us  relL2=2.87e-03 ok  tiling=[4, 4, 7] (chooser)
+mlp_gate_up  R=16 T=  1 factorized_reference  stream=    148.8 us  host=    158.9 us  relL2=2.87e-03 ok
+mlp_gate_up  R=16 T=  1 factorized_optimized  stream=     78.9 us  host=     88.1 us  relL2=2.87e-03 ok  tiling=[4, 1, 7] (chooser)
+mlp_gate_up  R=16 T=  8 factorized_reference  stream=    158.9 us  host=    205.8 us  relL2=2.88e-03 ok
+mlp_gate_up  R=16 T=  8 factorized_optimized  stream=    693.2 us  host=    709.2 us  relL2=2.88e-03 ok  tiling=[2, 4, 3] (chooser)
+mlp_gate_up  R=16 T= 32 factorized_reference  stream=    489.8 us  host=    540.7 us  relL2=2.88e-03 ok
+mlp_gate_up  R=16 T= 32 factorized_optimized  stream=   2689.4 us  host=   2705.2 us  relL2=2.88e-03 ok  tiling=[2, 4, 3] (chooser)
+mlp_gate_up  R=16 T=128 factorized_reference  stream=   1817.3 us  host=   1862.2 us  relL2=2.88e-03 ok
+mlp_gate_up  R=16 T=128 factorized_optimized  stream=  10747.6 us  host=  10763.5 us  relL2=2.88e-03 ok  tiling=[2, 4, 3] (chooser)
+mlp_down     R= 8 T=  1 dense                 stream=     65.5 us  host=     77.7 us  relL2=2.85e-03 ok
+mlp_down     R= 8 T=  1 factorized_reference  stream=    145.2 us  host=    156.1 us  relL2=2.87e-03 ok
+mlp_down     R= 8 T=  1 factorized_optimized  stream=     40.0 us  host=     49.1 us  relL2=2.86e-03 ok  tiling=[3, 1, 6] (chooser)
+mlp_down     R= 8 T=  8 dense                 stream=     66.3 us  host=     78.4 us  relL2=2.86e-03 ok
+mlp_down     R= 8 T=  8 factorized_reference  stream=    147.6 us  host=    159.7 us  relL2=2.87e-03 ok
+mlp_down     R= 8 T=  8 factorized_optimized  stream=    328.5 us  host=    338.2 us  relL2=2.87e-03 ok  tiling=[1, 4, 2] (chooser)
+mlp_down     R= 8 T= 32 dense                 stream=     67.9 us  host=     79.7 us  relL2=2.87e-03 ok
+mlp_down     R= 8 T= 32 factorized_reference  stream=    179.9 us  host=    220.9 us  relL2=2.88e-03 ok
+mlp_down     R= 8 T= 32 factorized_optimized  stream=   1272.2 us  host=   1293.5 us  relL2=2.88e-03 ok  tiling=[1, 4, 2] (chooser)
+mlp_down     R= 8 T=128 dense                 stream=     73.1 us  host=     85.3 us  relL2=2.88e-03 ok
+mlp_down     R= 8 T=128 factorized_reference  stream=    621.7 us  host=    665.4 us  relL2=2.87e-03 ok
+mlp_down     R= 8 T=128 factorized_optimized  stream=   5072.7 us  host=   5089.6 us  relL2=2.87e-03 ok  tiling=[1, 4, 2] (chooser)
+mlp_down     R=16 T=  1 factorized_reference  stream=    147.6 us  host=    159.1 us  relL2=2.85e-03 ok
+mlp_down     R=16 T=  1 factorized_optimized  stream=    217.7 us  host=    226.8 us  relL2=2.84e-03 ok  tiling=[1, 1, 2] (chooser)
+mlp_down     R=16 T=  8 factorized_reference  stream=    180.1 us  host=    221.3 us  relL2=2.86e-03 ok
+mlp_down     R=16 T=  8 factorized_optimized  stream=   1611.5 us  host=   1645.6 us  relL2=2.86e-03 ok  tiling=[1, 4, 1] (chooser)
+mlp_down     R=16 T= 32 factorized_reference  stream=    601.3 us  host=    655.6 us  relL2=2.88e-03 ok
+mlp_down     R=16 T= 32 factorized_optimized  stream=   6457.0 us  host=   6467.8 us  relL2=2.88e-03 ok  tiling=[1, 4, 1] (chooser)
+mlp_down     R=16 T=128 factorized_reference  stream=   2260.1 us  host=   2306.2 us  relL2=2.88e-03 ok
+mlp_down     R=16 T=128 factorized_optimized  stream=  25803.4 us  host=  25840.7 us  relL2=2.88e-03 ok  tiling=[1, 4, 1] (chooser)
+attn_q_gate  R= 8 T=  1 dense                 stream=     45.2 us  host=     57.5 us  relL2=2.87e-03 ok
+attn_q_gate  R= 8 T=  1 factorized_reference  stream=    149.6 us  host=    157.0 us  relL2=2.90e-03 ok
+attn_q_gate  R= 8 T=  1 factorized_optimized  stream=     33.4 us  host=     42.4 us  relL2=2.90e-03 ok  tiling=[1, 1, 12] (chooser)
+attn_q_gate  R= 8 T=  8 dense                 stream=     46.3 us  host=     59.0 us  relL2=2.88e-03 ok
+attn_q_gate  R= 8 T=  8 factorized_reference  stream=    148.7 us  host=    153.2 us  relL2=2.86e-03 ok
+attn_q_gate  R= 8 T=  8 factorized_optimized  stream=    126.5 us  host=    135.6 us  relL2=2.86e-03 ok  tiling=[4, 4, 8] (chooser)
+attn_q_gate  R= 8 T= 32 dense                 stream=     48.9 us  host=     61.4 us  relL2=2.88e-03 ok
+attn_q_gate  R= 8 T= 32 factorized_reference  stream=    157.3 us  host=    188.2 us  relL2=2.88e-03 ok
+attn_q_gate  R= 8 T= 32 factorized_optimized  stream=    353.8 us  host=    365.1 us  relL2=2.88e-03 ok  tiling=[4, 4, 8] (chooser)
+attn_q_gate  R= 8 T=128 dense                 stream=     48.3 us  host=     60.4 us  relL2=2.88e-03 ok
+attn_q_gate  R= 8 T=128 factorized_reference  stream=    414.3 us  host=    461.2 us  relL2=2.87e-03 ok
+attn_q_gate  R= 8 T=128 factorized_optimized  stream=   1359.5 us  host=   1390.9 us  relL2=2.87e-03 ok  tiling=[4, 4, 8] (chooser)
+attn_q_gate  R=16 T=  1 factorized_reference  stream=    145.1 us  host=    151.6 us  relL2=2.87e-03 ok
+attn_q_gate  R=16 T=  1 factorized_optimized  stream=     69.2 us  host=     78.3 us  relL2=2.87e-03 ok  tiling=[6, 1, 6] (chooser)
+attn_q_gate  R=16 T=  8 factorized_reference  stream=    157.7 us  host=    184.1 us  relL2=2.87e-03 ok
+attn_q_gate  R=16 T=  8 factorized_optimized  stream=    466.7 us  host=    478.5 us  relL2=2.87e-03 ok  tiling=[2, 4, 3] (chooser)
+attn_q_gate  R=16 T= 32 factorized_reference  stream=    389.7 us  host=    441.4 us  relL2=2.88e-03 ok
+attn_q_gate  R=16 T= 32 factorized_optimized  stream=   1796.8 us  host=   1829.2 us  relL2=2.88e-03 ok  tiling=[2, 4, 3] (chooser)
+attn_q_gate  R=16 T=128 factorized_reference  stream=   1437.5 us  host=   1491.2 us  relL2=2.88e-03 ok
+attn_q_gate  R=16 T=128 factorized_optimized  stream=   7176.8 us  host=   7192.4 us  relL2=2.88e-03 ok  tiling=[2, 4, 3] (chooser)
+attn_kv      R= 8 T=  1 dense                 stream=     12.2 us  host=     19.4 us  relL2=2.99e-03 ok
+attn_kv      R= 8 T=  1 factorized_reference  stream=    145.1 us  host=    153.5 us  relL2=2.87e-03 ok
+attn_kv      R= 8 T=  1 factorized_optimized  stream=     12.6 us  host=     21.1 us  relL2=2.87e-03 ok  tiling=[1, 1, 8] (chooser)
+attn_kv      R= 8 T=  8 dense                 stream=     12.4 us  host=     19.5 us  relL2=2.83e-03 ok
+attn_kv      R= 8 T=  8 factorized_reference  stream=    149.1 us  host=    157.4 us  relL2=2.85e-03 ok
+attn_kv      R= 8 T=  8 factorized_optimized  stream=     29.4 us  host=     38.5 us  relL2=2.85e-03 ok  tiling=[1, 4, 8] (chooser)
+attn_kv      R= 8 T= 32 dense                 stream=     12.1 us  host=     19.5 us  relL2=2.90e-03 ok
+attn_kv      R= 8 T= 32 factorized_reference  stream=    147.2 us  host=    154.0 us  relL2=2.86e-03 ok
+attn_kv      R= 8 T= 32 factorized_optimized  stream=     80.5 us  host=     89.8 us  relL2=2.86e-03 ok  tiling=[6, 4, 8] (chooser)
+attn_kv      R= 8 T=128 dense                 stream=     12.1 us  host=     21.4 us  relL2=2.86e-03 ok
+attn_kv      R= 8 T=128 factorized_reference  stream=    151.0 us  host=    181.3 us  relL2=2.86e-03 ok
+attn_kv      R= 8 T=128 factorized_optimized  stream=    195.5 us  host=    204.9 us  relL2=2.86e-03 ok  tiling=[8, 4, 8] (chooser)
+attn_kv      R=16 T=  1 factorized_reference  stream=    147.3 us  host=    155.8 us  relL2=3.03e-03 ok
+attn_kv      R=16 T=  1 factorized_optimized  stream=     24.5 us  host=     33.5 us  relL2=3.03e-03 ok  tiling=[1, 1, 8] (chooser)
+attn_kv      R=16 T=  8 factorized_reference  stream=    160.2 us  host=    169.3 us  relL2=2.86e-03 ok
+attn_kv      R=16 T=  8 factorized_optimized  stream=     83.8 us  host=     92.9 us  relL2=2.86e-03 ok  tiling=[6, 4, 4] (chooser)
+attn_kv      R=16 T= 32 factorized_reference  stream=    156.7 us  host=    184.9 us  relL2=2.87e-03 ok
+attn_kv      R=16 T= 32 factorized_optimized  stream=    238.6 us  host=    248.3 us  relL2=2.87e-03 ok  tiling=[6, 4, 4] (chooser)
+attn_kv      R=16 T=128 factorized_reference  stream=    450.0 us  host=    497.9 us  relL2=2.88e-03 ok
+attn_kv      R=16 T=128 factorized_optimized  stream=    872.7 us  host=    893.1 us  relL2=2.88e-03 ok  tiling=[6, 4, 4] (chooser)
+o_proj       R= 8 T=  1 dense                 stream=     25.1 us  host=     37.3 us  relL2=2.83e-03 ok
+o_proj       R= 8 T=  1 factorized_reference  stream=    149.0 us  host=    156.8 us  relL2=2.84e-03 ok
+o_proj       R= 8 T=  1 factorized_optimized  stream=     21.2 us  host=     30.3 us  relL2=2.84e-03 ok  tiling=[1, 1, 16] (chooser)
+o_proj       R= 8 T=  8 dense                 stream=     25.6 us  host=     37.7 us  relL2=2.87e-03 ok
+o_proj       R= 8 T=  8 factorized_reference  stream=    149.1 us  host=    155.3 us  relL2=2.88e-03 ok
+o_proj       R= 8 T=  8 factorized_optimized  stream=    104.5 us  host=    113.7 us  relL2=2.88e-03 ok  tiling=[3, 4, 8] (chooser)
+o_proj       R= 8 T= 32 dense                 stream=     26.0 us  host=     38.1 us  relL2=2.88e-03 ok
+o_proj       R= 8 T= 32 factorized_reference  stream=    154.8 us  host=    173.5 us  relL2=2.88e-03 ok
+o_proj       R= 8 T= 32 factorized_optimized  stream=    298.7 us  host=    308.1 us  relL2=2.88e-03 ok  tiling=[3, 4, 8] (chooser)
+o_proj       R= 8 T=128 dense                 stream=     27.6 us  host=     39.6 us  relL2=2.87e-03 ok
+o_proj       R= 8 T=128 factorized_reference  stream=    336.1 us  host=    382.7 us  relL2=2.87e-03 ok
+o_proj       R= 8 T=128 factorized_optimized  stream=   1076.6 us  host=   1102.3 us  relL2=2.87e-03 ok  tiling=[3, 4, 8] (chooser)
+o_proj       R=16 T=  1 factorized_reference  stream=    151.0 us  host=    157.5 us  relL2=2.84e-03 ok
+o_proj       R=16 T=  1 factorized_optimized  stream=     51.8 us  host=     60.9 us  relL2=2.85e-03 ok  tiling=[4, 1, 6] (chooser)
+o_proj       R=16 T=  8 factorized_reference  stream=    150.7 us  host=    170.1 us  relL2=2.87e-03 ok
+o_proj       R=16 T=  8 factorized_optimized  stream=    471.5 us  host=    481.5 us  relL2=2.87e-03 ok  tiling=[1, 4, 3] (chooser)
+o_proj       R=16 T= 32 factorized_reference  stream=    318.4 us  host=    366.9 us  relL2=2.87e-03 ok
+o_proj       R=16 T= 32 factorized_optimized  stream=   1837.4 us  host=   1873.4 us  relL2=2.87e-03 ok  tiling=[1, 4, 3] (chooser)
+o_proj       R=16 T=128 factorized_reference  stream=   1103.8 us  host=   1157.8 us  relL2=2.88e-03 ok
+o_proj       R=16 T=128 factorized_optimized  stream=   7388.6 us  host=   7407.1 us  relL2=2.88e-03 ok  tiling=[1, 4, 3] (chooser)
+gdn_qkvz     R= 8 T=  1 dense                 stream=     58.8 us  host=     71.2 us  relL2=2.90e-03 ok
+gdn_qkvz     R= 8 T=  1 factorized_reference  stream=    145.7 us  host=    156.9 us  relL2=2.89e-03 ok
+gdn_qkvz     R= 8 T=  1 factorized_optimized  stream=     38.1 us  host=     47.2 us  relL2=2.89e-03 ok  tiling=[1, 1, 16] (chooser)
+gdn_qkvz     R= 8 T=  8 dense                 stream=     59.0 us  host=     71.4 us  relL2=2.88e-03 ok
+gdn_qkvz     R= 8 T=  8 factorized_reference  stream=    148.9 us  host=    156.2 us  relL2=2.87e-03 ok
+gdn_qkvz     R= 8 T=  8 factorized_optimized  stream=    129.7 us  host=    138.6 us  relL2=2.87e-03 ok  tiling=[4, 4, 8] (chooser)
+gdn_qkvz     R= 8 T= 32 dense                 stream=     60.3 us  host=     72.5 us  relL2=2.88e-03 ok
+gdn_qkvz     R= 8 T= 32 factorized_reference  stream=    151.8 us  host=    206.5 us  relL2=2.88e-03 ok
+gdn_qkvz     R= 8 T= 32 factorized_optimized  stream=    474.7 us  host=    484.6 us  relL2=2.88e-03 ok  tiling=[4, 4, 8] (chooser)
+gdn_qkvz     R= 8 T=128 dense                 stream=     63.2 us  host=     75.5 us  relL2=2.88e-03 ok
+gdn_qkvz     R= 8 T=128 factorized_reference  stream=    491.2 us  host=    539.6 us  relL2=2.87e-03 ok
+gdn_qkvz     R= 8 T=128 factorized_optimized  stream=   1799.1 us  host=   1816.8 us  relL2=2.87e-03 ok  tiling=[4, 4, 8] (chooser)
+gdn_qkvz     R=16 T=  1 factorized_reference  stream=    157.0 us  host=    165.5 us  relL2=2.86e-03 ok
+gdn_qkvz     R=16 T=  1 factorized_optimized  stream=     78.9 us  host=     88.0 us  relL2=2.86e-03 ok  tiling=[4, 1, 7] (chooser)
+gdn_qkvz     R=16 T=  8 factorized_reference  stream=    157.0 us  host=    198.4 us  relL2=2.87e-03 ok
+gdn_qkvz     R=16 T=  8 factorized_optimized  stream=    632.0 us  host=    652.5 us  relL2=2.87e-03 ok  tiling=[2, 4, 3] (chooser)
+gdn_qkvz     R=16 T= 32 factorized_reference  stream=    458.6 us  host=    510.4 us  relL2=2.88e-03 ok
+gdn_qkvz     R=16 T= 32 factorized_optimized  stream=   2468.6 us  host=   2492.4 us  relL2=2.88e-03 ok  tiling=[2, 4, 3] (chooser)
+gdn_qkvz     R=16 T=128 factorized_reference  stream=   1717.4 us  host=   1771.6 us  relL2=2.88e-03 ok
+gdn_qkvz     R=16 T=128 factorized_optimized  stream=   9861.2 us  host=   9877.2 us  relL2=2.88e-03 ok  tiling=[2, 4, 3] (chooser)
+Wrote results/h100/qwen/bf16.json
+== 3. tiling sweep of our kernel, then ours again with the fastest tilings
+mlp_gate_up  R= 8 T=  1 dense      65.7  chooser (1, 1, 17)      42.7 us
+             70/70 tilings tried, best (2, 1, 17)      31.2 us (dense 65.7)
+mlp_gate_up  R= 8 T=  8 dense      65.2  chooser (4, 4, 7)     172.5 us
+             182/182 tilings tried, best (16, 1, 17)     111.6 us (dense 65.2)
+mlp_gate_up  R= 8 T= 32 dense      64.4  chooser (4, 4, 7)     543.6 us
+             182/182 tilings tried, best (16, 2, 12)     386.3 us (dense 64.4)
+mlp_gate_up  R= 8 T=128 dense      67.7  chooser (4, 4, 7)    2117.5 us
+             174/182 tilings tried, best (16, 2, 12)    1512.6 us (dense 67.7)
+mlp_gate_up  R=16 T=  1 dense      64.1  chooser (4, 1, 7)      76.7 us
+             69/69 tilings tried, best (4, 1, 17)      51.9 us (dense 64.1)
+mlp_gate_up  R=16 T=  8 dense      62.4  chooser (2, 4, 3)     683.5 us
+             179/179 tilings tried, best (8, 2, 12)     294.6 us (dense 62.4)
+mlp_gate_up  R=16 T= 32 dense      66.7  chooser (2, 4, 3)    2692.6 us
+             179/179 tilings tried, best (16, 2, 12)    1071.6 us (dense 66.7)
+mlp_gate_up  R=16 T=128 dense      67.5  chooser (2, 4, 3)   10743.6 us
+             94/179 tilings tried, best (16, 2, 12)    4225.9 us (dense 67.5)
+mlp_down     R= 8 T=  1 dense      65.2  chooser (3, 1, 6)      38.9 us
+             48/48 tilings tried, best (2, 1, 8)      22.3 us (dense 65.2)
+mlp_down     R= 8 T=  8 dense      66.5  chooser (1, 4, 2)     319.4 us
+             118/118 tilings tried, best (8, 1, 16)      79.3 us (dense 66.5)
+mlp_down     R= 8 T= 32 dense      67.7  chooser (1, 4, 2)    1284.1 us
+             118/118 tilings tried, best (8, 1, 16)     301.2 us (dense 67.7)
+mlp_down     R= 8 T=128 dense      72.8  chooser (1, 4, 2)    5101.6 us
+             118/118 tilings tried, best (8, 1, 16)    1188.0 us (dense 72.8)
+mlp_down     R=16 T=  1 dense      65.6  chooser (1, 1, 2)     211.7 us
+             38/38 tilings tried, best (4, 1, 8)      46.5 us (dense 65.6)
+mlp_down     R=16 T=  8 dense      67.3  chooser (1, 4, 1)    1620.3 us
+             78/78 tilings tried, best (4, 1, 8)     339.5 us (dense 67.3)
+mlp_down     R=16 T= 32 dense      68.5  chooser (1, 4, 1)    6484.3 us
+             78/78 tilings tried, best (4, 1, 8)    1340.8 us (dense 68.5)
+mlp_down     R=16 T=128 dense      73.0  chooser (1, 4, 1)   25928.3 us
+             63/78 tilings tried, best (4, 1, 8)    5319.2 us (dense 73.0)
+attn_q_gate  R= 8 T=  1 dense      45.3  chooser (1, 1, 12)      32.3 us
+             63/63 tilings tried, best (2, 1, 12)      23.5 us (dense 45.3)
+attn_q_gate  R= 8 T=  8 dense      46.5  chooser (4, 4, 8)     123.2 us
+             168/168 tilings tried, best (8, 1, 24)      72.6 us (dense 46.5)
+attn_q_gate  R= 8 T= 32 dense      48.9  chooser (4, 4, 8)     349.9 us
+             168/168 tilings tried, best (16, 1, 24)     245.0 us (dense 48.9)
+attn_q_gate  R= 8 T=128 dense      49.1  chooser (4, 4, 8)    1369.7 us
+             168/168 tilings tried, best (16, 1, 24)     952.5 us (dense 49.1)
+attn_q_gate  R=16 T=  1 dense      44.9  chooser (6, 1, 6)      67.1 us
+             56/56 tilings tried, best (4, 1, 12)      38.4 us (dense 44.9)
+attn_q_gate  R=16 T=  8 dense      46.1  chooser (2, 4, 3)     457.5 us
+             159/159 tilings tried, best (16, 2, 12)     186.9 us (dense 46.1)
+attn_q_gate  R=16 T= 32 dense      48.9  chooser (2, 4, 3)    1796.9 us
+             159/159 tilings tried, best (16, 2, 12)     718.1 us (dense 48.9)
+attn_q_gate  R=16 T=128 dense      48.2  chooser (2, 4, 3)    7225.9 us
+             119/159 tilings tried, best (16, 2, 12)    2850.8 us (dense 48.2)
+attn_kv      R= 8 T=  1 dense      12.6  chooser (1, 1, 8)      12.0 us
+             35/35 tilings tried, best (1, 1, 8)      12.0 us (dense 12.6)
+attn_kv      R= 8 T=  8 dense      12.7  chooser (1, 4, 8)      28.9 us
+             105/105 tilings tried, best (2, 4, 8)      21.4 us (dense 12.7)
+attn_kv      R= 8 T= 32 dense      12.9  chooser (6, 4, 8)      79.2 us
+             105/105 tilings tried, best (8, 4, 8)      52.0 us (dense 12.9)
+attn_kv      R= 8 T=128 dense      12.9  chooser (8, 4, 8)     191.7 us
+             105/105 tilings tried, best (16, 4, 8)     178.9 us (dense 12.9)
+attn_kv      R=16 T=  1 dense      13.1  chooser (1, 1, 8)      22.9 us
+             35/35 tilings tried, best (2, 1, 8)      16.9 us (dense 13.1)
+attn_kv      R=16 T=  8 dense      12.6  chooser (6, 4, 4)      81.2 us
+             105/105 tilings tried, best (4, 4, 8)      41.7 us (dense 12.6)
+attn_kv      R=16 T= 32 dense      12.6  chooser (6, 4, 4)     232.4 us
+             105/105 tilings tried, best (8, 4, 8)     139.4 us (dense 12.6)
+attn_kv      R=16 T=128 dense      12.8  chooser (6, 4, 4)     868.5 us
+             105/105 tilings tried, best (8, 4, 8)     542.9 us (dense 12.8)
+o_proj       R= 8 T=  1 dense      25.5  chooser (1, 1, 16)      19.9 us
+             49/49 tilings tried, best (2, 1, 8)      17.6 us (dense 25.5)
+o_proj       R= 8 T=  8 dense      25.7  chooser (3, 4, 8)     101.3 us
+             140/140 tilings tried, best (8, 1, 16)      53.4 us (dense 25.7)
+o_proj       R= 8 T= 32 dense      26.2  chooser (3, 4, 8)     293.9 us
+             140/140 tilings tried, best (16, 2, 16)     163.5 us (dense 26.2)
+o_proj       R= 8 T=128 dense      27.3  chooser (3, 4, 8)    1076.0 us
+             140/140 tilings tried, best (16, 2, 16)     633.9 us (dense 27.3)
+o_proj       R=16 T=  1 dense      25.3  chooser (4, 1, 6)      50.2 us
+             48/48 tilings tried, best (4, 1, 8)      28.8 us (dense 25.3)
+o_proj       R=16 T=  8 dense      25.4  chooser (1, 4, 3)     460.5 us
+             134/134 tilings tried, best (8, 1, 16)     133.1 us (dense 25.4)
+o_proj       R=16 T= 32 dense      26.4  chooser (1, 4, 3)    1839.4 us
+             134/134 tilings tried, best (8, 1, 16)     514.5 us (dense 26.4)
+o_proj       R=16 T=128 dense      27.3  chooser (1, 4, 3)    7388.6 us
+             126/134 tilings tried, best (8, 1, 16)    2028.3 us (dense 27.3)
+gdn_qkvz     R= 8 T=  1 dense      58.7  chooser (1, 1, 16)      37.4 us
+             77/77 tilings tried, best (4, 1, 8)      26.0 us (dense 58.7)
+gdn_qkvz     R= 8 T=  8 dense      58.8  chooser (4, 4, 8)     126.4 us
+             203/203 tilings tried, best (8, 1, 32)      90.9 us (dense 58.8)
+gdn_qkvz     R= 8 T= 32 dense      60.3  chooser (4, 4, 8)     462.1 us
+             203/203 tilings tried, best (16, 1, 32)     309.7 us (dense 60.3)
+gdn_qkvz     R= 8 T=128 dense      63.3  chooser (4, 4, 8)    1799.0 us
+             195/203 tilings tried, best (16, 1, 32)    1207.2 us (dense 63.3)
+gdn_qkvz     R=16 T=  1 dense      58.6  chooser (4, 1, 7)      76.4 us
+             70/70 tilings tried, best (4, 1, 16)      44.0 us (dense 58.6)
+gdn_qkvz     R=16 T=  8 dense      59.1  chooser (2, 4, 3)     627.8 us
+             192/192 tilings tried, best (16, 1, 16)     235.8 us (dense 59.1)
+gdn_qkvz     R=16 T= 32 dense      59.9  chooser (2, 4, 3)    2487.3 us
+             192/192 tilings tried, best (16, 1, 16)     923.3 us (dense 59.9)
+gdn_qkvz     R=16 T=128 dense      63.7  chooser (2, 4, 3)    9927.3 us
+             104/192 tilings tried, best (16, 1, 16)    3644.3 us (dense 63.7)
+wrote results/h100/qwen/sweep.json
+mlp_gate_up  R= 8 T=  1 factorized_optimized  stream=     30.7 us  host=     39.9 us  relL2=2.86e-03 ok  tiling=[2, 1, 17] (sweep)
+mlp_gate_up  R= 8 T=  8 factorized_optimized  stream=    112.7 us  host=    122.2 us  relL2=2.88e-03 ok  tiling=[16, 1, 17] (sweep)
+mlp_gate_up  R= 8 T= 32 factorized_optimized  stream=    391.0 us  host=    402.4 us  relL2=2.87e-03 ok  tiling=[16, 2, 12] (sweep)
+mlp_gate_up  R= 8 T=128 factorized_optimized  stream=   1511.7 us  host=   1540.6 us  relL2=2.87e-03 ok  tiling=[16, 2, 12] (sweep)
+mlp_gate_up  R=16 T=  1 factorized_optimized  stream=     53.5 us  host=     62.7 us  relL2=2.87e-03 ok  tiling=[4, 1, 17] (sweep)
+mlp_gate_up  R=16 T=  8 factorized_optimized  stream=    299.2 us  host=    309.1 us  relL2=2.88e-03 ok  tiling=[8, 2, 12] (sweep)
+mlp_gate_up  R=16 T= 32 factorized_optimized  stream=   1076.2 us  host=   1096.2 us  relL2=2.88e-03 ok  tiling=[16, 2, 12] (sweep)
+mlp_gate_up  R=16 T=128 factorized_optimized  stream=   4227.6 us  host=   4242.7 us  relL2=2.88e-03 ok  tiling=[16, 2, 12] (sweep)
+mlp_down     R= 8 T=  1 factorized_optimized  stream=     22.6 us  host=     31.7 us  relL2=2.86e-03 ok  tiling=[2, 1, 8] (sweep)
+mlp_down     R= 8 T=  8 factorized_optimized  stream=     80.7 us  host=     89.8 us  relL2=2.87e-03 ok  tiling=[8, 1, 16] (sweep)
+mlp_down     R= 8 T= 32 factorized_optimized  stream=    303.2 us  host=    313.7 us  relL2=2.88e-03 ok  tiling=[8, 1, 16] (sweep)
+mlp_down     R= 8 T=128 factorized_optimized  stream=   1184.1 us  host=   1209.4 us  relL2=2.87e-03 ok  tiling=[8, 1, 16] (sweep)
+mlp_down     R=16 T=  1 factorized_optimized  stream=     47.2 us  host=     56.5 us  relL2=2.84e-03 ok  tiling=[4, 1, 8] (sweep)
+mlp_down     R=16 T=  8 factorized_optimized  stream=    347.3 us  host=    357.0 us  relL2=2.86e-03 ok  tiling=[4, 1, 8] (sweep)
+mlp_down     R=16 T= 32 factorized_optimized  stream=   1327.2 us  host=   1356.9 us  relL2=2.88e-03 ok  tiling=[4, 1, 8] (sweep)
+mlp_down     R=16 T=128 factorized_optimized  stream=   5285.0 us  host=   5299.0 us  relL2=2.88e-03 ok  tiling=[4, 1, 8] (sweep)
+attn_q_gate  R= 8 T=  1 factorized_optimized  stream=     23.8 us  host=     32.8 us  relL2=2.90e-03 ok  tiling=[2, 1, 12] (sweep)
+attn_q_gate  R= 8 T=  8 factorized_optimized  stream=     73.8 us  host=     83.0 us  relL2=2.86e-03 ok  tiling=[8, 1, 24] (sweep)
+attn_q_gate  R= 8 T= 32 factorized_optimized  stream=    246.6 us  host=    256.1 us  relL2=2.88e-03 ok  tiling=[16, 1, 24] (sweep)
+attn_q_gate  R= 8 T=128 factorized_optimized  stream=    946.7 us  host=    969.3 us  relL2=2.87e-03 ok  tiling=[16, 1, 24] (sweep)
+attn_q_gate  R=16 T=  1 factorized_optimized  stream=     39.5 us  host=     48.5 us  relL2=2.87e-03 ok  tiling=[4, 1, 12] (sweep)
+attn_q_gate  R=16 T=  8 factorized_optimized  stream=    191.0 us  host=    200.6 us  relL2=2.87e-03 ok  tiling=[16, 2, 12] (sweep)
+attn_q_gate  R=16 T= 32 factorized_optimized  stream=    725.1 us  host=    738.8 us  relL2=2.88e-03 ok  tiling=[16, 2, 12] (sweep)
+attn_q_gate  R=16 T=128 factorized_optimized  stream=   2834.7 us  host=   2847.2 us  relL2=2.88e-03 ok  tiling=[16, 2, 12] (sweep)
+attn_kv      R= 8 T=  1 factorized_optimized  stream=     12.7 us  host=     21.0 us  relL2=2.87e-03 ok  tiling=[1, 1, 8] (sweep)
+attn_kv      R= 8 T=  8 factorized_optimized  stream=     21.8 us  host=     30.7 us  relL2=2.85e-03 ok  tiling=[2, 4, 8] (sweep)
+attn_kv      R= 8 T= 32 factorized_optimized  stream=     53.0 us  host=     62.4 us  relL2=2.86e-03 ok  tiling=[8, 4, 8] (sweep)
+attn_kv      R= 8 T=128 factorized_optimized  stream=    182.3 us  host=    191.9 us  relL2=2.86e-03 ok  tiling=[16, 4, 8] (sweep)
+attn_kv      R=16 T=  1 factorized_optimized  stream=     17.6 us  host=     26.2 us  relL2=3.03e-03 ok  tiling=[2, 1, 8] (sweep)
+attn_kv      R=16 T=  8 factorized_optimized  stream=     42.8 us  host=     52.0 us  relL2=2.86e-03 ok  tiling=[4, 4, 8] (sweep)
+attn_kv      R=16 T= 32 factorized_optimized  stream=    144.3 us  host=    153.4 us  relL2=2.87e-03 ok  tiling=[8, 4, 8] (sweep)
+attn_kv      R=16 T=128 factorized_optimized  stream=    552.0 us  host=    563.5 us  relL2=2.88e-03 ok  tiling=[8, 4, 8] (sweep)
+o_proj       R= 8 T=  1 factorized_optimized  stream=     18.0 us  host=     26.8 us  relL2=2.84e-03 ok  tiling=[2, 1, 8] (sweep)
+o_proj       R= 8 T=  8 factorized_optimized  stream=     54.5 us  host=     63.7 us  relL2=2.88e-03 ok  tiling=[8, 1, 16] (sweep)
+o_proj       R= 8 T= 32 factorized_optimized  stream=    165.8 us  host=    175.1 us  relL2=2.88e-03 ok  tiling=[16, 2, 16] (sweep)
+o_proj       R= 8 T=128 factorized_optimized  stream=    638.7 us  host=    653.7 us  relL2=2.87e-03 ok  tiling=[16, 2, 16] (sweep)
+o_proj       R=16 T=  1 factorized_optimized  stream=     29.4 us  host=     38.7 us  relL2=2.85e-03 ok  tiling=[4, 1, 8] (sweep)
+o_proj       R=16 T=  8 factorized_optimized  stream=    135.3 us  host=    144.7 us  relL2=2.87e-03 ok  tiling=[8, 1, 16] (sweep)
+o_proj       R=16 T= 32 factorized_optimized  stream=    522.0 us  host=    532.6 us  relL2=2.87e-03 ok  tiling=[8, 1, 16] (sweep)
+o_proj       R=16 T=128 factorized_optimized  stream=   2028.0 us  host=   2048.0 us  relL2=2.88e-03 ok  tiling=[8, 1, 16] (sweep)
+gdn_qkvz     R= 8 T=  1 factorized_optimized  stream=     26.6 us  host=     35.6 us  relL2=2.89e-03 ok  tiling=[4, 1, 8] (sweep)
+gdn_qkvz     R= 8 T=  8 factorized_optimized  stream=     92.5 us  host=    102.1 us  relL2=2.87e-03 ok  tiling=[8, 1, 32] (sweep)
+gdn_qkvz     R= 8 T= 32 factorized_optimized  stream=    313.7 us  host=    323.4 us  relL2=2.88e-03 ok  tiling=[16, 1, 32] (sweep)
+gdn_qkvz     R= 8 T=128 factorized_optimized  stream=   1205.2 us  host=   1232.7 us  relL2=2.87e-03 ok  tiling=[16, 1, 32] (sweep)
+gdn_qkvz     R=16 T=  1 factorized_optimized  stream=     44.6 us  host=     53.7 us  relL2=2.86e-03 ok  tiling=[4, 1, 16] (sweep)
+gdn_qkvz     R=16 T=  8 factorized_optimized  stream=    239.2 us  host=    248.7 us  relL2=2.87e-03 ok  tiling=[16, 1, 16] (sweep)
+gdn_qkvz     R=16 T= 32 factorized_optimized  stream=    927.1 us  host=    940.7 us  relL2=2.88e-03 ok  tiling=[16, 1, 16] (sweep)
+gdn_qkvz     R=16 T=128 factorized_optimized  stream=   3616.6 us  host=   3630.4 us  relL2=2.88e-03 ok  tiling=[16, 1, 16] (sweep)
+Wrote results/h100/qwen/bf16_tuned.json
+== 4. summary
+# Tensor-ring kernel on Qwen3.8-27B layer shapes — NVIDIA H100 80GB HBM3, bfloat16
+
+Source: `results/h100/qwen/bf16.json`, tuned tilings `results/h100/qwen/bf16_tuned.json`. Stream = CUDA-event µs per call (harness protocol). Peaks used: 3350 GB/s HBM, 989 TFLOP/s BF16 Tensor Core.
+
+| shape | R | T | dense µs | ref µs | ours µs | tiling | tuned µs | tuned tiling | dense / ours | dense GB/s | ours TFLOP/s | relL2 ours | relL2 dense |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| mlp_gate_up | 8 | 1 | 65.2 | 147.6 | 43.3 | (1, 1, 17) | 30.7 | (2, 1, 17) | 2.12x | 2735 (82%) | 6.1 | 2.9e-03 | 2.9e-03 |
+| mlp_gate_up | 8 | 8 | 66.3 | 151.9 | 177.9 | (4, 4, 7) | 112.7 | (16, 1, 17) | 0.59x | 2689 (80%) | 13.4 | 2.9e-03 | 2.9e-03 |
+| mlp_gate_up | 8 | 32 | 67.3 | 160.3 | 550.7 | (4, 4, 7) | 391.0 | (16, 2, 12) | 0.17x | 2650 (79%) | 15.4 | 2.9e-03 | 2.9e-03 |
+| mlp_gate_up | 8 | 128 | 68.1 | 515.3 | 2115.7 | (4, 4, 7) | 1511.7 | (16, 2, 12) | 0.05x | 2619 (78%) | 16.0 | 2.9e-03 | 2.9e-03 |
+| mlp_gate_up | 16 | 1 | 65.2 | 148.8 | 78.9 | (4, 1, 7) | 53.5 | (4, 1, 17) | 1.22x | 2735 (82%) | 24.8 | 2.9e-03 | 2.9e-03 |
+| mlp_gate_up | 16 | 8 | 66.3 | 158.9 | 693.2 | (2, 4, 3) | 299.2 | (8, 2, 12) | 0.22x | 2689 (80%) | 35.4 | 2.9e-03 | 2.9e-03 |
+| mlp_gate_up | 16 | 32 | 67.3 | 489.8 | 2689.4 | (2, 4, 3) | 1076.2 | (16, 2, 12) | 0.06x | 2650 (79%) | 39.4 | 2.9e-03 | 2.9e-03 |
+| mlp_gate_up | 16 | 128 | 68.1 | 1817.3 | 10747.6 | (2, 4, 3) | 4227.6 | (16, 2, 12) | 0.02x | 2619 (78%) | 40.1 | 2.9e-03 | 2.9e-03 |
+| mlp_down | 8 | 1 | 65.5 | 145.2 | 40.0 | (3, 1, 6) | 22.6 | (2, 1, 8) | 2.89x | 2722 (81%) | 8.0 | 2.9e-03 | 2.8e-03 |
+| mlp_down | 8 | 8 | 66.3 | 147.6 | 328.5 | (1, 4, 2) | 80.7 | (8, 1, 16) | 0.82x | 2689 (80%) | 17.9 | 2.9e-03 | 2.9e-03 |
+| mlp_down | 8 | 32 | 67.9 | 179.9 | 1272.2 | (1, 4, 2) | 303.2 | (8, 1, 16) | 0.22x | 2624 (78%) | 19.0 | 2.9e-03 | 2.9e-03 |
+| mlp_down | 8 | 128 | 73.1 | 621.7 | 5072.7 | (1, 4, 2) | 1184.1 | (8, 1, 16) | 0.06x | 2438 (73%) | 19.5 | 2.9e-03 | 2.9e-03 |
+| mlp_down | 16 | 1 | 65.5 | 147.6 | 217.7 | (1, 1, 2) | 47.2 | (4, 1, 8) | 1.39x | 2722 (81%) | 26.6 | 2.8e-03 | 2.8e-03 |
+| mlp_down | 16 | 8 | 66.3 | 180.1 | 1611.5 | (1, 4, 1) | 347.3 | (4, 1, 8) | 0.19x | 2689 (80%) | 29.0 | 2.9e-03 | 2.9e-03 |
+| mlp_down | 16 | 32 | 67.9 | 601.3 | 6457.0 | (1, 4, 1) | 1327.2 | (4, 1, 8) | 0.05x | 2624 (78%) | 30.3 | 2.9e-03 | 2.9e-03 |
+| mlp_down | 16 | 128 | 73.1 | 2260.1 | 25803.4 | (1, 4, 1) | 5285.0 | (4, 1, 8) | 0.01x | 2438 (73%) | 30.5 | 2.9e-03 | 2.9e-03 |
+| attn_q_gate | 8 | 1 | 45.2 | 149.6 | 33.4 | (1, 1, 12) | 23.8 | (2, 1, 12) | 1.90x | 2782 (83%) | 5.7 | 2.9e-03 | 2.9e-03 |
+| attn_q_gate | 8 | 8 | 46.3 | 148.7 | 126.5 | (4, 4, 8) | 73.8 | (8, 1, 24) | 0.63x | 2716 (81%) | 14.8 | 2.9e-03 | 2.9e-03 |
+| attn_q_gate | 8 | 32 | 48.9 | 157.3 | 353.8 | (4, 4, 8) | 246.6 | (16, 1, 24) | 0.20x | 2575 (77%) | 17.7 | 2.9e-03 | 2.9e-03 |
+| attn_q_gate | 8 | 128 | 48.3 | 414.3 | 1359.5 | (4, 4, 8) | 946.7 | (16, 1, 24) | 0.05x | 2605 (78%) | 18.4 | 2.9e-03 | 2.9e-03 |
+| attn_q_gate | 16 | 1 | 45.2 | 145.1 | 69.2 | (6, 1, 6) | 39.5 | (4, 1, 12) | 1.15x | 2782 (83%) | 24.0 | 2.9e-03 | 2.9e-03 |
+| attn_q_gate | 16 | 8 | 46.3 | 157.7 | 466.7 | (2, 4, 3) | 191.0 | (16, 2, 12) | 0.24x | 2716 (81%) | 39.7 | 2.9e-03 | 2.9e-03 |
+| attn_q_gate | 16 | 32 | 48.9 | 389.7 | 1796.8 | (2, 4, 3) | 725.1 | (16, 2, 12) | 0.07x | 2575 (77%) | 41.8 | 2.9e-03 | 2.9e-03 |
+| attn_q_gate | 16 | 128 | 48.3 | 1437.5 | 7176.8 | (2, 4, 3) | 2834.7 | (16, 2, 12) | 0.02x | 2605 (78%) | 42.8 | 2.9e-03 | 2.9e-03 |
+| attn_kv | 8 | 1 | 12.2 | 145.1 | 12.6 | (1, 1, 8) | 12.7 | (1, 1, 8) | 0.97x | 857 (26%) | 1.9 | 2.9e-03 | 3.0e-03 |
+| attn_kv | 8 | 8 | 12.4 | 149.1 | 29.4 | (1, 4, 8) | 21.8 | (2, 4, 8) | 0.57x | 846 (25%) | 8.8 | 2.9e-03 | 2.8e-03 |
+| attn_kv | 8 | 32 | 12.1 | 147.2 | 80.5 | (6, 4, 8) | 53.0 | (8, 4, 8) | 0.23x | 868 (26%) | 14.6 | 2.9e-03 | 2.9e-03 |
+| attn_kv | 8 | 128 | 12.1 | 151.0 | 195.5 | (8, 4, 8) | 182.3 | (16, 4, 8) | 0.07x | 866 (26%) | 16.9 | 2.9e-03 | 2.9e-03 |
+| attn_kv | 16 | 1 | 12.2 | 147.3 | 24.5 | (1, 1, 8) | 17.6 | (2, 1, 8) | 0.70x | 857 (26%) | 9.3 | 3.0e-03 | 3.0e-03 |
+| attn_kv | 16 | 8 | 12.4 | 160.2 | 83.8 | (6, 4, 4) | 42.8 | (4, 4, 8) | 0.29x | 846 (25%) | 30.6 | 2.9e-03 | 2.8e-03 |
+| attn_kv | 16 | 32 | 12.1 | 156.7 | 238.6 | (6, 4, 4) | 144.3 | (8, 4, 8) | 0.08x | 868 (26%) | 36.3 | 2.9e-03 | 2.9e-03 |
+| attn_kv | 16 | 128 | 12.1 | 450.0 | 872.7 | (6, 4, 4) | 552.0 | (8, 4, 8) | 0.02x | 866 (26%) | 37.9 | 2.9e-03 | 2.9e-03 |
+| o_proj | 8 | 1 | 25.1 | 149.0 | 21.2 | (1, 1, 16) | 18.0 | (2, 1, 8) | 1.39x | 2504 (75%) | 5.0 | 2.8e-03 | 2.8e-03 |
+| o_proj | 8 | 8 | 25.6 | 149.1 | 104.5 | (3, 4, 8) | 54.5 | (8, 1, 16) | 0.47x | 2462 (73%) | 13.2 | 2.9e-03 | 2.9e-03 |
+| o_proj | 8 | 32 | 26.0 | 154.8 | 298.7 | (3, 4, 8) | 165.8 | (16, 2, 16) | 0.16x | 2424 (72%) | 17.4 | 2.9e-03 | 2.9e-03 |
+| o_proj | 8 | 128 | 27.6 | 336.1 | 1076.6 | (3, 4, 8) | 638.7 | (16, 2, 16) | 0.04x | 2281 (68%) | 18.1 | 2.9e-03 | 2.9e-03 |
+| o_proj | 16 | 1 | 25.1 | 151.0 | 51.8 | (4, 1, 6) | 29.4 | (4, 1, 8) | 0.85x | 2504 (75%) | 21.4 | 2.8e-03 | 2.8e-03 |
+| o_proj | 16 | 8 | 25.6 | 150.7 | 471.5 | (1, 4, 3) | 135.3 | (8, 1, 16) | 0.19x | 2462 (73%) | 37.2 | 2.9e-03 | 2.9e-03 |
+| o_proj | 16 | 32 | 26.0 | 318.4 | 1837.4 | (1, 4, 3) | 522.0 | (8, 1, 16) | 0.05x | 2424 (72%) | 38.6 | 2.9e-03 | 2.9e-03 |
+| o_proj | 16 | 128 | 27.6 | 1103.8 | 7388.6 | (1, 4, 3) | 2028.0 | (8, 1, 16) | 0.01x | 2281 (68%) | 39.7 | 2.9e-03 | 2.9e-03 |
+| gdn_qkvz | 8 | 1 | 58.8 | 145.7 | 38.1 | (1, 1, 16) | 26.6 | (4, 1, 8) | 2.21x | 2855 (85%) | 6.7 | 2.9e-03 | 2.9e-03 |
+| gdn_qkvz | 8 | 8 | 59.0 | 148.9 | 129.7 | (4, 4, 8) | 92.5 | (8, 1, 32) | 0.64x | 2846 (85%) | 15.4 | 2.9e-03 | 2.9e-03 |
+| gdn_qkvz | 8 | 32 | 60.3 | 151.8 | 474.7 | (4, 4, 8) | 313.7 | (16, 1, 32) | 0.19x | 2782 (83%) | 18.2 | 2.9e-03 | 2.9e-03 |
+| gdn_qkvz | 8 | 128 | 63.2 | 491.2 | 1799.1 | (4, 4, 8) | 1205.2 | (16, 1, 32) | 0.05x | 2654 (79%) | 18.9 | 2.9e-03 | 2.9e-03 |
+| gdn_qkvz | 16 | 1 | 58.8 | 157.0 | 78.9 | (4, 1, 7) | 44.6 | (4, 1, 16) | 1.32x | 2855 (85%) | 28.0 | 2.9e-03 | 2.9e-03 |
+| gdn_qkvz | 16 | 8 | 59.0 | 157.0 | 632.0 | (2, 4, 3) | 239.2 | (16, 1, 16) | 0.25x | 2846 (85%) | 41.8 | 2.9e-03 | 2.9e-03 |
+| gdn_qkvz | 16 | 32 | 60.3 | 458.6 | 2468.6 | (2, 4, 3) | 927.1 | (16, 1, 16) | 0.07x | 2782 (83%) | 43.1 | 2.9e-03 | 2.9e-03 |
+| gdn_qkvz | 16 | 128 | 63.2 | 1717.4 | 9861.2 | (2, 4, 3) | 3616.6 | (16, 1, 16) | 0.02x | 2654 (79%) | 44.2 | 2.9e-03 | 2.9e-03 |
+
+## Memory per layer (R-dependent rows are ours)
+
+| shape | dense weight MB | R | cores KB | packed operands KB | workspace+output KB (T=1) |
+|---|---|---|---|---|---|
+| mlp_gate_up | 170.0 | 8 | 172 | 304 | 34 |
+| mlp_gate_up | 170.0 | 16 | 688 | 688 | 34 |
+| mlp_down | 170.0 | 8 | 172 | 324 | 10 |
+| mlp_down | 170.0 | 16 | 688 | 784 | 10 |
+| attn_q_gate | 120.0 | 8 | 152 | 264 | 24 |
+| attn_q_gate | 120.0 | 16 | 608 | 608 | 24 |
+| attn_kv | 10.0 | 8 | 68 | 116 | 2 |
+| attn_kv | 10.0 | 16 | 272 | 272 | 2 |
+| o_proj | 60.0 | 8 | 120 | 240 | 10 |
+| o_proj | 60.0 | 16 | 480 | 576 | 10 |
+| gdn_qkvz | 160.0 | 8 | 168 | 296 | 32 |
+| gdn_qkvz | 160.0 | 16 | 672 | 672 | 32 |
+
+## One decode step (T = 1), all factorised linear layers of the model
+
+Sum over shapes of layers-per-forward x isolated stream time (no CUDA graphs, no fusion; lm_head, embeddings, attention and GDN in_proj_ba excluded).
+
+| R | dense ms | ours ms | dense / ours |
+|---|---|---|---|
+| 8 | 18.08 | 8.60 | 2.10x |
+| 16 | 18.08 | 15.08 | 1.20x |
+
+Caveats: weights are random (speed and numerics only, not model quality); each case repeats one layer, so the ring's few-hundred-KB cores stay in L2 between calls while the dense weight (tens to hundreds of MB) streams from HBM every call — a real forward pass touches ~400 distinct layers (see tools/graph_bench.py --part chain for the chained measurement on the assignment shape).
+== 5. the assignment on this card: README's two commands, FP16, design B (default)
+USDT:2026-09-28 16:30:20 11336:11336 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-28 16:30:20 11336:11336 SyncActivityProfilerHandler.cpp:46] profiler_stop
+tokens=1 dense: host=0.0182 ms; CUDA stream=0.009796799719333648 ms; steady allocated peak=44623872 bytes
+USDT:2026-09-28 16:30:23 11380:11380 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-28 16:30:23 11380:11380 SyncActivityProfilerHandler.cpp:46] profiler_stop
+tokens=1 factorized_reference: host=0.1636 ms; CUDA stream=0.15467679500579834 ms; steady allocated peak=34707456 bytes
+USDT:2026-09-28 16:30:25 11424:11424 SyncActivityProfilerHandler.cpp:39] profiler_start
+USDT:2026-09-28 16:30:25 11424:11424 SyncActivityProfilerHandler.cpp:46] profiler_stop
+tokens=1 factorized_optimized: host=0.0166 ms; CUDA stream=0.00801760032773018 ms; steady allocated peak=318464 bytes
+tokens=8 dense: host=0.0183 ms; CUDA stream=0.0098191998898983 ms; steady allocated peak=44690432 bytes
+tokens=8 factorized_reference: host=0.1612 ms; CUDA stream=0.15092799663543702 ms; steady allocated peak=42045440 bytes
+tokens=8 factorized_optimized: host=0.0214 ms; CUDA stream=0.012297599762678146 ms; steady allocated peak=465408 bytes
+tokens=32 dense: host=0.0187 ms; CUDA stream=0.010396800190210342 ms; steady allocated peak=44920832 bytes
+tokens=32 factorized_reference: host=0.1687 ms; CUDA stream=0.15940639972686768 ms; steady allocated peak=68777984 bytes
+tokens=32 factorized_optimized: host=0.0376 ms; CUDA stream=0.02804960012435913 ms; steady allocated peak=972288 bytes
+Wrote results/h100/harness_fp16/rank8.json
+tokens=1 dense: host=0.0183 ms; CUDA stream=0.009824000298976898 ms; steady allocated peak=44623872 bytes
+tokens=1 factorized_reference: host=0.1612 ms; CUDA stream=0.15274080038070678 ms; steady allocated peak=38154240 bytes
+tokens=1 factorized_optimized: host=0.0191 ms; CUDA stream=0.010683199763298035 ms; steady allocated peak=817152 bytes
+tokens=32 dense: host=0.0186 ms; CUDA stream=0.009942399710416794 ms; steady allocated peak=44920832 bytes
+tokens=32 factorized_reference: host=0.2612 ms; CUDA stream=0.2127455949783325 ms; steady allocated peak=170409984 bytes
+tokens=32 factorized_optimized: host=0.0919 ms; CUDA stream=0.08245279788970947 ms; steady allocated peak=1470976 bytes
+Wrote results/h100/harness_fp16/rank16.json
+== 6. Nsight Compute: mlp_gate_up (the biggest weight) R=8 T=1 and T=32, R=16 T=1
+==PROF== Connected to process 12037 (/root/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/bin/python3.12)
+==WARNING== Unable to access the following 6 metrics: ctc__rx_bytes_data_user.sum, ctc__rx_bytes_data_user.sum.pct_of_peak_sustained_elapsed, ctc__rx_bytes_data_user.sum.per_second, ctc__tx_bytes_data_user.sum, ctc__tx_bytes_data_user.sum.pct_of_peak_sustained_elapsed, ctc__tx_bytes_data_user.sum.per_second.
+
+
+==PROF== Profiling "tr_ring_fused_kernel": 0%....50%....100% - 39 passes
+tiling (kc, tt, qc): (2, 1, 17)
+==PROF== Disconnected from process 12037
+==PROF== Report: /root/kernel-task/profiles/h100/qwen_mlp_gate_up_R8_T1.ncu-rep
+==PROF== Connected to process 12150 (/root/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/bin/python3.12)
+==WARNING== Unable to access the following 6 metrics: ctc__rx_bytes_data_user.sum, ctc__rx_bytes_data_user.sum.pct_of_peak_sustained_elapsed, ctc__rx_bytes_data_user.sum.per_second, ctc__tx_bytes_data_user.sum, ctc__tx_bytes_data_user.sum.pct_of_peak_sustained_elapsed, ctc__tx_bytes_data_user.sum.per_second.
+
+
+==PROF== Profiling "tr_ring_fused_kernel": 0%....50%....100% - 39 passes
+tiling (kc, tt, qc): (16, 2, 12)
+==PROF== Disconnected from process 12150
+==PROF== Report: /root/kernel-task/profiles/h100/qwen_mlp_gate_up_R8_T32.ncu-rep
+==PROF== Connected to process 12262 (/root/.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/bin/python3.12)
+==WARNING== Unable to access the following 6 metrics: ctc__rx_bytes_data_user.sum, ctc__rx_bytes_data_user.sum.pct_of_peak_sustained_elapsed, ctc__rx_bytes_data_user.sum.per_second, ctc__tx_bytes_data_user.sum, ctc__tx_bytes_data_user.sum.pct_of_peak_sustained_elapsed, ctc__tx_bytes_data_user.sum.per_second.
+
+
+==PROF== Profiling "tr_ring_fused_kernel": 0%....50%....100% - 39 passes
+tiling (kc, tt, qc): (4, 1, 17)
+==PROF== Disconnected from process 12262
+==PROF== Report: /root/kernel-task/profiles/h100/qwen_mlp_gate_up_R16_T1.ncu-rep
+== session end Mon Sep 28 16:31:19 UTC 2026
+
+From the laptop:  bash tools/remote.sh pull   (then commit and push there).
+When the session is over: DELETE the instance in the Verda console.

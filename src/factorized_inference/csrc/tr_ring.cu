@@ -26,6 +26,7 @@
 #include <ATen/cuda/CUDAContext.h>
 #include <c10/cuda/CUDAGuard.h>
 #include <cuda_fp16.h>
+#include <cuda_bf16.h>
 #include <mma.h>
 
 using namespace nvcuda;
@@ -40,6 +41,23 @@ constexpr int kStageLd = 20;          // per-warp FP32 staging tile: 16 rows x 2
 
 __host__ __device__ constexpr int round16(int v) { return (v + 15) / 16 * 16; }
 __host__ __device__ inline size_t align128(size_t v) { return (v + 127) & ~size_t(127); }
+
+// Element type of x, the cores, S1/S2 and y: FP16 (the assignment) or BF16 (real-model runs,
+// tools/qwen_bench.py). Both are 2 bytes, so the shared-memory map does not change; every
+// accumulation stays FP32. Only the generic WMMA kernel below is built for BF16.
+template <class E> struct Elem;
+template <> struct Elem<__half> {
+  using T2 = __half2;
+  __device__ static float to_f(__half v) { return __half2float(v); }
+  __device__ static __half from_f(float v) { return __float2half(v); }
+  __device__ static __half2 pack(float lo, float hi) { return __floats2half2_rn(lo, hi); }
+};
+template <> struct Elem<__nv_bfloat16> {
+  using T2 = __nv_bfloat162;
+  __device__ static float to_f(__nv_bfloat16 v) { return __bfloat162float(v); }
+  __device__ static __nv_bfloat16 from_f(float v) { return __float2bfloat16(v); }
+  __device__ static __nv_bfloat162 pack(float lo, float hi) { return __floats2bfloat162_rn(lo, hi); }
+};
 
 struct Dims {
   int T, ni, nj, nk, P, Q, Rr, R;  // problem: tokens, input modes, output modes, ring rank
@@ -79,18 +97,18 @@ __host__ __device__ inline SmemLayout smem_layout(const Dims& d) {
   return s;
 }
 
-using FragA = wmma::fragment<wmma::matrix_a, 16, 16, 16, __half, wmma::row_major>;
-using FragB = wmma::fragment<wmma::matrix_b, 16, 16, 16, __half, wmma::row_major>;
+template <class E> using FragA = wmma::fragment<wmma::matrix_a, 16, 16, 16, E, wmma::row_major>;
+template <class E> using FragB = wmma::fragment<wmma::matrix_b, 16, 16, 16, E, wmma::row_major>;
 using FragC = wmma::fragment<wmma::accumulator, 16, 16, 16, float>;
 
-template <bool kLastBlockFinishes, class S>
+template <bool kLastBlockFinishes, class S, class E>
 __global__ void __launch_bounds__(kThreads)
-tr_ring_fused_kernel(const __half* __restrict__ x,    // [T, ni*nj*nk]
-                     const __half* __restrict__ A1,   // [R(a)][ni][P*R (p,b)]
-                     const __half* __restrict__ B2,   // [K2p (j,b)][N2c (q,c)], zero padded
-                     const __half* __restrict__ C3,   // [nk][R(a)][Rc (c)][Rrp (r)], zero padded
+tr_ring_fused_kernel(const E* __restrict__ x,          // [T, ni*nj*nk]
+                     const E* __restrict__ A1,        // [R(a)][ni][P*R (p,b)]
+                     const E* __restrict__ B2,        // [K2p (j,b)][N2c (q,c)], zero padded
+                     const E* __restrict__ C3,        // [nk][R(a)][Rc (c)][Rrp (r)], zero padded
                      float* __restrict__ ws,          // [T, P*Q*Rr] FP32 accumulator
-                     __half* __restrict__ y,          // [T, P*Q*Rr]   (design B only)
+                     E* __restrict__ y,               // [T, P*Q*Rr]   (design B only)
                      unsigned int* __restrict__ tile_done,  // [token tiles] (design B only)
                      const Dims d) {
   // sizes: compile-time constants for the fixed variants, runtime values for Generic
@@ -105,12 +123,12 @@ tr_ring_fused_kernel(const __half* __restrict__ x,    // [T, ni*nj*nk]
 
   extern __shared__ __align__(128) unsigned char smem[];
   const SmemLayout L = smem_layout(d);
-  __half* sB  = reinterpret_cast<__half*>(smem + L.b);
+  E* sB  = reinterpret_cast<E*>(smem + L.b);
   float*  sA  = reinterpret_cast<float*>(smem + L.a);
-  __half* sC  = reinterpret_cast<__half*>(smem + L.c);
+  E* sC  = reinterpret_cast<E*>(smem + L.c);
   float*  sX  = reinterpret_cast<float*>(smem + L.x);
-  __half* sS1 = reinterpret_cast<__half*>(smem + L.s1);
-  __half* sS2 = reinterpret_cast<__half*>(smem + L.s2);
+  E* sS1 = reinterpret_cast<E*>(smem + L.s1);
+  E* sS2 = reinterpret_cast<E*>(smem + L.s2);
   const int tid = threadIdx.x, warp = tid / 32, lane = tid % 32;
   float* stage = reinterpret_cast<float*>(smem + L.stage) + warp * 16 * kStageLd;
 
@@ -146,8 +164,8 @@ tr_ring_fused_kernel(const __half* __restrict__ x,    // [T, ni*nj*nk]
           : zero;
     }
   }
-  const __half* A1a = A1 + (size_t)a * ni * PR;  // sA[i][p*R+b] = A[a,p,i,b]
-  for (int e = tid; e < ni * PR; e += kThreads) sA[e] = __half2float(A1a[e]);
+  const E* A1a = A1 + (size_t)a * ni * PR;  // sA[i][p*R+b] = A[a,p,i,b]
+  for (int e = tid; e < ni * PR; e += kThreads) sA[e] = Elem<E>::to_f(A1a[e]);
   // sX[kk][t][i][j] = x[t0+t, i, j, k0+kk], zero outside the valid k / token range
   for (int e = tid; e < kc * tt * ni * nj; e += kThreads) {
     const int j = e % nj;
@@ -157,11 +175,11 @@ tr_ring_fused_kernel(const __half* __restrict__ x,    // [T, ni*nj*nk]
     const int kk = rest / tt;
     float v = 0.f;
     if (kk < kc_valid && t < tt_valid)
-      v = __half2float(x[(size_t)(t0 + t) * in_features + (i * nj + j) * nk + (k0 + kk)]);
+      v = Elem<E>::to_f(x[(size_t)(t0 + t) * in_features + (i * nj + j) * nk + (k0 + kk)]);
     sX[e] = v;
   }
   // S1's padding (rows >= tt*P, columns >= nj*R) must be zero; stage 1 never writes it
-  for (int e = tid; e < Mp * K2s; e += kThreads) sS1[e] = __float2half(0.f);
+  for (int e = tid; e < Mp * K2s; e += kThreads) sS1[e] = Elem<E>::from_f(0.f);
 
   // Y accumulators live in registers for the whole k loop: warp w owns tiles w, w+8, ...
   const int y_nt_n = Rrp / 16, y_tiles = (Mp * qc / 16) * y_nt_n;
@@ -196,9 +214,9 @@ tr_ring_fused_kernel(const __half* __restrict__ x,    // [T, ni*nj*nk]
         }
 #pragma unroll
         for (int u = 0; u < 4; ++u) {
-          __half2* dst = reinterpret_cast<__half2*>(sS1 + row * K2s + (j4 * 4 + u) * R + b4 * 4);
-          dst[0] = __floats2half2_rn(acc[u][0], acc[u][1]);
-          dst[1] = __floats2half2_rn(acc[u][2], acc[u][3]);
+          auto* dst = reinterpret_cast<typename Elem<E>::T2*>(sS1 + row * K2s + (j4 * 4 + u) * R + b4 * 4);
+          dst[0] = Elem<E>::pack(acc[u][0], acc[u][1]);
+          dst[1] = Elem<E>::pack(acc[u][2], acc[u][3]);
         }
       }
     } else {  // any shape: one thread = one S1 value
@@ -208,7 +226,7 @@ tr_ring_fused_kernel(const __half* __restrict__ x,    // [T, ni*nj*nk]
         float acc = 0.f;
         for (int i = 0; i < ni; ++i)
           acc += xk[(t * ni + i) * nj + j] * sA[i * PR + p * R + b];
-        sS1[row * K2s + col] = __float2half(acc);
+        sS1[row * K2s + col] = Elem<E>::from_f(acc);
       }
     }
     __syncthreads();
@@ -221,8 +239,8 @@ tr_ring_fused_kernel(const __half* __restrict__ x,    // [T, ni*nj*nk]
         FragC acc;
         wmma::fill_fragment(acc, 0.f);
         for (int kt = 0; kt < kt_n; ++kt) {
-          FragA fa;
-          FragB fb;
+          FragA<E> fa;
+          FragB<E> fb;
           wmma::load_matrix_sync(fa, sS1 + mt * 16 * K2s + kt * 16, K2s);
           wmma::load_matrix_sync(fb, sB + kt * 16 * N2s + nt * 16, N2s);
           wmma::mma_sync(acc, fa, fb, acc);
@@ -232,7 +250,7 @@ tr_ring_fused_kernel(const __half* __restrict__ x,    // [T, ni*nj*nk]
         __syncwarp();
         for (int e = lane; e < 256; e += 32)
           sS2[(mt * 16 + e / 16) * Nb + nt * 16 + e % 16] =
-              __float2half(stage[(e / 16) * kStageLd + e % 16]);
+              Elem<E>::from_f(stage[(e / 16) * kStageLd + e % 16]);
         __syncwarp();
       }
     }
@@ -242,15 +260,15 @@ tr_ring_fused_kernel(const __half* __restrict__ x,    // [T, ni*nj*nk]
     // S2 rows (t,p) hold qc blocks of Rc values, so the same bytes read as a matrix
     // [(t,p,q) x c] with row stride Rc: the second "free re-layout".
     {
-      const __half* ck = sC + kk * Rc * Rrs;
+      const E* ck = sC + kk * Rc * Rrs;
 #pragma unroll
       for (int i = 0; i < kMaxYTiles; ++i) {
         const int tile = warp + i * kWarps;
         if (tile < y_tiles) {
           const int mt = tile / y_nt_n, nt = tile % y_nt_n;
           for (int kt = 0; kt < Rc / 16; ++kt) {
-            FragA fa;
-            FragB fb;
+            FragA<E> fa;
+            FragB<E> fb;
             wmma::load_matrix_sync(fa, sS2 + mt * 16 * Rc + kt * 16, Rc);
             wmma::load_matrix_sync(fb, ck + kt * 16 * Rrs + nt * 16, Rrs);
             wmma::mma_sync(yacc[i], fa, fb, yacc[i]);
@@ -309,7 +327,7 @@ tr_ring_fused_kernel(const __half* __restrict__ x,    // [T, ni*nj*nk]
         for (int s = 0; s < kInFlight; ++s) {
           const int e = e0 + s * kThreads;
           if (e < n) {
-            y[base + e] = __float2half(v[s]);
+            y[base + e] = Elem<E>::from_f(v[s]);
             ws[base + e] = 0.f;                     // read-and-clear: ready for the next call
           }
         }
@@ -320,10 +338,11 @@ tr_ring_fused_kernel(const __half* __restrict__ x,    // [T, ni*nj*nk]
 }
 
 // Design A, launch 3: FP32 workspace -> FP16 output.
-__global__ void tr_ring_convert_kernel(const float* __restrict__ ws, __half* __restrict__ y,
+template <class E>
+__global__ void tr_ring_convert_kernel(const float* __restrict__ ws, E* __restrict__ y,
                                        size_t n) {
   const size_t i = (size_t)blockIdx.x * blockDim.x + threadIdx.x;
-  if (i < n) y[i] = __float2half(ws[i]);
+  if (i < n) y[i] = Elem<E>::from_f(ws[i]);
 }
 
 static Dims make_dims(int64_t T, const std::vector<int64_t>& m, int64_t kc, int64_t tt,
@@ -352,42 +371,43 @@ int64_t y_tiles(std::vector<int64_t> modes, int64_t tt, int64_t qc) {  // <= max
 
 int64_t max_y_tiles() { return (int64_t)kMaxYTiles * kWarps; }
 
-template <bool kB, class S>
+template <bool kB, class S, class E>
 static void launch(const Dims& d, dim3 grid, size_t smem, cudaStream_t stream,
-                   const __half* x, const __half* a1, const __half* b2, const __half* c3,
-                   float* ws, __half* y, unsigned int* tile_done) {
+                   const E* x, const E* a1, const E* b2, const E* c3,
+                   float* ws, E* y, unsigned int* tile_done) {
   static size_t current = 0;  // opt-in limit set so far, one per kernel variant (default 48 KB
                               // is not enough once static smem is added: always opt in)
   if (smem > current) {
-    C10_CUDA_CHECK(cudaFuncSetAttribute(tr_ring_fused_kernel<kB, S>,
+    C10_CUDA_CHECK(cudaFuncSetAttribute(tr_ring_fused_kernel<kB, S, E>,
                                         cudaFuncAttributeMaxDynamicSharedMemorySize, (int)smem));
     current = smem;
   }
-  tr_ring_fused_kernel<kB, S><<<grid, kThreads, smem, stream>>>(x, a1, b2, c3, ws, y,
+  tr_ring_fused_kernel<kB, S, E><<<grid, kThreads, smem, stream>>>(x, a1, b2, c3, ws, y,
                                                                 tile_done, d);
   C10_CUDA_KERNEL_LAUNCH_CHECK();
 }
 
-template <bool kB>
+template <bool kB, class E>
 static void dispatch(const Dims& d, dim3 grid, size_t smem, cudaStream_t stream,
-                     const __half* x, const __half* a1, const __half* b2, const __half* c3,
-                     float* ws, __half* y, unsigned int* tile_done) {
-  const bool real = d.ni == 8 && d.nj == 12 && d.P == 12 && d.Q == 10 && d.Rr == 24;
+                     const E* x, const E* a1, const E* b2, const E* c3,
+                     float* ws, E* y, unsigned int* tile_done) {
+  // fixed-shape variants: FP16 only (BF16 runs real-model shapes through the generic one)
+  const bool real = std::is_same<E, __half>::value && d.ni == 8 && d.nj == 12 && d.P == 12 &&
+                    d.Q == 10 && d.Rr == 24;
   if (real && d.R == 8)
-    launch<kB, RealR8>(d, grid, smem, stream, x, a1, b2, c3, ws, y, tile_done);
+    launch<kB, RealR8, E>(d, grid, smem, stream, x, a1, b2, c3, ws, y, tile_done);
   else if (real && d.R == 16)
-    launch<kB, RealR16>(d, grid, smem, stream, x, a1, b2, c3, ws, y, tile_done);
+    launch<kB, RealR16, E>(d, grid, smem, stream, x, a1, b2, c3, ws, y, tile_done);
   else
-    launch<kB, Generic>(d, grid, smem, stream, x, a1, b2, c3, ws, y, tile_done);
+    launch<kB, Generic, E>(d, grid, smem, stream, x, a1, b2, c3, ws, y, tile_done);
 }
 
 // ws_b / tile_done_b: persistent buffers for design B (all zero between calls); ignored for A.
-torch::Tensor tr_ring_forward(torch::Tensor x, torch::Tensor A1, torch::Tensor B2,
-                              torch::Tensor C3, std::vector<int64_t> modes, int64_t kc,
-                              int64_t tt, int64_t qc, bool last_block_finishes, torch::Tensor ws_b,
-                              torch::Tensor tile_done_b) {
-  TORCH_CHECK(x.is_cuda() && x.scalar_type() == torch::kHalf && x.dim() == 2 && x.is_contiguous(),
-              "x must be a contiguous 2D CUDA float16 tensor");
+template <class E>
+static torch::Tensor forward_impl(torch::Tensor x, torch::Tensor A1, torch::Tensor B2,
+                                  torch::Tensor C3, std::vector<int64_t> modes, int64_t kc,
+                                  int64_t tt, int64_t qc, bool last_block_finishes,
+                                  torch::Tensor ws_b, torch::Tensor tile_done_b) {
   const at::cuda::CUDAGuard guard(x.device());
   auto stream = at::cuda::getCurrentCUDAStream();
 
@@ -402,15 +422,15 @@ torch::Tensor tr_ring_forward(torch::Tensor x, torch::Tensor A1, torch::Tensor B
   const size_t smem = smem_layout(d).total;
   const dim3 grid(((d.nk + d.kc - 1) / d.kc) * ((d.Q + d.qc - 1) / d.qc), d.R,
                   (d.T + d.tt - 1) / d.tt);
-  auto xp = reinterpret_cast<const __half*>(x.data_ptr<at::Half>());
-  auto a1 = reinterpret_cast<const __half*>(A1.data_ptr<at::Half>());
-  auto b2 = reinterpret_cast<const __half*>(B2.data_ptr<at::Half>());
-  auto c3 = reinterpret_cast<const __half*>(C3.data_ptr<at::Half>());
-  auto yp = reinterpret_cast<__half*>(y.data_ptr<at::Half>());
+  auto xp = reinterpret_cast<const E*>(x.data_ptr());
+  auto a1 = reinterpret_cast<const E*>(A1.data_ptr());
+  auto b2 = reinterpret_cast<const E*>(B2.data_ptr());
+  auto c3 = reinterpret_cast<const E*>(C3.data_ptr());
+  auto yp = reinterpret_cast<E*>(y.data_ptr());
 
   if (!last_block_finishes) {  // ---------------------------- design A: 3 launches
     auto ws = torch::zeros({x.size(0), out_features}, x.options().dtype(torch::kFloat));  // 1
-    dispatch<false>(d, grid, smem, stream, xp, a1, b2, c3, ws.data_ptr<float>(),          // 2
+    dispatch<false, E>(d, grid, smem, stream, xp, a1, b2, c3, ws.data_ptr<float>(),          // 2
                     nullptr, nullptr);
     const size_t n = (size_t)d.T * out_features;
     tr_ring_convert_kernel<<<(unsigned)((n + 255) / 256), 256, 0, stream>>>(              // 3
@@ -419,10 +439,27 @@ torch::Tensor tr_ring_forward(torch::Tensor x, torch::Tensor A1, torch::Tensor B
   } else {  // ------------------------------------------------ design B: 1 launch
     TORCH_CHECK(ws_b.numel() >= (int64_t)d.T * out_features && tile_done_b.numel() >= grid.z,
                 "design B workspace too small");
-    dispatch<true>(d, grid, smem, stream, xp, a1, b2, c3, ws_b.data_ptr<float>(), yp,
+    dispatch<true, E>(d, grid, smem, stream, xp, a1, b2, c3, ws_b.data_ptr<float>(), yp,
                    reinterpret_cast<unsigned int*>(tile_done_b.data_ptr<int32_t>()));
   }
   return y;
+}
+
+torch::Tensor tr_ring_forward(torch::Tensor x, torch::Tensor A1, torch::Tensor B2,
+                              torch::Tensor C3, std::vector<int64_t> modes, int64_t kc,
+                              int64_t tt, int64_t qc, bool last_block_finishes, torch::Tensor ws_b,
+                              torch::Tensor tile_done_b) {
+  const auto st = x.scalar_type();
+  TORCH_CHECK(x.is_cuda() && (st == torch::kHalf || st == torch::kBFloat16) && x.dim() == 2 &&
+                  x.is_contiguous(),
+              "x must be a contiguous 2D CUDA float16 or bfloat16 tensor");
+  TORCH_CHECK(A1.scalar_type() == st && B2.scalar_type() == st && C3.scalar_type() == st,
+              "x and the packed cores must have the same dtype");
+  if (st == torch::kBFloat16)
+    return forward_impl<__nv_bfloat16>(x, A1, B2, C3, modes, kc, tt, qc, last_block_finishes,
+                                       ws_b, tile_done_b);
+  return forward_impl<__half>(x, A1, B2, C3, modes, kc, tt, qc, last_block_finishes, ws_b,
+                              tile_done_b);
 }
 
 // =============================================================================================

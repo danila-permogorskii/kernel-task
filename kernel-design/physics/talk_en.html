@@ -1,0 +1,682 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tensor-ring weight compression: what was done and where to go next</title>
+<style>
+@page { size: A4; margin: 20mm 18mm; }
+:root { --ink:#1a1a1a; --muted:#5b6470; --rule:#d8dde3; --accent:#2c5aa0; }
+* { box-sizing: border-box; }
+body {
+  font: 11.5pt/1.6 Georgia, "Times New Roman", serif;
+  color: var(--ink); margin: 0; max-width: 46em; padding: 0 1em;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+h1,h2,h3,h4 { font-family: "Segoe UI", Helvetica, Arial, sans-serif; line-height:1.25; color:#111; }
+h1 { font-size: 22pt; margin: 0 0 .6em; padding-bottom:.3em; border-bottom:2px solid var(--accent); }
+h2 { font-size: 15pt; margin: 1.6em 0 .5em; }
+h3 { font-size: 12.5pt; margin: 1.3em 0 .4em; color: var(--muted); }
+h2, h3 { break-after: avoid; }
+p, li { orphans: 2; widows: 2; }
+code { font-family: Consolas, "Courier New", monospace; font-size: .88em;
+  background:#f2f4f7; padding:.12em .35em; border-radius:3px; }
+pre { background:#f7f9fb; border:1px solid var(--rule); border-left:3px solid var(--accent);
+  padding:.8em 1em; overflow-x:auto; break-inside: avoid; }
+pre code { background:none; padding:0; font-size:.85em; }
+blockquote { margin:1em 0; padding:.2em 1em; border-left:3px solid var(--rule); color:var(--muted); }
+table { border-collapse: collapse; width:100%; margin:1em 0; font-size:.92em; break-inside: avoid; }
+th, td { border:1px solid var(--rule); padding:.45em .6em; text-align:left; vertical-align:top; }
+th { background:#eef2f7; font-family:"Segoe UI",Helvetica,sans-serif; font-size:.9em; }
+tr:nth-child(even) td { background:#fafbfc; }
+hr { border:none; border-top:1px solid var(--rule); margin:2em 0; }
+img { max-width:100%; }
+a { color: var(--accent); }
+@media screen { body { margin: 3em auto; } }
+</style>
+</head><body>
+<h1>Tensor-ring weight compression: what was done and where to go next</h1>
+<p>Draft for the discussion on 29 September 2026 · Danila Permogorsky · updated on the evening of 28 September: measurements on the real layer shapes and the real weights of Qwen3.8-27B (slides 7a–7d)</p>
+<hr>
+<h2>Summary in one slide</h2>
+<ul>
+<li><strong>Done:</strong> a layer is computed from three small cores instead of a weight matrix, in a single CUDA kernel on H100. On the test layer at R = 8 and one token: <strong>8.2 µs vs 9.8 µs for dense</strong>, with 124× less weight memory.</li>
+<li><strong>New, 28 September, measured on H100:</strong> the kernel now runs every real layer shape of Qwen3.8-27B in BF16. A whole decode step at one token (all linear layers plus lm_head): <strong>5.8 ms vs 19.6 for dense BF16, 12.6 for FP8 and 10.0 for INT4</strong>. Energy: <strong>1.75 J per token</strong> vs 5.5–9.4. The R = 8 ring beats FP8 up to ~6–10 tokens per call.</li>
+<li><strong>Quality, measured on the real Qwen weights:</strong> pretrained weights cannot be compressed into an R = 8 / 16 ring. Less than 2% of each matrix survives, the same as for random noise. For pretrained weights the tensorization barely matters. <strong>The ring has to be trained, not fitted onto a finished model.</strong></li>
+<li><strong>How:</strong> the method and a cost model were worked out in a Julia lab; all kernel debugging ran on a laptop GPU; the rented H100 was used only for measurements.</li>
+<li><strong>What limits us:</strong> not arithmetic but latency. Of a 6,700 ns call, arithmetic takes 40 ns. The engineering window is <strong>2.7–3×</strong> per call. The real shapes show the same picture: the kernel waits rather than computes.</li>
+<li><strong>What it could give, using our current inference as a reference</strong> (Qwen3.8-27B, 2×A100), estimate: <strong>~13–14 sessions per card instead of 3–4</strong>, for any rank up to 32 — if quality can be kept.</li>
+<li><strong>Speed depends on the rank</strong> (measured on the real shapes): R = 8 beats dense BF16 up to ~10–20 tokens per call, R = 16 up to 2–4.</li>
+<li><strong>The key question for the researchers:</strong> how to train a model directly in ring format (or distil it into one) so that quality holds at R = 8–16, and which tensorization matches the subspace the data actually lives in.</li>
+</ul>
+<hr>
+<h2>1. The idea</h2>
+<p>Store three small cores instead of the weight matrix. Compute the layer directly from them and never rebuild the matrix.</p>
+<p>When a model generates one token at a time (decode), the GPU barely computes: it waits for the weights to arrive from memory. So extra arithmetic is almost free, and the memory the weights used to occupy is freed for the KV cache, that is, for users.</p>
+<hr>
+<h2>2. What was done</h2>
+<p>A kernel for the whole tensor-ring operator from the assignment (input 1920, output 2880), H100 SXM5, FP16.</p>
+<table>
+<thead>
+<tr>
+<th>1 token</th>
+<th>our kernel</th>
+<th>dense (cuBLAS)</th>
+<th>reference (PyTorch)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R = 8</td>
+<td><strong>8.2 µs</strong></td>
+<td>9.8 µs</td>
+<td>155 µs</td>
+</tr>
+<tr>
+<td>R = 16</td>
+<td>10.7 µs</td>
+<td>9.9 µs</td>
+<td>160 µs</td>
+</tr>
+</tbody></table>
+<ul>
+<li>Correct in all 5 required cases: error ≤ 0.0023 against a tolerance of 0.02.</li>
+<li>One kernel launch instead of the reference&#39;s 8 GPU operations and 3 einsum calls.</li>
+<li>Weight memory: 124× smaller at R = 8, 31× at R = 16.</li>
+<li>For several tokens per call there is a separate kernel (V3T): R = 8, 8 tokens — 12.3 µs, 32 tokens — 27.9 µs. There dense is already faster, as expected (slide 3).</li>
+</ul>
+<hr>
+<h2>3. Why the numbers are what they are</h2>
+<ul>
+<li>At one token, dense does about <strong>1 operation per byte read</strong>, while H100 can do about <strong>300</strong>. The arithmetic units are idle almost all the time.</li>
+<li>The ring reads hundreds of times less but computes more: <strong>3.6× at R = 8</strong> and <strong>25× at R = 16</strong> on the test matrix.</li>
+<li>At R = 8 the extra arithmetic hides inside the waiting, so we win. At R = 16 almost none of it hides, so it is roughly a tie.</li>
+<li>The more tokens per call, the sooner the &quot;free&quot; arithmetic runs out. The boundary:</li>
+</ul>
+<blockquote>
+<p><strong>t* = kernel efficiency × GPU balance point ÷ FLOP overhead</strong></p>
+</blockquote>
+<p>For H100 and an ideal kernel, t* ≈ 82 tokens at R = 8 and ≈ 12 at R = 16.</p>
+<hr>
+<h2>4. How we worked: model first, hardware second</h2>
+<pre><code> Julia lab           Julia + CUDA.jl       PyTorch + CUDA C++      H100 (rented)
+ laptop, CPU    →    laptop, RTX 3050 Ti → laptop, RTX 3050 Ti  →  measurements only
+ the method on       measure the machine,   the kernel and all      prepared
+ small problems      test the model         correctness checks      scripts
+</code></pre>
+<ul>
+<li><strong>A Julia lab of 9 short guides.</strong> The problem was taken apart on examples that can be checked by hand: low rank → an index as a tuple of digits → a ring of 2 cores → a ring of 3 cores → a cost model. The lab&#39;s main finding: the ring can be &quot;cut&quot; into independent pieces. The kernel grew out of it.</li>
+<li><strong>The cost model:</strong> kernel time = max(FLOP ÷ peak, bytes ÷ bandwidth) + latency; call time = max(CPU, GPU). We tested it on the laptop&#39;s RTX 3050 Ti with CUDA.jl:<ul>
+<li>15 GEMM shapes: within ±11% at 32 tokens;</li>
+<li>the whole chain: first off by 1.4–3.6×, which pointed to one missing parameter — the bandwidth of memory permutes; after the fix, 0.88–1.03;</li>
+<li>the harness&#39;s own JSON: 0.85–1.17, the limiting side correct in 10 rows out of 10.</li>
+</ul>
+</li>
+<li>This model chose the kernel design before we wrote it. It also produced the node estimates in this talk.</li>
+<li><strong>The laptop as a correctness rig.</strong> All kernel debugging ran on the RTX 3050 Ti (4 GB): pytest (21 tests), checks against an FP64 oracle, separate checks for V3 and V3T. Nothing was debugged on the H100.</li>
+<li><strong>H100 for measurements only.</strong> Budget ~$25, about 7 GPU-hours. Each session was a prepared script: create the instance → build → check → measure → push the results to git → delete the instance.</li>
+<li><strong>Why:</strong> a laptop GPU will not show H100 speed, but it shows honestly whether the kernel computes the right answer. Expensive hardware is spent only on what cannot be learned more cheaply.</li>
+</ul>
+<hr>
+<h2>5. The path: three turning points</h2>
+<pre><code>155 µs   reference: 3 einsum + 8 GPU operations, bound by the CPU
+  ↓      turn 1: the ring is cut into independent pieces,
+  ↓              each fits on the chip entirely
+~14 µs   one kernel
+  ↓      turn 2: the result of step 2 goes straight into step 3 in registers
+  ↓              (the FlashAttention-2 trick): kernel 8.4 → 4.5 µs
+10.1 µs  first win over dense
+  ↓      turn 3: assembling the result read 12 values one after another —
+  ↓              now it reads them all at once
+ 8.2 µs
+</code></pre>
+<p>All three turns removed <strong>waiting</strong>, not arithmetic.</p>
+<p>Tried and did not help: all layers in one kernel, dependency counters instead of a barrier, several multiply chains per warp, split-K.</p>
+<hr>
+<h2>6. The engineering window of one call</h2>
+<p><img src="simple1_kernel_window_en.png" alt="One kernel call in nanoseconds"></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>R = 8</th>
+<th>R = 16</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>now (measured)</td>
+<td>6,688 ns</td>
+<td>9,430 ns</td>
+</tr>
+<tr>
+<td>target: tuned kernel (estimate)</td>
+<td>~2,470 ns</td>
+<td>~3,170 ns</td>
+</tr>
+<tr>
+<td><strong>window</strong></td>
+<td><strong>~4,200 ns (2.7×)</strong></td>
+<td><strong>~6,300 ns (3.0×)</strong></td>
+</tr>
+<tr>
+<td>limit of one call</td>
+<td>907 ns</td>
+<td>1,147 ns</td>
+</tr>
+<tr>
+<td>physics limit</td>
+<td>40 ns</td>
+<td>280 ns</td>
+</tr>
+</tbody></table>
+<p>One call cannot go below ~0.9 µs: that is the price of launching a kernel. Beyond that, the only way is to merge many layers into one kernel.</p>
+<hr>
+<h2>6a. What the window is made of and what limits us</h2>
+<p>One call has three parts, and each is limited by something different.</p>
+<table>
+<thead>
+<tr>
+<th>part of the call</th>
+<th>R = 8 now → target</th>
+<th>what happens</th>
+<th>what limits it</th>
+<th>how to remove it</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>kernel launch</strong></td>
+<td>867 → 867 ns</td>
+<td>the GPU takes the command and hands blocks to the SMs</td>
+<td>the price of any launch: an empty kernel on H100 also takes 0.87 µs</td>
+<td>not within one call. Only by merging calls: CUDA graphs, many layers in one kernel</td>
+</tr>
+<tr>
+<td><strong>work inside the kernel</strong></td>
+<td>3,650 → ~1,200 ns</td>
+<td>load the cores from L2, step 1, a block barrier, the multiply chain of steps 2–3</td>
+<td><strong>waiting, not computing:</strong> arithmetic here is 40 ns. Loading 16–24 KB from L2 takes ~0.5 µs; each dependent mma waits ~24 cycles</td>
+<td>load the cores while computing; keep several independent multiply chains; fewer barriers</td>
+</tr>
+<tr>
+<td><strong>assembling the result</strong></td>
+<td>2,171 → ~400 ns</td>
+<td>each output is a sum of 160 pieces from different blocks: atomics into a shared buffer, a counter, the last block converts FP32 → FP16</td>
+<td>several back-to-back trips to L2, ~0.5 µs each</td>
+<td>sum the pieces inside a thread-block cluster through its distributed shared memory (Hopper), not through global memory</td>
+</tr>
+</tbody></table>
+<p>For R = 16 the picture is the same: 867 + 6,912 + 1,651 ns now against 867 + ~1,900 + ~400 ns in the target. The work inside the kernel is larger because the multiply chains are longer.</p>
+<p><strong>How this is confirmed:</strong></p>
+<ul>
+<li>Nsight Compute on the R = 8 kernel: SMs are filled with warps to 23% (occupancy), with ~19 cycles on average between issued instructions. This is the classic picture of a kernel that waits.</li>
+<li>Each number in the &quot;what limits it&quot; column is a separate microbenchmark on H100.</li>
+<li>All three optimisation turns (slide 5) removed exactly this waiting, and each gave a clear gain.</li>
+</ul>
+<p><strong>The window in short:</strong></p>
+<ul>
+<li>~4.2 µs (R = 8) and ~6.3 µs (R = 16) can be removed by engineering: this is pure latency, physics does not require it.</li>
+<li>0.87 µs of launch cannot be removed within one call.</li>
+<li>40–280 ns of arithmetic is physics.</li>
+<li>The targets &quot;~1,200 ns of work&quot; and &quot;~400 ns of assembly&quot; are estimates from the microbenchmarks, not measurements.</li>
+</ul>
+<hr>
+<h2>7. Honest checks</h2>
+<ul>
+<li><strong>One layer under CUDA graphs:</strong> dense is faster, 5.2 vs 6.8 µs.</li>
+<li><strong>128 different layers, as in a model:</strong> a tie, 7.0 vs 6.7 µs, with 124× less weight memory.</li>
+<li><strong>Cold cache, kernel time only:</strong> ours 7.2 µs vs 7.9 µs for dense.</li>
+</ul>
+<p>Conclusion: on the 1920 × 2880 test layer we are on par with dense in speed, and the main gain is memory. Real layers are tens of times larger, and the picture changes (slide 7a).</p>
+<hr>
+<h2>7a. The real layer shapes of Qwen3.8-27B on H100 (measured 28 September)</h2>
+<p>The V3T kernel now handles any shape: the mode sizes became template parameters, and BF16 was added (V3G). 107 variants were built for the model&#39;s 6 layer shapes, <strong>all checked against an FP64 oracle</strong>. The tiling for each shape comes from a measured table.</p>
+<p>One MLP layer 5120 → 17408, µs per call:</p>
+<table>
+<thead>
+<tr>
+<th>tokens per call</th>
+<th>dense BF16</th>
+<th>dense FP8</th>
+<th>dense INT4</th>
+<th><strong>ring R = 8</strong></th>
+<th>ring R = 16</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>62</td>
+<td>37</td>
+<td>27</td>
+<td><strong>11.9</strong></td>
+<td>22.1</td>
+</tr>
+<tr>
+<td>8</td>
+<td>64</td>
+<td>38</td>
+<td>62</td>
+<td><strong>36.2</strong></td>
+<td>136</td>
+</tr>
+<tr>
+<td>32</td>
+<td>64</td>
+<td>39</td>
+<td>201</td>
+<td>112</td>
+<td>502</td>
+</tr>
+</tbody></table>
+<ul>
+<li>The token count at which the ring stops being faster (large layers):<ul>
+<li>R = 8: from 10–20 against BF16, from 6–10 against FP8;</li>
+<li>R = 16: from 2–4 against BF16, from 2 against FP8.</li>
+</ul>
+</li>
+<li>INT4 (tinygemm) is 2–2.4× slower than the R = 8 ring at one token, but that kernel is built for a single token and scales poorly with more.</li>
+<li><strong>FP8 is compared fairly.</strong> Out of the box in PyTorch (per-row scales, activation quantisation as separate operations), FP8 looked slower than BF16: 74 vs 66 µs. The proper path — one quantisation operation fused into RMSNorm, as inference engines do it — takes 35–37 µs. That is what we compare against.</li>
+</ul>
+<hr>
+<h2>7b. A whole decode step: the ring against BF16, FP8 and INT4</h2>
+<p><img src="step_speed_energy_en.png" alt="Step time and energy per token"></p>
+<p>All linear layers of the model plus lm_head, each of the ~400 layers with its own weights (the L2 cache does not help), CUDA graph, H100:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>dense BF16</th>
+<th>FP8</th>
+<th>INT4</th>
+<th><strong>ring R = 8</strong></th>
+<th>ring R = 16</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>weights, GB</td>
+<td>47.7</td>
+<td>25.1</td>
+<td>14.5</td>
+<td><strong>2.6</strong></td>
+<td>2.8</td>
+</tr>
+<tr>
+<td>1 token: ms per step</td>
+<td>19.6</td>
+<td>12.6</td>
+<td>10.0</td>
+<td><strong>5.8</strong></td>
+<td>9.7</td>
+</tr>
+<tr>
+<td>1 token: J per token</td>
+<td>9.4</td>
+<td>5.5</td>
+<td>5.8</td>
+<td><strong>1.75</strong></td>
+<td>3.6</td>
+</tr>
+<tr>
+<td>8 tokens: ms per step</td>
+<td>20.4</td>
+<td>13.0</td>
+<td>21.2</td>
+<td>14.1</td>
+<td>50.0</td>
+</tr>
+<tr>
+<td>8 tokens: J per token</td>
+<td>1.23</td>
+<td>0.71</td>
+<td>1.11</td>
+<td>0.67</td>
+<td>2.77</td>
+</tr>
+</tbody></table>
+<ul>
+<li>For a single user the R = 8 ring is <strong>3.4× faster than BF16 and 2.2× faster than FP8</strong>, with 3× less energy. The board draws 300 W instead of 430–570.</li>
+<li>At 8 tokens per step the ring and FP8 are even, and beyond that FP8 wins. The ring is a small-batch tool: a single user, edge devices, verifying speculative decoding in small chunks.</li>
+<li>lm_head is uncompressed in every variant (2.4 GB). Attention, the DeltaNet recurrence and the KV cache are not included here.</li>
+</ul>
+<hr>
+<h2>7c. Quality on the real weights: the answer to the key question</h2>
+<p><img src="quality_real_en.png" alt="Quality: real weights and real inputs"></p>
+<p>The linear layers of 12 blocks of Qwen3.8-27B (8.4 GB) were downloaded. Each matrix was fitted with a ring using TR-SVD and TR-ALS (Zhao et al., 2016) — 368 fits in total. Self-checks of the method:</p>
+<ul>
+<li>a matrix that <em>is</em> an R = 8 ring is recovered exactly (error 0.0000);</li>
+<li>our kernel on the fitted cores differs from the ring by 0.3%: all of the loss is in the approximation, not in the kernel.</li>
+</ul>
+<p><strong>Question 1 — does R = 8 / 16 keep a full-size matrix? No.</strong></p>
+<ul>
+<li>R = 8 (~1000× compression) keeps 0.2–1.7% of a matrix&#39;s energy, 0.2–0.6% for MLP. A random matrix keeps the same.</li>
+<li>R = 16 keeps 1–7%. Even R = 64 (16× compression) keeps ~15% of an MLP matrix.</li>
+<li>The reason is the spectrum: real matrices are close to full rank, and 90% of the energy needs rank ~3500 of 5120. An SVD of the same size keeps as much or more. There is no variation with depth.</li>
+</ul>
+<p><strong>Question 2 — does the tensorization matter? For pretrained weights, hardly.</strong></p>
+<ul>
+<li>Balanced, skewed &quot;FLOP-optimal&quot; (128 × 10 × 4) and balanced after a random shuffle of rows and columns differ only in the third digit.</li>
+<li>So the index order of a pretrained matrix has no structure the ring can use, and the tensorization can be chosen for kernel speed.</li>
+</ul>
+<p><strong>On real inputs (layer 0, real text) the picture is sharper.</strong></p>
+<ul>
+<li>The layer&#39;s inputs are close to low-rank: 50% of their energy lies in 20 directions out of 5120.</li>
+<li>Output error at the R = 8 budget: ring 0.97, SVD of the same size 0.53, activation-aware SVD 0.38.</li>
+<li>A ring fitted with the activations in mind reaches 0.35 at R = 32.</li>
+<li>The ring&#39;s rigid mode structure does not line up with the data subspace. A plain low-rank matrix adapts to it.</li>
+</ul>
+<p><strong>Conclusion:</strong> compressing pretrained weights into a ring after training does not work. A ring model has to be <strong>trained</strong> — directly in this format, or by activation-aware distillation. The question for the researchers is which tensorization (and possibly which change of basis) gives the ring a structure that matches the data.</p>
+<hr>
+<h2>7d. What is left in the kernel</h2>
+<p>Nsight Compute on the V3G kernel (layer 5120 → 17408):</p>
+<ul>
+<li>DRAM is 1% busy, the SMs 18–26%;</li>
+<li>128 blocks on 132 SMs, warp occupancy 12.5%.</li>
+</ul>
+<p>The kernel still <strong>waits rather than computes</strong>. Two hypotheses were tested on the evening of 28 September:</p>
+<ul>
+<li><strong>More warps per block</strong> (512 threads instead of 256): occupancy rose from 12.5% to 25%, but the layer got only 3–8% faster. The model step at 8 tokens: 14.1 → 13.4 ms. Occupancy is not the main limit.</li>
+<li><strong>Where the time goes</strong> (an experiment with parts of the kernel switched off, µs):</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>layer 5120 → 17408</th>
+<th>full call</th>
+<th>without atomics</th>
+<th>compute only</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R = 8, 1 token</td>
+<td>11.8</td>
+<td>10.1</td>
+<td>7.7</td>
+</tr>
+<tr>
+<td>R = 8, 8 tokens</td>
+<td>34.9</td>
+<td>27.7</td>
+<td>20.9</td>
+</tr>
+<tr>
+<td>R = 16, 8 tokens</td>
+<td>139.5</td>
+<td>130.2</td>
+<td>123.3</td>
+</tr>
+</tbody></table>
+<ul>
+<li>At R = 8, <strong>35–40% of the call is assembling the result</strong>: 32 partial sums per output go through L2 as atomics. The next step is to sum them inside a thread-block cluster through Hopper&#39;s distributed shared memory. Estimated gain: +15–25%.</li>
+<li>At R = 16 the time is almost all computation: that is the price of R³, and only a lower rank or a better tensorization removes it.</li>
+</ul>
+<hr>
+<h2>8. What it could give: an example on our current inference</h2>
+<p>To estimate the effect on a real service rather than one operator, we take as a <strong>reference</strong> the inference we already run and have measurements for. This is an example, not the target: the roadmap below is not tied to a specific model.</p>
+<ul>
+<li>Qwen3.8-27B BF16, SGLang, 2×A100 80GB, one replica per card, DFlash2 speculative decoding.</li>
+<li>Today: <strong>65 tok/s</strong> per user, <strong>185 tok/s</strong> per card with 4 sessions of ~55K, prefill of 45K tokens in <strong>14.3 s</strong>.</li>
+<li>One card fits 3–4 long sessions: the memory is taken by the weights (51 GiB).</li>
+</ul>
+<p>Everything below about the ring is <strong>analysis done together with Claude</strong>, that is, an estimate. The cost model is calibrated on these measurements and matches them within 5–7%. Direct H100 measurements are on slides 7a–7c. The estimates below are for A100 and assume that quality holds at the given rank; slide 7c shows that this requires training a ring model.</p>
+<hr>
+<h2>9. Example: real layer shapes (Qwen3.8-27B)</h2>
+<p>The test matrix in the assignment is small (1920 × 2880). Real models have matrices tens of times larger. These are all the linear layers of the example model:</p>
+<table>
+<thead>
+<tr>
+<th>layers</th>
+<th>shape</th>
+<th>count</th>
+<th>share of weights</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MLP gate / up / down</td>
+<td>5120 ↔ 17408</td>
+<td>64 × 3</td>
+<td>~70%</td>
+</tr>
+<tr>
+<td>GDN <code>in_proj_qkvz</code></td>
+<td>5120 → 16384</td>
+<td>48</td>
+<td>~17%</td>
+</tr>
+<tr>
+<td>GDN <code>out_proj</code></td>
+<td>6144 → 5120</td>
+<td>48</td>
+<td>~6%</td>
+</tr>
+<tr>
+<td>attention q+gate, k, v, o</td>
+<td>5120 → 12288 / 1024 / 1024, 6144 → 5120</td>
+<td>16</td>
+<td>~7%</td>
+</tr>
+</tbody></table>
+<p>The FLOP overhead depends on how the matrix sides are tensorized into mode sizes. The main term is R³ ÷ (first input mode × last output mode). Large matrices give large modes, and so less extra arithmetic.</p>
+<table>
+<thead>
+<tr>
+<th>R</th>
+<th>FLOP overhead (balanced tensorization)</th>
+<th>same, &quot;FLOP-optimal&quot; tensorization</th>
+<th>memory compression</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>8</td>
+<td>1.1×</td>
+<td>0.1×</td>
+<td>895×</td>
+</tr>
+<tr>
+<td>16</td>
+<td>7.7×</td>
+<td>0.5×</td>
+<td>224×</td>
+</tr>
+<tr>
+<td>32</td>
+<td>57×</td>
+<td>3.1×</td>
+<td>56×</td>
+</tr>
+</tbody></table>
+<p>The &quot;FLOP-optimal&quot; tensorization is skewed (for example, 5120 = 128 × 10 × 4). What it does to quality is unknown — a question for the researchers.</p>
+<hr>
+<h2>10. Example: memory is the main and robust gain</h2>
+<p><img src="qwen1_memory_en.png" alt="Memory of one A100"></p>
+<p>In the example, for any rank up to 32 the weights shrink to ~6 GiB and almost the whole card goes to sessions: <strong>~13–14 sessions of 55K instead of 3–4</strong>. This conclusion does not depend on the rank.</p>
+<hr>
+<h2>11. Example: what would happen to our node</h2>
+<p><img src="qwen2_node_en.png" alt="The node: today and with the ring"></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>sessions</th>
+<th>one user, tok/s</th>
+<th>total per card, tok/s</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>today (measured)</strong></td>
+<td>3–4</td>
+<td>65</td>
+<td>185</td>
+</tr>
+<tr>
+<td>R = 8 (kernel as is → tuned)</td>
+<td>13.7</td>
+<td>115 → <strong>188</strong></td>
+<td>180 → <strong>366</strong></td>
+</tr>
+<tr>
+<td>R = 16</td>
+<td>13.7</td>
+<td>49 → 91</td>
+<td>63 → 129</td>
+</tr>
+<tr>
+<td>R = 32</td>
+<td>13.5</td>
+<td>10 → 27</td>
+<td>11 → 30</td>
+</tr>
+<tr>
+<td>R = 32, &quot;FLOP-optimal&quot; tensorization</td>
+<td>13.5</td>
+<td>71 → 122</td>
+<td>114 → 186</td>
+</tr>
+</tbody></table>
+<ul>
+<li><strong>R = 8:</strong> ~3× faster for one user, ~4× more sessions and ~2× more tokens per card.</li>
+<li><strong>R = 16:</strong> only memory is gained; speed is below today&#39;s.</li>
+<li><strong>R = 32:</strong> works only if quality holds with &quot;FLOP-optimal&quot; tensorizations.</li>
+</ul>
+<hr>
+<h2>12. Prefill: a separate path</h2>
+<p>Prefill is thousands of tokens at once. Here the GPU computes at full speed, and the ring&#39;s extra arithmetic is paid in full. So prefill needs <strong>a different kernel</strong>: rebuild the layer&#39;s weights from the cores once, then compute with an ordinary GEMM — the same way INT4 models unpack weights on the fly.</p>
+<table>
+<thead>
+<tr>
+<th>example: prefill 45K (today 14.3 s)</th>
+<th>with our kernel</th>
+<th>via weight reconstruction</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>R = 8</td>
+<td>~15.4 s</td>
+<td>~14.5 s</td>
+</tr>
+<tr>
+<td>R = 16</td>
+<td>~91 s</td>
+<td>~15.0 s</td>
+</tr>
+<tr>
+<td>R = 32</td>
+<td>~660 s</td>
+<td>~17.2 s</td>
+</tr>
+</tbody></table>
+<pre><code>           the layer&#39;s cores A, B, C (the same for both)
+                          │
+             how many tokens per call?
+               ┌──────────┴──────────┐
+          few (decode)          many (prefill)
+               │                     │
+     our kernel: contraction   rebuild W → ordinary GEMM
+     W is never built              (+2–25% to prefill)
+               └──────────┬──────────┘
+                    layer output
+</code></pre>
+<p>The code already has a switch by token count: today it picks between the kernels for one token and for several. Reconstruction becomes the third branch.</p>
+<hr>
+<h2>13. Roadmap</h2>
+<table>
+<thead>
+<tr>
+<th>stage</th>
+<th>what we do</th>
+<th>gate</th>
+<th>if not</th>
+<th>time</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0 ✓</td>
+<td>the operator kernel</td>
+<td>—</td>
+<td>—</td>
+<td>done</td>
+</tr>
+<tr>
+<td><strong>1</strong></td>
+<td>pick the target model and <strong>train</strong> its layers in ring format: distillation or activation-aware fine-tuning, then check quality on the target tasks. Pretrained weights cannot be compressed without training (slide 7c)</td>
+<td>quality within tolerance</td>
+<td>a higher rank; compress only part of the layers (e.g. MLP); FP8 / INT4 as the baseline</td>
+<td>1–3 months, researchers</td>
+</tr>
+<tr>
+<td>2 (partly ✓ 28 Sep)</td>
+<td>decode kernel for the target model&#39;s layer shapes, auto-tuned tiling. Done: V3G for every Qwen3.8-27B shape, a tiling table for H100</td>
+<td>decode no slower than FP8 inference of the same model</td>
+<td>keep part of the weights dense together with speculative decoding; TT instead of the ring</td>
+<td>4–8 weeks</td>
+</tr>
+<tr>
+<td>3</td>
+<td>prefill via weight reconstruction</td>
+<td>time to first token ≤ +10% vs dense</td>
+<td>prefill on a separate dense card; the KV cache moves to the ring card in a fraction of a second</td>
+<td>1–2 weeks (buffer + cuBLAS), 4–8 weeks (Marlin-style)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>integration into the inference engine (e.g. SGLang): a custom op, CUDA graphs, more sessions per card</td>
+<td>A/B against dense: cost per 1M tokens, time to first token, tok/s</td>
+<td>raise the session count step by step</td>
+<td>2–4 weeks</td>
+</tr>
+<tr>
+<td>5</td>
+<td>megakernel, Hopper-specific tricks, AMD</td>
+<td>—</td>
+<td>—</td>
+<td>later: in the example, kernel launches are ~0.3 ms of a ~9 ms step</td>
+</tr>
+</tbody></table>
+<p>The example numbers (slides 8–12) show what each stage can give. For the target model they have to be recomputed for its layer shapes and its workload.</p>
+<hr>
+<h2>14. Three routes by rank</h2>
+<ul>
+<li><strong>R = 8 — &quot;speed + memory&quot;.</strong> In the example, faster for the user and ~4× more sessions. The best outcome. Measured on H100: a step at one token is 3.4× faster than BF16 and 2.2× faster than FP8.</li>
+<li><strong>R = 16 — &quot;memory only&quot;.</strong> As many sessions, speed below dense. Makes sense when memory is the main constraint. Measured: 1.3× faster than FP8 at one token, but slower from two tokens on.</li>
+<li><strong>R = 32 and above — &quot;special tensorizations needed&quot;.</strong> Without them the approach does not pay off in speed.</li>
+</ul>
+<p><strong>The dial:</strong> there is no need to compress everything. Part of the layers can be compressed and the rest kept dense together with speculative decoding — a trade-off between memory, speed and quality.</p>
+<hr>
+<h2>15. Risks</h2>
+<ol>
+<li><strong>Quality — measured on 28 September.</strong> Pretrained weights cannot be compressed into an R = 8 / 16 ring: less than 2% of each matrix survives. A trained ring model is needed, and that is the main risk: whether one can be trained with quality within tolerance is not yet known.</li>
+<li><strong>Tensorization.</strong> For pretrained weights it barely matters. For trained rings it is an open question: the tensorization decides what structure the ring can learn at all. On real inputs the ring loses to a plain low-rank matrix of the same size.</li>
+<li><strong>A strong baseline.</strong> FP8 and INT4 already shrink dense 2–4× with no training and almost no quality loss. The ring beats them only at small batch: against FP8, up to ~6–10 tokens per call.</li>
+<li><strong>Awkward sizes.</strong> V3G handles 17408 = 16 × 34 × 32. The price is padding R = 8 to 16 for the Tensor Cores: half of the stage-2 multiplies are wasted. The tiling table exists only for H100.</li>
+<li><strong>Integration.</strong> Two paths by token count, a custom op in the inference engine, one buffer per CUDA stream.</li>
+</ol>
+<hr>
+<h2>16. The main point</h2>
+<blockquote>
+<p>The kernel runs the real shapes. For a single user a decode step is <strong>3.4× faster than BF16 and 2.2× faster than FP8</strong>, with 3× less energy per token and ~18× less weight memory — that changes the economics of an instance. But a finished model cannot be squeezed into a ring: <strong>the ring model has to be trained</strong>.</p>
+</blockquote>
+<p>The first step is a question for the researchers: <strong>how to train (or distil) a model in ring format so that quality holds at R = 8–16, and which tensorization matches the subspace of the data.</strong></p>
+<hr>
+<h2>Appendix: how the numbers were obtained</h2>
+<ul>
+<li>Julia lab and cost model: <code>factorized-abstract-lab/</code> (guides 00–08); the GPU part used CUDA.jl on an RTX 3050 Ti Laptop.</li>
+<li>H100 measurements: <code>results/h100/*.json</code>, final session on 27 September 2026.</li>
+<li>Example, node metrics: the inference-ops repository, <code>qwen3.6-27b-2-A100</code> (model Qwen3.8-27B).</li>
+<li>Example, layer shapes: the model&#39;s <code>config.json</code> (<code>kernel-design/physics/qwen3.8-27b_config.json</code>).</li>
+<li>Charts and estimates: <code>tools/physics_charts.py</code>, <code>tools/simple_charts.py</code>, <code>tools/qwen_estimate.py</code>, <code>tools/qwen_charts.py</code>, <code>tools/talk_charts_0928.py</code> (<code>--en</code> for English labels).</li>
+<li>28 September measurements on H100, all in <code>results/h100/qwen/</code>:<ul>
+<li>V3G kernel and correctness — <code>v3g_sweep.json</code>, <code>v3g_sweep2.json</code> (NT / KS), <code>check_bf16_v3g*.txt</code>; where the time goes — <code>v3g_ablate.json</code>;</li>
+<li>per layer against BF16 / FP8 / INT4 — <code>lowbit.json</code>;</li>
+<li>the whole model step with energy — <code>model_chain_lowbit.json</code>;</li>
+<li>quality on the real weights — <code>quality.json</code>, walk-through in <code>quality_review.md</code>;</li>
+<li>real inputs — <code>activation.json</code>;</li>
+<li>summaries — <code>summary.md</code>, <code>EXTRA.md</code>; profiles — <code>profiles/h100/v3g_*.ncu-rep</code>.</li>
+</ul>
+</li>
+<li>28 September code: the kernel in <code>src/factorized_inference/csrc/v3g/</code>; scripts <code>tools/qwen_*.py</code>, <code>tools/v3g_sweep.py</code>, <code>tools/tr_quality*.py</code>, <code>tools/tr_activation.py</code>, <code>tools/lowbit*.py</code>. The Qwen weights are not stored in the repository: <code>tools/qwen_fetch_layers.py</code> downloads them again.</li>
+<li>Assumptions:<ul>
+<li>&quot;tuned kernel&quot; — 30% of Tensor Core peak and 2.5 µs per call;</li>
+<li>&quot;kernel as is&quot; — 10% of peak and 7 µs per call;</li>
+<li>share of linear layers in prefill — 80%;</li>
+<li>rebuilding a weight costs 2R² operations per element;</li>
+<li>session context — 55K.</li>
+</ul>
+</li>
+</ul>
+
+</body></html>

@@ -1,0 +1,7 @@
+fetched embeddings (248320, 5120) in 38 s
+tokens cal 19191 test 22543; norm zero-centred True; input dims for 50/90/99% energy: {'dims_for_50pct': 20, 'dims_for_90pct': 517, 'dims_for_99pct': 1651}
+R=8  params=86016  svd_rank=4  compression=975.2381  matrix_err_ring=0.9986  out_err_ring=0.9742  out_err_svd=0.5304  out_err_svd_act=0.3831  out_err_ring_act=0.9238  ring_act_seconds=3.5000
+R=16  params=344064  svd_rank=16  compression=243.8095  matrix_err_ring=0.9947  out_err_ring=0.9571  out_err_svd=0.4208  out_err_svd_act=0.2997  out_err_ring_act=0.7970  ring_act_seconds=3.7000
+R=32  params=1376256  svd_rank=64  compression=60.9524  matrix_err_ring=0.9793  out_err_ring=0.9301  out_err_svd=0.3252  out_err_svd_act=0.2214  out_err_ring_act=0.3458  ring_act_seconds=4.9000
+R=64  params=5505024  svd_rank=256  compression=15.2381  matrix_err_ring=0.9184  out_err_ring=0.8065  out_err_svd=0.2439  out_err_svd_act=0.1535  out_err_ring_act=0.2322  ring_act_seconds=9.8000
+wrote results/h100/qwen/activation.json

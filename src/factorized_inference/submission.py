@@ -38,10 +38,10 @@ def prepare_optimized(
     You can leave this wrapper unchanged and edit tr_forward_optimized, or
     implement your optimization here. The harness and tests use this entry point.
 
-    CUDA float16 cores: the fused CUDA kernel (tr_kernel.py, csrc/tr_ring.cu).
+    CUDA float16 / bfloat16 cores: the fused CUDA kernel (tr_kernel.py, csrc/tr_ring.cu).
     Anything else (CPU, FP32): the reference, as allowed above.
     """
-    if all(c.is_cuda and c.dtype == torch.float16 for c in cores):
+    if all(c.is_cuda and c.dtype in (torch.float16, torch.bfloat16) for c in cores):
         from .tr_kernel import PreparedTRKernel
 
         return PreparedTRKernel(cores, spec)

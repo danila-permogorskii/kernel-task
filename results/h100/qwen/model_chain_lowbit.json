@@ -1,0 +1,306 @@
+{
+  "device": "NVIDIA H100 80GB HBM3",
+  "tilings": "None",
+  "rows": [
+    {
+      "variant": "dense",
+      "tokens": 1,
+      "weights_bytes": 51244967936,
+      "eager_ms": 20.832310485839844,
+      "graph_ms": 19.592152404785157,
+      "joules_per_step": 9.378813955643597,
+      "joules_per_token": 9.378813955643597,
+      "avg_watts": 478.71
+    },
+    {
+      "variant": "dense",
+      "tokens": 2,
+      "weights_bytes": 51244967936,
+      "eager_ms": 21.1559814453125,
+      "graph_ms": 20.199049377441405,
+      "joules_per_step": 9.559251169932855,
+      "joules_per_token": 4.7796255849664275,
+      "avg_watts": 473.19
+    },
+    {
+      "variant": "dense",
+      "tokens": 4,
+      "weights_bytes": 51244967936,
+      "eager_ms": 21.341619873046874,
+      "graph_ms": 20.278688049316408,
+      "joules_per_step": 9.648072730116292,
+      "joules_per_token": 2.412018182529073,
+      "avg_watts": 475.78
+    },
+    {
+      "variant": "dense",
+      "tokens": 8,
+      "weights_bytes": 51244967936,
+      "eager_ms": 21.552737426757812,
+      "graph_ms": 20.406488037109376,
+      "joules_per_step": 9.866388715140673,
+      "joules_per_token": 1.233298589392584,
+      "avg_watts": 483.27
+    },
+    {
+      "variant": "dense",
+      "tokens": 16,
+      "weights_bytes": 51244967936,
+      "eager_ms": 21.69354705810547,
+      "graph_ms": 20.55457305908203,
+      "joules_per_step": 10.360735969214604,
+      "joules_per_token": 0.6475459980759127,
+      "avg_watts": 504.05
+    },
+    {
+      "variant": "dense",
+      "tokens": 32,
+      "weights_bytes": 51244967936,
+      "eager_ms": 22.027847290039062,
+      "graph_ms": 20.82337188720703,
+      "joules_per_step": 11.356381503740947,
+      "joules_per_token": 0.3548869219919046,
+      "avg_watts": 545.34
+    },
+    {
+      "variant": "fp8",
+      "tokens": 1,
+      "weights_bytes": 26918365184,
+      "eager_ms": 14.072257995605469,
+      "graph_ms": 12.59567642211914,
+      "joules_per_step": 5.483399190151391,
+      "joules_per_token": 5.483399190151391,
+      "avg_watts": 435.27
+    },
+    {
+      "variant": "fp8",
+      "tokens": 2,
+      "weights_bytes": 26918365184,
+      "eager_ms": 14.427403259277344,
+      "graph_ms": 12.828642272949219,
+      "joules_per_step": 5.5432009627174414,
+      "joules_per_token": 2.7716004813587207,
+      "avg_watts": 431.98
+    },
+    {
+      "variant": "fp8",
+      "tokens": 4,
+      "weights_bytes": 26918365184,
+      "eager_ms": 14.445960998535156,
+      "graph_ms": 12.86243133544922,
+      "joules_per_step": 5.582910828324347,
+      "joules_per_token": 1.3957277070810867,
+      "avg_watts": 434.4
+    },
+    {
+      "variant": "fp8",
+      "tokens": 8,
+      "weights_bytes": 26918365184,
+      "eager_ms": 14.551580810546875,
+      "graph_ms": 12.959861755371094,
+      "joules_per_step": 5.710788491360553,
+      "joules_per_token": 0.7138485614200691,
+      "avg_watts": 440.46
+    },
+    {
+      "variant": "fp8",
+      "tokens": 16,
+      "weights_bytes": 26918365184,
+      "eager_ms": 14.49998779296875,
+      "graph_ms": 12.87762908935547,
+      "joules_per_step": 6.00593853212636,
+      "joules_per_token": 0.3753711582578975,
+      "avg_watts": 466.34
+    },
+    {
+      "variant": "fp8",
+      "tokens": 32,
+      "weights_bytes": 26918365184,
+      "eager_ms": 14.801632690429688,
+      "graph_ms": 13.139414978027343,
+      "joules_per_step": 6.674517051117462,
+      "joules_per_token": 0.2085786578474207,
+      "avg_watts": 507.95
+    },
+    {
+      "variant": "int4",
+      "tokens": 1,
+      "weights_bytes": 15522801664,
+      "eager_ms": 11.14870376586914,
+      "graph_ms": 10.03598403930664,
+      "joules_per_step": 5.757689258428228,
+      "joules_per_token": 5.757689258428228,
+      "avg_watts": 573.47
+    },
+    {
+      "variant": "int4",
+      "tokens": 2,
+      "weights_bytes": 15522801664,
+      "eager_ms": 11.832886505126954,
+      "graph_ms": 10.577559661865234,
+      "joules_per_step": 5.861546782200413,
+      "joules_per_token": 2.9307733911002063,
+      "avg_watts": 554.22
+    },
+    {
+      "variant": "int4",
+      "tokens": 4,
+      "weights_bytes": 15522801664,
+      "eager_ms": 15.160134887695312,
+      "graph_ms": 13.945747375488281,
+      "joules_per_step": 6.976907632162405,
+      "joules_per_token": 1.7442269080406012,
+      "avg_watts": 500.13
+    },
+    {
+      "variant": "int4",
+      "tokens": 8,
+      "weights_bytes": 15522801664,
+      "eager_ms": 22.38453826904297,
+      "graph_ms": 21.185015869140624,
+      "joules_per_step": 8.846546308977384,
+      "joules_per_token": 1.105818288622173,
+      "avg_watts": 417.59
+    },
+    {
+      "variant": "int4",
+      "tokens": 16,
+      "weights_bytes": 15522801664,
+      "eager_ms": 33.81844787597656,
+      "graph_ms": 32.644842529296874,
+      "joules_per_step": 13.218020054115044,
+      "joules_per_token": 0.8261262533821903,
+      "avg_watts": 404.66
+    },
+    {
+      "variant": "int4",
+      "tokens": 32,
+      "weights_bytes": 15522801664,
+      "eager_ms": 58.914007568359374,
+      "graph_ms": 57.31516723632812,
+      "joules_per_step": 25.37302109635793,
+      "joules_per_token": 0.7929069092611853,
+      "avg_watts": 442.54
+    },
+    {
+      "variant": "ring8",
+      "tokens": 1,
+      "weights_bytes": 2745182208,
+      "eager_ms": 6.673780822753907,
+      "graph_ms": 5.821227264404297,
+      "joules_per_step": 1.7480526835015677,
+      "joules_per_token": 1.7480526835015677,
+      "avg_watts": 300.23
+    },
+    {
+      "variant": "ring8",
+      "tokens": 2,
+      "weights_bytes": 2745182208,
+      "eager_ms": 8.152191925048829,
+      "graph_ms": 7.272370910644531,
+      "joules_per_step": 2.523262634572474,
+      "joules_per_token": 1.261631317286237,
+      "avg_watts": 346.81
+    },
+    {
+      "variant": "ring8",
+      "tokens": 4,
+      "weights_bytes": 2745182208,
+      "eager_ms": 11.70278091430664,
+      "graph_ms": 10.811077117919922,
+      "joules_per_step": 4.180348736714801,
+      "joules_per_token": 1.0450871841787002,
+      "avg_watts": 386.5
+    },
+    {
+      "variant": "ring8",
+      "tokens": 8,
+      "weights_bytes": 2745182208,
+      "eager_ms": 14.936618041992187,
+      "graph_ms": 14.055857849121093,
+      "joules_per_step": 5.336991966330389,
+      "joules_per_token": 0.6671239957912987,
+      "avg_watts": 379.33
+    },
+    {
+      "variant": "ring8",
+      "tokens": 16,
+      "weights_bytes": 2745182208,
+      "eager_ms": 23.968719482421875,
+      "graph_ms": 23.051699829101562,
+      "joules_per_step": 9.611723398281978,
+      "joules_per_token": 0.6007327123926236,
+      "avg_watts": 416.51
+    },
+    {
+      "variant": "ring8",
+      "tokens": 32,
+      "weights_bytes": 2745182208,
+      "eager_ms": 40.566705322265626,
+      "graph_ms": 39.747433471679685,
+      "joules_per_step": 20.082186769326526,
+      "joules_per_token": 0.6275683365414539,
+      "avg_watts": 505.33
+    },
+    {
+      "variant": "ring16",
+      "tokens": 1,
+      "weights_bytes": 3040880640,
+      "eager_ms": 10.522230529785157,
+      "graph_ms": 9.693134307861328,
+      "joules_per_step": 3.5890257038422004,
+      "joules_per_token": 3.5890257038422004,
+      "avg_watts": 370.11
+    },
+    {
+      "variant": "ring16",
+      "tokens": 2,
+      "weights_bytes": 3040880640,
+      "eager_ms": 16.725050354003905,
+      "graph_ms": 15.800865173339844,
+      "joules_per_step": 6.2654263790322355,
+      "joules_per_token": 3.1327131895161178,
+      "avg_watts": 396.25
+    },
+    {
+      "variant": "ring16",
+      "tokens": 4,
+      "weights_bytes": 3040880640,
+      "eager_ms": 28.57799072265625,
+      "graph_ms": 27.6494140625,
+      "joules_per_step": 11.664760053157806,
+      "joules_per_token": 2.9161900132894516,
+      "avg_watts": 421.74
+    },
+    {
+      "variant": "ring16",
+      "tokens": 8,
+      "weights_bytes": 3040880640,
+      "eager_ms": 50.88985900878906,
+      "graph_ms": 49.9505126953125,
+      "joules_per_step": 22.188915355682372,
+      "joules_per_token": 2.7736144194602965,
+      "avg_watts": 443.84
+    },
+    {
+      "variant": "ring16",
+      "tokens": 16,
+      "weights_bytes": 3040880640,
+      "eager_ms": 95.58660888671875,
+      "graph_ms": 94.6515869140625,
+      "joules_per_step": 43.36687911248977,
+      "joules_per_token": 2.7104299445306106,
+      "avg_watts": 457.92
+    },
+    {
+      "variant": "ring16",
+      "tokens": 32,
+      "weights_bytes": 3040880640,
+      "eager_ms": 182.62313232421874,
+      "graph_ms": 182.07408447265624,
+      "joules_per_step": 87.3401657871008,
+      "joules_per_token": 2.7293801808469,
+      "avg_watts": 479.73
+    }
+  ]
+}

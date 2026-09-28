@@ -54,6 +54,31 @@ def load_extension(verbose: bool = False):
     return _ext
 
 
+_v3g = None
+
+
+def load_v3g(verbose: bool = False):
+    """The V3G extension (csrc/v3g: V3T for any compiled modes, FP16 / BF16). Separate from
+    tr_ring_ext so that its ~100 fixed-shape variants build in parallel, one unit per shape."""
+    global _v3g
+    if _v3g is None:
+        load_extension()  # sets CUDA_HOME the same way
+        from torch.utils import cpp_extension
+
+        d = _SRC.parent / "v3g"
+        build = _REPO / "build" / "tr_v3g_ext"
+        build.mkdir(parents=True, exist_ok=True)
+        _v3g = cpp_extension.load(
+            name="tr_v3g_ext",
+            sources=[str(d / "bind.cu"), *sorted(str(p) for p in d.glob("unit_*.cu"))],
+            build_directory=str(build),
+            extra_cuda_cflags=["-O3", "-lineinfo"],
+            extra_include_paths=[str(d)],
+            verbose=verbose,
+        )
+    return _v3g
+
+
 def _r16(v: int) -> int:
     return -(-v // 16) * 16
 
@@ -117,10 +142,12 @@ def choose_tiling(T: int, spec: TRSpec, smem_limit: int, num_sms: int):
     if "TR_QC" in os.environ:
         qc = int(os.environ["TR_QC"])
     else:  # largest balanced q chunk that lets two blocks share an SM (kc = 1 for now)
+        # and whose Y tile the warps can hold in registers (binds on big output modes)
         qc = Q
         for chunks in range(1, Q + 1):
             qc = -(-Q // chunks)
-            if ext.smem_bytes(modes, 1, tt, qc) <= two_per_sm:
+            if (ext.smem_bytes(modes, 1, tt, qc) <= two_per_sm
+                    and ext.y_tiles(modes, tt, qc) <= ext.max_y_tiles()):
                 break
     qc = max(1, min(qc, Q))
     nqc = -(-Q // qc)
@@ -142,13 +169,18 @@ def choose_tiling(T: int, spec: TRSpec, smem_limit: int, num_sms: int):
             tt = (tt + 1) // 2
         elif kc > 1:
             kc = (kc + 1) // 2
+        elif qc > 1:
+            qc = (qc + 1) // 2
         else:
             return None
     return kc, tt, qc
 
 
 class PreparedTRKernel:
-    """Callable returned by prepare_optimized for CUDA float16 cores.
+    """Callable returned by prepare_optimized for CUDA float16 or bfloat16 cores.
+
+    BF16 (real-model shapes, tools/qwen_bench.py) runs the generic WMMA kernel only; the V3 /
+    V3T kernels and the fixed-shape variants are FP16 on the assignment's modes.
 
     Design A keeps no state between calls. Design B keeps a zeroed FP32 workspace and
     per-tile counters between calls: one prepared object must not be called concurrently
@@ -163,7 +195,8 @@ class PreparedTRKernel:
             raise ValueError("TR_DESIGN must be A or B")
         self.A1, self.B2, self.C3 = pack_cores(cores, spec)
         # V3 path for t = 1 on the real modes; TR_V3=0 keeps the WMMA kernel everywhere
-        self.use_v3 = (os.environ.get("TR_V3", "1") != "0"
+        self.dtype = cores[0].dtype
+        self.use_v3 = (os.environ.get("TR_V3", "1") != "0" and self.dtype == torch.float16
                        and spec.input_modes == (8, 12, 20) and spec.output_modes == (12, 10, 24))
         self.v3_tail = int(os.environ.get("TR_V3_TAIL", "2"))
         self.use_v3t = self.use_v3 and os.environ.get("TR_V3T", "1") != "0"
@@ -179,6 +212,25 @@ class PreparedTRKernel:
         self.ws = torch.zeros(0, dtype=torch.float32, device=dev)
         self.tile_done = torch.zeros(0, dtype=torch.int32, device=dev)
         self._empty = torch.zeros(0, device=dev)
+        # V3G (csrc/v3g) where a measured table exists (v3g_tuned.py, the Qwen3.8-27B shapes);
+        # design B only; TR_V3G=0 keeps the generic kernel. Tilings that do not fit this GPU's
+        # shared memory are dropped (the table was measured on the H100).
+        from .v3g_tuned import V3G_TUNED
+
+        table = V3G_TUNED.get((tuple(self.modes[:6]), spec.rank))
+        self.v3g = None
+        if table and self.design == "B" and os.environ.get("TR_V3G", "1") != "0":
+            ext = load_v3g()
+            bf = self.dtype == torch.bfloat16
+            table = {T: tuple(t) + (256, 1)[len(t) - 4:] for T, t in table.items()}
+            fits = {T: t for T, t in table.items()
+                    if 0 < ext.smem(self.modes, *t, bf) <= self.smem_limit}
+            self.v3g = fits or None
+
+    def v3g_tiling(self, T: int):
+        """(kc, qc, tt, mg, nt, ks): the table's entry for the largest measured T <= T."""
+        below = [t for t in self.v3g if t <= T]
+        return self.v3g[max(below) if below else min(self.v3g)]
 
     def tiling(self, T: int):
         if T not in self._tiling:
@@ -195,10 +247,20 @@ class PreparedTRKernel:
         return t if 0 < smem <= self.smem_limit else None
 
     def __call__(self, x: torch.Tensor) -> torch.Tensor:
-        if not (x.is_cuda and x.dtype == torch.float16):
+        if not (x.is_cuda and x.dtype == self.dtype):
             return tr_forward_reference(x, self.cores, self.spec)
         x = x.contiguous()
         T = x.shape[0]
+        if self.v3g:  # V3G: stages 2 -> 3 in registers, tokens in the mma M dimension
+            kc, qc, tt, mg, nt, ks = self.v3g_tiling(T)
+            need = T * self.spec.out_features
+            counters = -(-T // tt) * -(-self.spec.output_modes[1] // qc)
+            if self.ws.numel() < need:
+                self.ws = torch.zeros(need, dtype=torch.float32, device=x.device)
+            if self.tile_done.numel() < counters:
+                self.tile_done = torch.zeros(counters, dtype=torch.int32, device=x.device)
+            return load_v3g().forward(x, self.A1, self.B2, self.C3, self.modes, kc, qc, tt, mg,
+                                      nt, ks, self.ws, self.tile_done)
         tiling = self.tiling(T)
         if tiling is None:  # does not fit this GPU's shared memory (laptop, R = 16)
             warnings.warn("tr_ring: block does not fit in shared memory, using the reference")

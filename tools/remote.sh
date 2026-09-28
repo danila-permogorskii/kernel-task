@@ -4,15 +4,17 @@
 # and push from the laptop.
 #
 #   export H100=root@<instance-ip>        # the login Verda shows for the instance
+#   (any GPU: export GPU_HOST=root@<ip> instead; it wins over H100)
 #   bash tools/remote.sh check            # can we log in? which GPU?
 #   bash tools/remote.sh sync             # laptop working tree -> instance ~/kernel-task
 #   bash tools/remote.sh run <command>    # run inside ~/kernel-task with the venv active
 #   bash tools/remote.sh pull             # instance results/traces/profiles -> laptop
 set -euo pipefail
-: "${H100:?set H100=user@host first}"
+REMOTE="${GPU_HOST:-${H100:-}}"
+: "${REMOTE:?set GPU_HOST=user@host (or H100=user@host) first}"
 cd "$(dirname "$0")/.."
-SSH=(ssh -o StrictHostKeyChecking=accept-new -o ServerAliveInterval=30 "$H100")
-EVIDENCE=(results/h100 traces/h100 profiles/h100)
+SSH=(ssh -o StrictHostKeyChecking=accept-new -o ServerAliveInterval=30 "$REMOTE")
+EVIDENCE=(results/h100 traces/h100 profiles/h100 results/a100 traces/a100 profiles/a100)
 
 case "${1:-}" in
   check)
@@ -23,8 +25,8 @@ case "${1:-}" in
       --exclude .git --exclude .venv --exclude build --exclude .cuda_home \
       --exclude results --exclude traces --exclude profiles \
       --exclude __pycache__ --exclude .pytest_cache --exclude '*.egg-info' \
-      ./ "$H100:kernel-task/"
-    echo "synced to $H100:kernel-task"
+      ./ "$REMOTE:kernel-task/"
+    echo "synced to $REMOTE:kernel-task"
     ;;
   run)
     shift
@@ -33,7 +35,7 @@ case "${1:-}" in
   pull)
     for d in "${EVIDENCE[@]}"; do
       mkdir -p "$d"
-      rsync -az "$H100:kernel-task/$d/" "$d/" 2>/dev/null || echo "(no $d on the instance yet)"
+      rsync -az "$REMOTE:kernel-task/$d/" "$d/" 2>/dev/null || echo "(no $d on the instance yet)"
     done
     echo "pulled into ${EVIDENCE[*]}"
     ;;
