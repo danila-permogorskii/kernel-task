@@ -402,7 +402,8 @@ a { color: var(--accent); }
 </tr>
 </tbody></table>
 <ul>
-<li>При R = 8 <strong>35–40% вызова — сборка результата</strong>: 32 частичные суммы на каждый выход идут атомиками через L2. Следующий шаг — складывать их внутри кластера блоков через распределённую shared memory (Hopper). Оценка выигрыша: +15–25%.</li>
+<li>При R = 8 <strong>35–40% вызова — сборка результата</strong>: 32 частичные суммы на каждый выход идут атомиками через L2, и последний блок переводит FP32 → BF16.</li>
+<li><strong>Проверено и не сработало: сумма внутри кластера блоков</strong> через распределённую shared memory (Hopper), 2–8 связей кольца на кластер. Все варианты корректны, но медленнее: mlp_gate_up R = 8, 1 токен — 11.2 µs без кластера, 12.2 при кластере из 2 блоков, 14.5 из 8. Атомики <code>red</code> не заставляют варп ждать и перекрываются со счётом. Кластер добавляет две синхронизации, в которых все блоки ждут самого медленного, и шаг редукции, который ни с чем не перекрывается. Что осталось: хвост (перевод FP32 → BF16, ~2 µs) можно убрать, если следующая операция модели читает FP32 сама, — это делается при интеграции в движок.</li>
 <li>При R = 16 время почти целиком уходит на вычисления: это цена R³, и её снимает только меньший ранг или лучшее разложение.</li>
 </ul>
 <hr>
@@ -660,7 +661,7 @@ a { color: var(--accent); }
 <li>Пример, формы слоёв: <code>config.json</code> модели (<code>kernel-design/physics/qwen3.8-27b_config.json</code>).</li>
 <li>Графики и оценки: <code>tools/physics_charts.py</code>, <code>tools/simple_charts.py</code>, <code>tools/qwen_estimate.py</code>, <code>tools/qwen_charts.py</code>, <code>tools/talk_charts_0928.py</code>.</li>
 <li>Замеры 28.09 на H100, всё в <code>results/h100/qwen/</code>:<ul>
-<li>кернел V3G и корректность — <code>v3g_sweep.json</code>, <code>v3g_sweep2.json</code> (NT / KS), <code>check_bf16_v3g*.txt</code>; куда уходит время — <code>v3g_ablate.json</code>;</li>
+<li>кернел V3G и корректность — <code>v3g_sweep.json</code>, <code>v3g_sweep2.json</code> (NT / KS), <code>v3g_sweep3.json</code> (кластеры), <code>check_bf16_v3g*.txt</code>; куда уходит время — <code>v3g_ablate*.json</code>;</li>
 <li>сравнение с BF16 / FP8 / INT4 по слоям — <code>lowbit.json</code>;</li>
 <li>весь шаг модели с энергией — <code>model_chain_lowbit.json</code>;</li>
 <li>качество на настоящих весах — <code>quality.json</code>, разбор в <code>quality_review.md</code>;</li>

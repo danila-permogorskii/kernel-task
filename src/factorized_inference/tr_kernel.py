@@ -222,13 +222,13 @@ class PreparedTRKernel:
         if table and self.design == "B" and os.environ.get("TR_V3G", "1") != "0":
             ext = load_v3g()
             bf = self.dtype == torch.bfloat16
-            table = {T: tuple(t) + (256, 1)[len(t) - 4:] for T, t in table.items()}
+            table = {T: tuple(t) + (256, 1, 1)[len(t) - 4:] for T, t in table.items()}
             fits = {T: t for T, t in table.items()
                     if 0 < ext.smem(self.modes, *t, bf) <= self.smem_limit}
             self.v3g = fits or None
 
     def v3g_tiling(self, T: int):
-        """(kc, qc, tt, mg, nt, ks): the table's entry for the largest measured T <= T."""
+        """(kc, qc, tt, mg, nt, ks, cl): the table's entry for the largest measured T <= T."""
         below = [t for t in self.v3g if t <= T]
         return self.v3g[max(below) if below else min(self.v3g)]
 
@@ -252,7 +252,7 @@ class PreparedTRKernel:
         x = x.contiguous()
         T = x.shape[0]
         if self.v3g:  # V3G: stages 2 -> 3 in registers, tokens in the mma M dimension
-            kc, qc, tt, mg, nt, ks = self.v3g_tiling(T)
+            kc, qc, tt, mg, nt, ks, cl = self.v3g_tiling(T)
             need = T * self.spec.out_features
             counters = -(-T // tt) * -(-self.spec.output_modes[1] // qc)
             if self.ws.numel() < need:
@@ -260,7 +260,7 @@ class PreparedTRKernel:
             if self.tile_done.numel() < counters:
                 self.tile_done = torch.zeros(counters, dtype=torch.int32, device=x.device)
             return load_v3g().forward(x, self.A1, self.B2, self.C3, self.modes, kc, qc, tt, mg,
-                                      nt, ks, self.ws, self.tile_done)
+                                      nt, ks, cl, self.ws, self.tile_done)
         tiling = self.tiling(T)
         if tiling is None:  # does not fit this GPU's shared memory (laptop, R = 16)
             warnings.warn("tr_ring: block does not fit in shared memory, using the reference")

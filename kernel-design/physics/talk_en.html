@@ -402,7 +402,8 @@ a { color: var(--accent); }
 </tr>
 </tbody></table>
 <ul>
-<li>At R = 8, <strong>35–40% of the call is assembling the result</strong>: 32 partial sums per output go through L2 as atomics. The next step is to sum them inside a thread-block cluster through Hopper&#39;s distributed shared memory. Estimated gain: +15–25%.</li>
+<li>At R = 8, <strong>35–40% of the call is assembling the result</strong>: 32 partial sums per output go through L2 as atomics, and the last block converts FP32 → BF16.</li>
+<li><strong>Tried and did not help: summing inside a thread-block cluster</strong> through Hopper&#39;s distributed shared memory, 2–8 ring links per cluster. Every variant is correct but slower: mlp_gate_up R = 8, 1 token — 11.2 µs without a cluster, 12.2 with a cluster of 2 blocks, 14.5 with 8. The <code>red</code> atomics do not make a warp wait and overlap with the compute. A cluster adds two synchronisations in which every block waits for the slowest one, plus a reduction step that overlaps with nothing. What is left: the tail (FP32 → BF16, ~2 µs) goes away if the model&#39;s next operation reads FP32 itself — that is done when integrating into the engine.</li>
 <li>At R = 16 the time is almost all computation: that is the price of R³, and only a lower rank or a better tensorization removes it.</li>
 </ul>
 <hr>
@@ -660,7 +661,7 @@ a { color: var(--accent); }
 <li>Example, layer shapes: the model&#39;s <code>config.json</code> (<code>kernel-design/physics/qwen3.8-27b_config.json</code>).</li>
 <li>Charts and estimates: <code>tools/physics_charts.py</code>, <code>tools/simple_charts.py</code>, <code>tools/qwen_estimate.py</code>, <code>tools/qwen_charts.py</code>, <code>tools/talk_charts_0928.py</code> (<code>--en</code> for English labels).</li>
 <li>28 September measurements on H100, all in <code>results/h100/qwen/</code>:<ul>
-<li>V3G kernel and correctness — <code>v3g_sweep.json</code>, <code>v3g_sweep2.json</code> (NT / KS), <code>check_bf16_v3g*.txt</code>; where the time goes — <code>v3g_ablate.json</code>;</li>
+<li>V3G kernel and correctness — <code>v3g_sweep.json</code>, <code>v3g_sweep2.json</code> (NT / KS), <code>v3g_sweep3.json</code> (clusters), <code>check_bf16_v3g*.txt</code>; where the time goes — <code>v3g_ablate*.json</code>;</li>
 <li>per layer against BF16 / FP8 / INT4 — <code>lowbit.json</code>;</li>
 <li>the whole model step with energy — <code>model_chain_lowbit.json</code>;</li>
 <li>quality on the real weights — <code>quality.json</code>, walk-through in <code>quality_review.md</code>;</li>

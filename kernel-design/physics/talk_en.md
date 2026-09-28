@@ -231,7 +231,8 @@ The kernel still **waits rather than computes**. Two hypotheses were tested on t
 | R = 8, 8 tokens | 34.9 | 27.7 | 20.9 |
 | R = 16, 8 tokens | 139.5 | 130.2 | 123.3 |
 
-- At R = 8, **35–40% of the call is assembling the result**: 32 partial sums per output go through L2 as atomics. The next step is to sum them inside a thread-block cluster through Hopper's distributed shared memory. Estimated gain: +15–25%.
+- At R = 8, **35–40% of the call is assembling the result**: 32 partial sums per output go through L2 as atomics, and the last block converts FP32 → BF16.
+- **Tried and did not help: summing inside a thread-block cluster** through Hopper's distributed shared memory, 2–8 ring links per cluster. Every variant is correct but slower: mlp_gate_up R = 8, 1 token — 11.2 µs without a cluster, 12.2 with a cluster of 2 blocks, 14.5 with 8. The `red` atomics do not make a warp wait and overlap with the compute. A cluster adds two synchronisations in which every block waits for the slowest one, plus a reduction step that overlaps with nothing. What is left: the tail (FP32 → BF16, ~2 µs) goes away if the model's next operation reads FP32 itself — that is done when integrating into the engine.
 - At R = 16 the time is almost all computation: that is the price of R³, and only a lower rank or a better tensorization removes it.
 
 ---
@@ -375,7 +376,7 @@ The first step is a question for the researchers: **how to train (or distil) a m
 - Example, layer shapes: the model's `config.json` (`kernel-design/physics/qwen3.8-27b_config.json`).
 - Charts and estimates: `tools/physics_charts.py`, `tools/simple_charts.py`, `tools/qwen_estimate.py`, `tools/qwen_charts.py`, `tools/talk_charts_0928.py` (`--en` for English labels).
 - 28 September measurements on H100, all in `results/h100/qwen/`:
-  - V3G kernel and correctness — `v3g_sweep.json`, `v3g_sweep2.json` (NT / KS), `check_bf16_v3g*.txt`; where the time goes — `v3g_ablate.json`;
+  - V3G kernel and correctness — `v3g_sweep.json`, `v3g_sweep2.json` (NT / KS), `v3g_sweep3.json` (clusters), `check_bf16_v3g*.txt`; where the time goes — `v3g_ablate*.json`;
   - per layer against BF16 / FP8 / INT4 — `lowbit.json`;
   - the whole model step with energy — `model_chain_lowbit.json`;
   - quality on the real weights — `quality.json`, walk-through in `quality_review.md`;

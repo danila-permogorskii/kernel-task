@@ -51,8 +51,8 @@ def main():
                 generic[(c["shape"], c["rank"], c["tokens"])] = c["cuda_event_stream_median_ms"] * 1e3
     groups = {}
     for v in ext.variants():
-        bf, *modes, R, kc, qc, tt, mg, nt, ks = v
-        groups.setdefault((bf, tuple(modes), R), []).append((kc, qc, tt, mg, nt, ks))
+        bf, *modes, R, kc, qc, tt, mg, nt, ks, cl = v
+        groups.setdefault((bf, tuple(modes), R), []).append((kc, qc, tt, mg, nt, ks, cl))
     rows, out = [], {"device": torch.cuda.get_device_name(0), "rows": None}
     out["rows"] = rows
     a.out.parent.mkdir(parents=True, exist_ok=True)
@@ -78,8 +78,8 @@ def main():
         if name == "assign":
             run = PreparedTRKernel(cores, spec)
             v3t = {T: stream_us(lambda T=T: run(xs[T])) for T in tokens}
-        for kc, qc, tt, mg, nt, ks in tilings:
-            call = lambda T: ext.forward(xs[T], A1, B2, C3, m7, kc, qc, tt, mg, nt, ks, ws, td)  # noqa: E731
+        for kc, qc, tt, mg, nt, ks, cl in tilings:
+            call = lambda T: ext.forward(xs[T], A1, B2, C3, m7, kc, qc, tt, mg, nt, ks, cl, ws, td)  # noqa: E731
             worst, ok = 0.0, True
             for T in (1, 3, 5, 37):
                 for _ in range(2):
@@ -92,12 +92,12 @@ def main():
             ok_all &= ok
             for T in tokens:
                 us = stream_us(lambda T=T: call(T))
-                rows.append({"shape": name, "rank": R, "tokens": T, "tiling": (kc, qc, tt, mg, nt, ks),
+                rows.append({"shape": name, "rank": R, "tokens": T, "tiling": (kc, qc, tt, mg, nt, ks, cl),
                              "dtype": "bf16" if bf else "fp16", "correct": ok,
                              "max_abs_err": worst, "v3g_us": us, "dense_us": base[T],
                              "generic_best_us": generic.get((name, R, T)),
                              "v3t_us": v3t.get(T)})
-            print(f"{'ok  ' if ok else 'FAIL'} {name:12s} R={R:2d} kc,qc,tt,mg,nt,ks={kc},{qc},{tt},{mg},{nt},{ks}  "
+            print(f"{'ok  ' if ok else 'FAIL'} {name:12s} R={R:2d} kc,qc,tt,mg,nt,ks,cl={kc},{qc},{tt},{mg},{nt},{ks},{cl}  "
                   f"max|err|={worst:.2e}  " + "  ".join(
                       f"T{r['tokens']}:{r['v3g_us']:.1f}" for r in rows[-len(tokens):]), flush=True)
             a.out.write_text(json.dumps(out, indent=2) + "\n")
